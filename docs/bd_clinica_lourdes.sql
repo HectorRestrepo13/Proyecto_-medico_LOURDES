@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 13-03-2024 a las 13:32:26
+-- Tiempo de generación: 13-03-2024 a las 14:54:04
 -- Versión del servidor: 8.0.34
 -- Versión de PHP: 8.1.10
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `bd_clinicalourdes`
+-- Base de datos: `bd_clinica_lourdes`
 --
 
 -- --------------------------------------------------------
@@ -32,8 +32,8 @@ CREATE TABLE `cita` (
   `fechaCita` date NOT NULL,
   `horaCita` time NOT NULL,
   `estadoCita` varchar(85) NOT NULL DEFAULT 'Pendiente',
-  `paciente_cedulaPaciente` int NOT NULL,
-  `medico_idMedico` int NOT NULL
+  `paciente_cedulaPaciente` bigint NOT NULL,
+  `medico_cedulaMedico` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -59,8 +59,8 @@ CREATE TABLE `detalleformula` (
 CREATE TABLE `formula` (
   `idFormula` int NOT NULL,
   `fechaFormula` date NOT NULL,
-  `medico_idMedico` int NOT NULL,
-  `paciente_cedulaPaciente` int NOT NULL
+  `paciente_cedulaPaciente` bigint NOT NULL,
+  `medico_cedulaMedico` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -82,7 +82,7 @@ CREATE TABLE `item` (
 --
 
 CREATE TABLE `medico` (
-  `idMedico` int NOT NULL,
+  `cedulaMedico` bigint NOT NULL,
   `nombreMedico` varchar(200) NOT NULL,
   `apellidoMedico` varchar(200) NOT NULL,
   `emailMedico` varchar(250) NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE `medico` (
 --
 
 CREATE TABLE `paciente` (
-  `cedulaPaciente` int NOT NULL,
+  `cedulaPaciente` bigint NOT NULL,
   `nombrePaciente` varchar(200) NOT NULL,
   `apellidoPaciente` varchar(200) NOT NULL,
   `emailPaciente` varchar(150) NOT NULL,
@@ -128,7 +128,7 @@ CREATE TABLE `rol` (
 --
 
 CREATE TABLE `users` (
-  `idUser` int NOT NULL,
+  `cedulaUser` bigint NOT NULL,
   `emailUser` varchar(200) NOT NULL,
   `userName` varchar(200) NOT NULL,
   `password` varchar(250) NOT NULL,
@@ -143,9 +143,9 @@ CREATE TABLE `users` (
 -- Indices de la tabla `cita`
 --
 ALTER TABLE `cita`
-  ADD PRIMARY KEY (`idCita`,`paciente_cedulaPaciente`,`medico_idMedico`),
+  ADD PRIMARY KEY (`idCita`,`paciente_cedulaPaciente`,`medico_cedulaMedico`),
   ADD KEY `fk_cita_paciente1_idx` (`paciente_cedulaPaciente`),
-  ADD KEY `fk_cita_medico1_idx` (`medico_idMedico`);
+  ADD KEY `fk_cita_medico1_idx` (`medico_cedulaMedico`);
 
 --
 -- Indices de la tabla `detalleformula`
@@ -159,9 +159,9 @@ ALTER TABLE `detalleformula`
 -- Indices de la tabla `formula`
 --
 ALTER TABLE `formula`
-  ADD PRIMARY KEY (`idFormula`,`medico_idMedico`,`paciente_cedulaPaciente`),
-  ADD KEY `fk_formula_medico1_idx` (`medico_idMedico`),
-  ADD KEY `fk_formula_paciente1_idx` (`paciente_cedulaPaciente`);
+  ADD PRIMARY KEY (`idFormula`,`paciente_cedulaPaciente`,`medico_cedulaMedico`),
+  ADD KEY `fk_formula_paciente1_idx` (`paciente_cedulaPaciente`),
+  ADD KEY `fk_formula_medico1_idx` (`medico_cedulaMedico`);
 
 --
 -- Indices de la tabla `item`
@@ -173,7 +173,7 @@ ALTER TABLE `item`
 -- Indices de la tabla `medico`
 --
 ALTER TABLE `medico`
-  ADD PRIMARY KEY (`idMedico`);
+  ADD PRIMARY KEY (`cedulaMedico`);
 
 --
 -- Indices de la tabla `paciente`
@@ -191,7 +191,7 @@ ALTER TABLE `rol`
 -- Indices de la tabla `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`idUser`,`rol_idRol`),
+  ADD PRIMARY KEY (`cedulaUser`,`rol_idRol`),
   ADD KEY `fk_users_rol1_idx` (`rol_idRol`);
 
 --
@@ -223,22 +223,10 @@ ALTER TABLE `item`
   MODIFY `idItem` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `medico`
---
-ALTER TABLE `medico`
-  MODIFY `idMedico` int NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
   MODIFY `idRol` int NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `users`
---
-ALTER TABLE `users`
-  MODIFY `idUser` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -248,7 +236,7 @@ ALTER TABLE `users`
 -- Filtros para la tabla `cita`
 --
 ALTER TABLE `cita`
-  ADD CONSTRAINT `fk_cita_medico1` FOREIGN KEY (`medico_idMedico`) REFERENCES `medico` (`idMedico`),
+  ADD CONSTRAINT `fk_cita_medico1` FOREIGN KEY (`medico_cedulaMedico`) REFERENCES `medico` (`cedulaMedico`),
   ADD CONSTRAINT `fk_cita_paciente1` FOREIGN KEY (`paciente_cedulaPaciente`) REFERENCES `paciente` (`cedulaPaciente`);
 
 --
@@ -262,7 +250,7 @@ ALTER TABLE `detalleformula`
 -- Filtros para la tabla `formula`
 --
 ALTER TABLE `formula`
-  ADD CONSTRAINT `fk_formula_medico1` FOREIGN KEY (`medico_idMedico`) REFERENCES `medico` (`idMedico`),
+  ADD CONSTRAINT `fk_formula_medico1` FOREIGN KEY (`medico_cedulaMedico`) REFERENCES `medico` (`cedulaMedico`),
   ADD CONSTRAINT `fk_formula_paciente1` FOREIGN KEY (`paciente_cedulaPaciente`) REFERENCES `paciente` (`cedulaPaciente`);
 
 --
