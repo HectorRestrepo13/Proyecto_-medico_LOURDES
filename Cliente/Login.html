@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/styloLogin.css" />
+    <link
+      rel="stylesheet"
+      href="./node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- Section: Design Block -->
+    <section class="text-center text-lg-start">
+      <style>
+        .cascading-right {
+          margin-right: -50px;
+        }
+
+        @media (max-width: 991.98px) {
+          .cascading-right {
+            margin-right: 0;
+          }
+        }
+      </style>
+
+      <!-- Jumbotron -->
+      <div class="container py-4">
+        <div class="row g-0 align-items-center">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div
+              class="card cascading-right"
+              style="
+                background: hsla(0, 0%, 100%, 0.55);
+                backdrop-filter: blur(30px);
+              "
+            >
+              <div class="card-body p-5 shadow-5 text-center">
+                <h2 class="fw-bold mb-5">Centro Médico LOURDES</h2>
+                <form>
+                  <!-- 2 column grid layout with text inputs for the first and last names -->
+                  <div class="row"></div>
+
+                  <!-- Email input -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="form3Example3">Email</label>
+                    <input
+                      placeholder="Escribir Correo"
+                      type="email"
+                      id="form3Example3"
+                      class="form-control"
+                    />
+                  </div>
+
+                  <!-- Password input -->
+                  <div class="form-outline mb-4">
+                    <label class="form-label" for="form3Example4"
+                      >Contraseña</label
+                    >
+                    <input
+                      placeholder="Escribir Contraseña"
+                      type="password"
+                      id="form3Example4"
+                      class="form-control"
+                    />
+                  </div>
+                  <input
+                    id="rolSelecionado"
+                    value="Doctor"
+                    hidden
+                    type="text"
+                  />
+                  <div class="rolUsuario">
+                    <button
+                      id="btnDoctor"
+                      style="background-color: rgb(70, 215, 243); color: black"
+                      type="button"
+                      class="btn btn-outline-info"
+                    >
+                      Doctor
+                    </button>
+                    <button
+                      id="btnUsuario"
+                      type="button"
+                      class="btn btn-outline-info"
+                    >
+                      Usuario
+                    </button>
+                  </div>
+
+                  <!-- Submit button -->
+                  <button
+                    id="btnIniciarSession"
+                    type="submit"
+                    class="btn btn-primary btn-block mb-4"
+                  >
+                    Iniciar
+                  </button>
+
+                  <!-- Register buttons -->
+                  <div class="text-center">
+                    <p>or sign up with:</p>
+                    <button
+                      type="button"
+                      class="btn btn-link btn-floating mx-1"
+                    >
+                      <i class="fab fa-facebook-f"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-link btn-floating mx-1"
+                    >
+                      <i class="fab fa-google"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-link btn-floating mx-1"
+                    >
+                      <i class="fab fa-twitter"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn btn-link btn-floating mx-1"
+                    >
+                      <i class="fab fa-github"></i>
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <img
+              src="./images/medico.jpeg"
+              class="w-100 rounded-4 shadow-4"
+              alt="./images/medico.jpeg"
+            />
+          </div>
+        </div>
+      </div>
+      <!-- Jumbotron -->
+    </section>
+    <!-- Section: Design Block -->
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://kit.fontawesome.com/157681ca54.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/login.js"></script>
+  </body>
+</html>
