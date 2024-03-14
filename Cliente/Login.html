@@ -45,12 +45,7 @@
                   <!-- Email input -->
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example3">Email</label>
-                    <input
-                      placeholder="Escribir Correo"
-                      type="email"
-                      id="form3Example3"
-                      class="form-control"
-                    />
+                    <input type="email" id="txtEmail" class="form-control" />
                   </div>
 
                   <!-- Password input -->
@@ -59,9 +54,8 @@
                       >Contraseña</label
                     >
                     <input
-                      placeholder="Escribir Contraseña"
                       type="password"
-                      id="form3Example4"
+                      id="txtContra"
                       class="form-control"
                     />
                   </div>
@@ -92,7 +86,7 @@
                   <!-- Submit button -->
                   <button
                     id="btnIniciarSession"
-                    type="submit"
+                    type="button"
                     class="btn btn-primary btn-block mb-4"
                   >
                     Iniciar
@@ -152,5 +146,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="./js/login.js"></script>
+    <script src="./node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
   </body>
 </html>
