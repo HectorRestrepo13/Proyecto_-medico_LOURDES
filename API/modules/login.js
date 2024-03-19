@@ -12,11 +12,7 @@ login.get("/login/selecionarUsuarioMedico", (req, res) => {
   mysql.query(consulta, [emailMedico, password], (error, date) => {
     if (!error) {
       if (date.length > 0) {
-        res.status(200).send({
-          status: true,
-          message: "Usuario Registrado",
-          codigo: 200,
-        });
+        res.status(200).send(date);
       } else {
         res.status(200).send({
           status: false,
