@@ -40,7 +40,18 @@ btnIniciarSession.addEventListener("click", () => {
           }
         })
         .then((date) => {
-          if (date.status == true) {
+          if (date.length > 0) {
+            let datosLocal = window.localStorage;
+
+            let datos = {
+              id: date[0].cedulaMedico,
+              nombre: date[0].nombreMedico,
+              apellido: date[0].apellidoMedico,
+              especialidad: date[0].especialidadMedico,
+            };
+
+            datosLocal.setItem(1, JSON.stringify(datos));
+            window.location.href = "indexConsultorio.html";
           } else {
             Swal.fire({
               title: "Usuario no existe",
@@ -59,7 +70,7 @@ btnIniciarSession.addEventListener("click", () => {
           }
         })
         .then((date) => {
-          if (date.status == true) {
+          if (date.length > 0) {
             alert("bien");
           } else {
             Swal.fire({
