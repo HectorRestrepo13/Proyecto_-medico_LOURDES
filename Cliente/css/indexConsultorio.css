@@ -1,0 +1,20 @@
+.dato1 {
+  display: flex;
+}
+
+.datosInput {
+  margin-right: 15px;
+}
+
+.datosInputnombre {
+  width: 100%;
+  margin-right: 0%;
+}
+
+.dato1 button {
+  width: 100%;
+}
+
+.btn-warning {
+  margin-right: 11px;
+}

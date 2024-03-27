@@ -9,6 +9,7 @@ app.use(express.json());
 //aca vamos poniendo los microservicios
 
 app.use("/", require("./modules/login"));
+app.use("/", require("./modules/consultorio"));
 
 app.listen(puerto, () => {
   console.log(`APi iniciada en el puerto ${puerto}`);

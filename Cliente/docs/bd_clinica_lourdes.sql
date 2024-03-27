@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost:3306
--- Tiempo de generación: 13-03-2024 a las 14:54:04
+-- Tiempo de generación: 27-03-2024 a las 00:37:38
 -- Versión del servidor: 8.0.34
 -- Versión de PHP: 8.1.10
 
@@ -36,6 +36,14 @@ CREATE TABLE `cita` (
   `medico_cedulaMedico` bigint NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `cita`
+--
+
+INSERT INTO `cita` (`idCita`, `fechaCita`, `horaCita`, `estadoCita`, `paciente_cedulaPaciente`, `medico_cedulaMedico`) VALUES
+(1, '2024-03-23', '10:29:42', 'Pendiente', 322, 1006),
+(2, '2024-03-31', '05:29:42', 'Pendiente', 322, 1006);
+
 -- --------------------------------------------------------
 
 --
@@ -61,6 +69,26 @@ CREATE TABLE `formula` (
   `fechaFormula` date NOT NULL,
   `paciente_cedulaPaciente` bigint NOT NULL,
   `medico_cedulaMedico` bigint NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `formula`
+--
+
+INSERT INTO `formula` (`idFormula`, `fechaFormula`, `paciente_cedulaPaciente`, `medico_cedulaMedico`) VALUES
+(1, '2024-03-19', 322, 1006);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `historial`
+--
+
+CREATE TABLE `historial` (
+  `idHistorial` int NOT NULL,
+  `sintomas` varchar(300) NOT NULL,
+  `descripcion` varchar(300) DEFAULT NULL,
+  `formula_idFormula` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -91,6 +119,13 @@ CREATE TABLE `medico` (
   `password` varchar(85) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Volcado de datos para la tabla `medico`
+--
+
+INSERT INTO `medico` (`cedulaMedico`, `nombreMedico`, `apellidoMedico`, `emailMedico`, `especialidadMedico`, `usuarioMedico`, `password`) VALUES
+(1006, 'Hector Fabio', 'Restrepo', 'hector@gmail.com', 'Odontólogo', 'hector1388', '12345');
+
 -- --------------------------------------------------------
 
 --
@@ -109,6 +144,13 @@ CREATE TABLE `paciente` (
   `usuarioPaciente` varchar(200) NOT NULL,
   `passwordPaciente` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `paciente`
+--
+
+INSERT INTO `paciente` (`cedulaPaciente`, `nombrePaciente`, `apellidoPaciente`, `emailPaciente`, `telefonoPaciente`, `movilPaciente`, `fechaNacimientoPqciente`, `epsPaciente`, `usuarioPaciente`, `passwordPaciente`) VALUES
+(322, 'narva', 'perez', 'narva@gmail.com', '32199', '2514', '2003-03-04', 'sanitas', 'narva123', '12345');
 
 -- --------------------------------------------------------
 
@@ -164,6 +206,13 @@ ALTER TABLE `formula`
   ADD KEY `fk_formula_medico1_idx` (`medico_cedulaMedico`);
 
 --
+-- Indices de la tabla `historial`
+--
+ALTER TABLE `historial`
+  ADD PRIMARY KEY (`idHistorial`),
+  ADD KEY `formula_idFormula` (`formula_idFormula`);
+
+--
 -- Indices de la tabla `item`
 --
 ALTER TABLE `item`
@@ -202,7 +251,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de la tabla `cita`
 --
 ALTER TABLE `cita`
-  MODIFY `idCita` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idCita` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `detalleformula`
@@ -214,7 +263,13 @@ ALTER TABLE `detalleformula`
 -- AUTO_INCREMENT de la tabla `formula`
 --
 ALTER TABLE `formula`
-  MODIFY `idFormula` int NOT NULL AUTO_INCREMENT;
+  MODIFY `idFormula` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `historial`
+--
+ALTER TABLE `historial`
+  MODIFY `idHistorial` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `item`
@@ -252,6 +307,12 @@ ALTER TABLE `detalleformula`
 ALTER TABLE `formula`
   ADD CONSTRAINT `fk_formula_medico1` FOREIGN KEY (`medico_cedulaMedico`) REFERENCES `medico` (`cedulaMedico`),
   ADD CONSTRAINT `fk_formula_paciente1` FOREIGN KEY (`paciente_cedulaPaciente`) REFERENCES `paciente` (`cedulaPaciente`);
+
+--
+-- Filtros para la tabla `historial`
+--
+ALTER TABLE `historial`
+  ADD CONSTRAINT `historial_ibfk_1` FOREIGN KEY (`formula_idFormula`) REFERENCES `formula` (`idFormula`);
 
 --
 -- Filtros para la tabla `users`
