@@ -1,0 +1,202 @@
+    /* Estilo general */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2; /* Fondo blanco */
+        color: #333; /* Texto oscuro */
+    }
+    
+    .container {
+        width: 80%;
+        margin: 0 auto;
+    }
+    
+    /* Estilo del formulario */
+    .form-container {
+        background-color: #f0f8ff; /* Azul claro */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    }
+    
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333; /* Texto oscuro */
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        font-weight: bold;
+    }
+    
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc; /* Borde gris claro */
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+    
+    .form-group input[type="submit"] {
+        background-color: #007bff; /* Azul */
+        color: #fff; /* Texto blanco */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .form-group input[type="submit"]:hover {
+        background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+    }
+    
+    /* Estilo de la tabla */
+    .table-container {
+        margin-top: 40px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc; /* Borde gris claro */
+    }
+    
+    table th,
+    table td {
+        padding: 10px;
+        border: 1px solid #ccc; /* Borde gris claro */
+    }
+    
+    table th {
+        background-color: #007bff; /* Azul */
+        color: #fff; /* Texto blanco */
+    }
+    
+    table tbody tr:nth-child(even) {
+        background-color: #f0f8ff; /* Azul claro */
+    }
+    /*** ESTILOS BOTÓN SLIDE RIGHT ***/
+.ov-btn-slide-right {
+    background: #fff; /* color de fondo */
+    color: #4741d7; /* color de fuente */
+    border: 2px solid #4741d7; /* tamaño y color de borde */
+    padding: 16px 20px;
+    border-radius: 3px; /* redondear bordes */
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-block;
+  }
+  .ov-btn-slide-right:hover {
+    color: #fff; /* color de fuente hover */
+  }
+  .ov-btn-slide-right::after {
+    content: "";
+    background: #4741d7; /* color de fondo hover */
+    position: absolute;
+    z-index: -1;
+    padding: 16px 20px;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    right: -100%;
+    -webkit-transition: all 0.35s;
+    transition: all 0.35s;
+  }
+  .ov-btn-slide-right:hover::after {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    -webkit-transition: all 0.35s;
+    transition: all 0.35s;
+  }
+    /* Estilos específicos para la sección del formulario y la tabla de citas */
+    .container {
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f2f2f2; /* Fondo blanco */
+    }
+
+    .form-container {
+        background-color: #f0f8ff; /* Azul claro */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        margin-bottom: 20px;
+    }
+
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333; /* Texto oscuro */
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="number"],
+    .form-group input[type="date"],
+    .form-group input[type="time"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc; /* Borde gris claro */
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .form-group input[type="submit"] {
+        background-color: #007bff; /* Azul */
+        color: #fff; /* Texto blanco */
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+    }
+
+    .table-container {
+        background-color: #fff; /* Fondo blanco */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc; /* Borde gris claro */
+    }
+
+    table th,
+    table td {
+        padding: 10px;
+        border: 1px solid #ccc; /* Borde gris claro */
+    }
+
+    table th {
+        background-color: #007bff; /* Azul */
+        color: #fff; /* Texto blanco */
+    }
+
+    table tbody tr:nth-child(even) {
+        background-color: #f0f8ff; /* Azul claro */
+    }

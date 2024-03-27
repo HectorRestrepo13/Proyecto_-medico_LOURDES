@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Consultorio Médico</title>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="../layout/styles/layout.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
+    <link rel="stylesheet" href="./css/stylecitasPro.css">
+  
+</head>
+<body id="top">
+
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- Top Background Image Wrapper -->
+<div class="bgded overlay light" style="background-image:url('images/demo/backgrounds/01.png');"> 
+    <!-- ################################################################################################ -->
+    <div class="wrapper row1">
+        <header id="header" class="hoc clear"> 
+            <!-- ################################################################################################ -->
+            <style>
+                /* Estilo para cambiar el color de fondo al pasar el cursor sobre las opciones del menú */
+                #mainav ul li a:hover {
+                    background-color: rgba(0, 179, 255, 0.546); /* Cambia este valor al color que desees */
+                }
+            </style>
+            <div id="logo" class="fl_left">
+                <h1><a href="index.html">Centro Medico Lourdes</a></h1>
+            </div>
+            <nav id="mainav" class="fl_right">
+                <ul class="clear">
+                    <li class="active"><a href="index.html">Inicio</a></li>
+                    <li><a class="drop" href="#">Programa de citas</a>
+                        <ul>
+                            <li><a href="./citasProgramadas.html">Citas programadas</a></li>
+                            <li><a href="pages/full-width.html">Citas rechazadas</a></li>
+                            <li><a href="pages/sidebar-left.html">Hacer cita</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="drop" href="#">General</a>
+                        <ul>
+                            <li><a href="#">Historial clinico</a></li>
+                            <li><a class="drop" href="#">Informacion personal</a>
+                                <ul>
+                                    <li><a href="#">Editar</a></li>
+                                    <li><a href="#">Suspender</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Medicamentos pendientes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <!-- ################################################################################################ -->
+        </header>
+    </div>
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <!-- ################################################################################################ -->
+    <div id="pageintro" class="hoc clear" > 
+        <!-- ################################################################################################ -->
+        <div class="flexslider basicslider">
+            <ul class="slides">
+                <li>
+                    <article>
+                        <p>Campañas</p>
+                        <h3 class="heading">Prevencion contra la mala salud</h3>
+                        <p>Campañas para convatir la mala alimentacion</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <p>Campañas</p>
+                        <h3 class="heading">Prevencion contra el cáncer</h3>
+                        <p>Existimos no para una enfermedad, sino para ser sanos</p>
+                    </article>
+                </li>
+                <li>
+                    <article>
+                        <p>Campañas</p>
+                        <h3 class="heading">Prevencion de infecciones de transmisión sexual</h3>
+                        <p>La prevencion contra enfermedades nos ayuda a salvar vidas</p>
+                    </article>
+                </li>
+            </ul>
+        </div>
+        <!-- ################################################################################################ -->
+    </div>
+    <!-- ################################################################################################ -->
+</div>
+
+<!-- End Top Background Image Wrapper -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<div class="wrapper">
+    <div class="hoc clear"> 
+        <div class="container">
+            <!-- Formulario para programar citas -->
+            <div class="form-container">
+                <h2>Programar Cita Médica</h2>
+                <form action="#" method="POST">
+                    <div class="form-group">
+                        <label for="nombre">Fecha de la cita:</label>
+                        <input type="date" id="fechaCita" name="nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Hora de la cita:</label>
+                        <input type="time" id="horaCita" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Cedula:</label>
+                        <input type="number" id="cedulaPaciente" name="fecha" required>
+                    </div>
+                  <label for="">Especialista deseada</label>
+                  <select name="tipoCita" id="selectCitas">
+                    
+                  </select>
+                  <br>
+                  <label for="">Doctor</label>
+                  <select name="doctor" id="selectDoctor">
+                    
+                  </select>
+                  <br>
+                    <div class="form-group">
+                        <button type="button"  class="ov-btn-slide-right" onclick="funcion_gubuttonrdbuttonrCita()">Programar cita</button>
+                    </div>
+                </form>
+            </div>
+    
+            <!-- Tabla de citas programadas -->
+            
+          <div class="container">
+            <div class="row">
+                <h2 class="titulo">Citas Programadas</h2>
+                <table class="table table-dark table-striped-columns" id="miTabla">
+                    <thead>
+                      <tr>
+                        <th scope="col">id de la cita</th>
+                        <th scope="col">Fecha de la cita</th>
+                        <th scope="col">Hora de la cita</th>
+                        <th scope="col">Estado de la cita</th>
+                        <th scope="col">Cedula del paciente</th>
+                        <th scope="col">Cedula del medico</th>
+                      </tr>
+                         
+                    </thead>
+                    <tbody id="datatable">
+                  
+                    </tbody>
+                </table>
+            </div>
+          </div>
+               
+      
+
+
+<!-- FOOTER -->
+<footer data-stellar-background-ratio="5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 border-top">
+                <div class="col-md-4 col-sm-6">
+                    <div class="copyright-text"> 
+                        <p>Copyright &copy; 2018 Your Company 
+                        | Design: Tooplate</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="footer-link"> 
+                        <a href="#">Laboratory Tests</a>
+                        <a href="#">Departments</a>
+                        <a href="#">Insurance Policy</a>
+                        <a href="#">Careers</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-2 text-align-center">
+                    <div class="angle-up-btn"> 
+                        <a href="#top" class="smoothScroll wow fadeInUp" data-wow-delay="1.2s"><i class="fa fa-angle-up"></i></a>
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </div>
+</footer>
+
+<a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
+<!-- JAVASCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.flexslider-min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src=" https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
+<script src="./js/citasProgram.js"></script>
+</body>
+</html>
