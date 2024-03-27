@@ -37,7 +37,7 @@ consultorio.get("/consultorio/selecionarDatosPaciente/", (req, res) => {
   let cedula = req.query.cedula;
   let dactor = req.query.dactor;
 
-  let consulta = `select formula.idFormula,paciente.nombrePaciente,medico.nombreMedico,formula.fechaFormulaÑ from formula INNER JOIN paciente ON formula.paciente_cedulaPaciente=paciente.cedulaPaciente INNER JOIN medico ON formula.medico_cedulaMedico=medico.cedulaMedico where paciente_cedulaPaciente=(SELECT cita.paciente_cedulaPaciente from cita WHERE cita.idCita=?) and medico_cedulaMedico=?`;
+  let consulta = `select formula.idFormula,paciente.nombrePaciente,medico.nombreMedico,formula.fechaFormula from formula INNER JOIN paciente ON formula.paciente_cedulaPaciente=paciente.cedulaPaciente INNER JOIN medico ON formula.medico_cedulaMedico=medico.cedulaMedico where paciente_cedulaPaciente=(SELECT cita.paciente_cedulaPaciente from cita WHERE cita.idCita=?) and medico_cedulaMedico=?`;
 
   mysql.query(consulta, [cedula, dactor], (error, date) => {
     if (!error) {
@@ -47,4 +47,45 @@ consultorio.get("/consultorio/selecionarDatosPaciente/", (req, res) => {
     }
   });
 });
+
+//aca voy hacer el API donde va selecionar el Historial
+
+consultorio.get(
+  "/consultorio/selecionarDatosHistorial/:idFormula",
+  (req, res) => {
+    let idFormula = req.params.idFormula;
+
+    let consulta =
+      `SELECT * FROM historial WhERE formula_idFormula =` + idFormula;
+
+    mysql.query(consulta, (error, date) => {
+      if (!error) {
+        res.status(200).send(date);
+      } else {
+        res.status(404).send(error);
+      }
+    });
+  }
+);
+
+//aca voy hacer el API donde va selecionar el detalleFormula
+
+consultorio.get(
+  "/consultorio/selecionarDetalleFormula/:idFormula",
+  (req, res) => {
+    let idFormula = req.params.idFormula;
+
+    let consulta =
+      `SELECT detalleformula.idDetalle,item.descripcionItem,detalleformula.posologiaDetalle,detalleformula.cantidadDetalle FROM detalleformula INNER JOIN item ON detalleformula.item_idItem=item.idItem WhERE formula_idFormula =` +
+      idFormula;
+
+    mysql.query(consulta, (error, date) => {
+      if (!error) {
+        res.status(200).send(date);
+      } else {
+        res.status(404).send(error);
+      }
+    });
+  }
+);
 module.exports = consultorio;
