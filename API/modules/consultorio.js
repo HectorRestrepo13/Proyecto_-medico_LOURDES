@@ -37,7 +37,7 @@ consultorio.get("/consultorio/selecionarDatosPaciente/", (req, res) => {
   let cedula = req.query.cedula;
   let dactor = req.query.dactor;
 
-  let consulta = `select formula.idFormula,paciente.nombrePaciente,medico.nombreMedico,formula.fechaFormula from formula INNER JOIN paciente ON formula.paciente_cedulaPaciente=paciente.cedulaPaciente INNER JOIN medico ON formula.medico_cedulaMedico=medico.cedulaMedico where paciente_cedulaPaciente=(SELECT cita.paciente_cedulaPaciente from cita WHERE cita.idCita=?) and medico_cedulaMedico=?`;
+  let consulta = `select formula.idFormula,paciente.nombrePaciente,medico.nombreMedico,formula.fechaFormulaÑ from formula INNER JOIN paciente ON formula.paciente_cedulaPaciente=paciente.cedulaPaciente INNER JOIN medico ON formula.medico_cedulaMedico=medico.cedulaMedico where paciente_cedulaPaciente=(SELECT cita.paciente_cedulaPaciente from cita WHERE cita.idCita=?) and medico_cedulaMedico=?`;
 
   mysql.query(consulta, [cedula, dactor], (error, date) => {
     if (!error) {
