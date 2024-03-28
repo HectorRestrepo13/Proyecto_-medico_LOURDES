@@ -88,4 +88,65 @@ consultorio.get(
     });
   }
 );
+
+// aca voy hacer la API donde voy a llamar la tabla de los medicamentos
+consultorio.get("/consultorio/selecionarMedicamentos/", (req, res) => {
+  let consulta = `SELECT * FROM item WHERE existenciaItem > 0`;
+  mysql.query(consulta, (error, date) => {
+    if (!error) {
+      res.status(200).send(date);
+    } else {
+      res.status(404).send(error);
+    }
+  });
+});
+
+// aca voy hacer un API para consultar los medicamentos para agregar a la tabla
+
+consultorio.get("/consultorio/selecionarMedicamentosResetados/", (req, res) => {
+  let idMedicamento = req.query.idMedicamento;
+  let cantidad = req.query.cantidad;
+  let consulta = `SELECT * FROM item where idItem=` + idMedicamento;
+
+  mysql.query(consulta, (error, date) => {
+    if (!error) {
+      // aca voy hacer una desicion para que pueda enviarse si tiene la cantidad que requiere en el inventario
+      if (date.length > 0) {
+        if (cantidad <= date[0].existenciaItem) {
+          res.status(200).send({
+            procede: true,
+            nombre: date[0].descripcionItem,
+            id: date[0].idItem,
+            cantidad: cantidad,
+            error: null,
+          });
+        } else {
+          res.status(404).send({
+            procede: false,
+            nombre: null,
+            id: null,
+            cantidad: null,
+            error: "Esa cantidad no hay en el inventario",
+          });
+        }
+      } else {
+        res.status(404).send({
+          procede: false,
+          nombre: null,
+          id: null,
+          cantidad: null,
+          error: "Ese Medicamento no existe en el inventario",
+        });
+      }
+    } else {
+      res.status(505).send({
+        procede: false,
+        nombre: null,
+        id: null,
+        cantidad: null,
+        error: "error en la API " + error,
+      });
+    }
+  });
+});
 module.exports = consultorio;

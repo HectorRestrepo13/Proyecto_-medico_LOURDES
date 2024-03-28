@@ -187,11 +187,16 @@ const func_selecionarCliente = (id, fecha, estado) => {
 
   <div class="dato1"> 
   <button  onclick="func_reescribirTablas2()" type="button" class="btn btn-warning">Quitar</button>
-  <button type="button" class="btn btn-success">Iniciar</button>
+  <button  type="button"
+  
+  data-bs-toggle="modal"
+  data-bs-target="#exampleModal"
+  data-bs-whatever="@getbootstrap" class="btn btn-success">Iniciar</button>
 
 
   
   </div>
+  
   
   `;
 
@@ -482,4 +487,94 @@ const func_reescribirTablas2 = () => {
   </div>
 </div>`;
   func_reescribirTablas();
+};
+
+// aca voy hacer la funcion que se ejecute cuando se habra el Modal para que consuma el API de los
+// medicamentos y se cargue en la tabla
+
+const func_selecionarMedicamentos = async () => {
+  let tablaProductos = document.getElementById("tablaProductos");
+  let opciones = document.getElementById("opciones");
+  opciones.innerHTML = "";
+  tablaProductos.innerHTML = "";
+  let medicamentos = await fetch(
+    "http://localHost:3000/consultorio/selecionarMedicamentos/"
+  );
+  medicamentos = await medicamentos.json();
+  if (medicamentos.length > 0) {
+    medicamentos.forEach((medi) => {
+      // este va hacer para llenar la tabla
+      let descrip = `<tr> <td>${medi.idItem} </td> <td>${medi.descripcionItem} </td> <td>${medi.existenciaItem} </td> </tr>`;
+
+      // aca voy a poner las Opciones en el select para que el doctor pueda selecionar un medicmanto
+
+      let descripOpciones = `<option value="${medi.idItem}">${medi.descripcionItem}</option>`;
+      opciones.innerHTML += descripOpciones;
+      tablaProductos.innerHTML += descrip;
+    });
+  }
+};
+//----------------------------------------------------------------------------------------------------------
+
+// aca voy hacer la funcion que se va ejecutar al oprimir el boton guardar
+
+const func_guardarMedicamentosEnLaTabla = async () => {
+  let idMedica = document.getElementById("idMedica").value;
+  let cantidadMedicamento = document.querySelector(
+    "#cantidadMedicamento"
+  ).value;
+  let yaResetado = false;
+
+  let tablaMedicamentoResetados = document.getElementById(
+    "tablaMedicamentoResetados"
+  );
+  if (idMedica.length > 0 && cantidadMedicamento.length > 0) {
+    let datosMedicamentos = await fetch(
+      `http://localHost:3000/consultorio/selecionarMedicamentosResetados/?idMedicamento=${idMedica}&cantidad=${cantidadMedicamento}`
+    );
+    let jsonMedicamentos = await datosMedicamentos.json();
+
+    if (jsonMedicamentos.procede == true) {
+      // aca voy a verificar los que ya estan para ver si le pone mas cantidad o saber si ya lo habia selecionado
+      let idDelMedicamento = document.querySelectorAll("#idDelMedicamento");
+      console.log(idDelMedicamento);
+      if (idDelMedicamento.length > 0) {
+        idDelMedicamento.forEach((mediValue) => {
+          if (parseInt(mediValue.textContent) == parseInt(idMedica)) {
+            yaResetado = true;
+          }
+        });
+
+        if (yaResetado == true) {
+          Swal.fire({
+            title: "Medicamento ya Resetado",
+            text: "Este Medicamento ya lo seleciono",
+            icon: "warning",
+          });
+        } else {
+          let descripMedi = `<tr>  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${jsonMedicamentos.cantidad} </td></tr>`;
+
+          tablaMedicamentoResetados.innerHTML += descripMedi;
+        }
+      } else {
+        let descripMedi = `<tr>  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${jsonMedicamentos.cantidad} </td></tr>`;
+
+        tablaMedicamentoResetados.innerHTML += descripMedi;
+      }
+
+      //--------------------------------------------------------------------------------------
+    } else {
+      Swal.fire({
+        title: "Hubo un error Verificar!!",
+        text: jsonMedicamentos.error,
+        icon: "warning",
+      });
+    }
+  } else {
+    Swal.fire({
+      title: "Hubo un error Verificar!!",
+      text: "Faltan Casillas por llenar",
+      icon: "warning",
+    });
+  }
 };

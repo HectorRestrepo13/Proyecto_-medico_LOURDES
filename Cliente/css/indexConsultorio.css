@@ -18,3 +18,26 @@
 .btn-warning {
   margin-right: 11px;
 }
+
+.selectMedicamentos {
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 250px;
+  margin-right: 10px;
+}
+.selectorMedicamentos {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.botonEnviar {
+  width: 100%;
+}
+
+.tituloPrincipal {
+  display: flex;
+}
+.tituloPrincipal h1 {
+  font-size: 20px;
+}
