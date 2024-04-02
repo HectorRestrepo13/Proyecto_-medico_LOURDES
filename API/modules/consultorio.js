@@ -56,7 +56,7 @@ consultorio.get(
     let idFormula = req.params.idFormula;
 
     let consulta =
-      `SELECT * FROM historial WhERE formula_idFormula =` + idFormula;
+      `SELECT * FROM historialclinico WhERE formula_idFormula =` + idFormula;
 
     mysql.query(consulta, (error, date) => {
       if (!error) {
@@ -149,4 +149,65 @@ consultorio.get("/consultorio/selecionarMedicamentosResetados/", (req, res) => {
     }
   });
 });
+
+// aca voy hacer la API donde va insertar los datos de la formula,datalle formula y el historial
+// a la base de DAtos
+
+consultorio.post("/consultorio/insertarDatosFormulario/", async (req, res) => {
+  try {
+    let fechaActual = new Date();
+    fechaActual = `${fechaActual.getFullYear()}-${
+      fechaActual.getMonth() + 1
+    }-${fechaActual.getDate()}`;
+
+    let cedulaPaciente = req.query.cedulaPaciente;
+    let cedulaMedico = req.query.cedulaMedico;
+    let idCita = req.query.idCita;
+    let idFormulaCreada;
+    let objetoDatosFormula = req.body;
+
+    // Insertación a la tabla de formula
+    let insertacionFormula = new Promise((resolve, reject) => {
+      let consultaFormula = `INSERT INTO formula(fechaFormula, paciente_cedulaPaciente, medico_cedulaMedico, cita_idCita) VALUES ('${fechaActual}', ${cedulaPaciente}, ${cedulaMedico}, ${idCita})`;
+      mysql.query(consultaFormula, (error, date) => {
+        if (!error) {
+          idFormulaCreada = parseInt(date.insertId);
+          resolve(true);
+        } else {
+          reject(
+            "Hubo un error en la inserción de la Formula. Verificar: " + error
+          );
+        }
+      });
+    });
+
+    // Esperar a que se complete la inserción de la fórmula
+    let insertoFormulaBolea = await insertacionFormula;
+
+    // Si la inserción de la fórmula fue exitosa, proceder con la inserción de los detalles de la fórmula
+    if (insertoFormulaBolea) {
+      for (const detalleFormula of objetoDatosFormula.detalle) {
+        let consultaInsertacionDetalle = `INSERT INTO detalleformula(cantidadDetalle, posologiaDetalle, item_idItem, formula_idFormula) VALUES (${detalleFormula.cantidadDetalle}, '${detalleFormula.posologiaDetalle}', ${detalleFormula.item_id}, ${idFormulaCreada})`;
+        await new Promise((resolve, reject) => {
+          mysql.query(consultaInsertacionDetalle, (error, date) => {
+            if (error) {
+              reject(
+                "Hubo un error en la inserción en el detalle de la fórmula. Verifique: " +
+                  error
+              );
+            } else {
+              console.log(date);
+              resolve();
+            }
+          });
+        });
+      }
+      res.send("bien");
+    }
+  } catch (error) {
+    res.status(404).send(error);
+  }
+});
+
+//----------------------------------------------------------------------------------
 module.exports = consultorio;

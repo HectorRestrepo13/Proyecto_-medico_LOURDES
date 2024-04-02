@@ -187,13 +187,226 @@ const func_selecionarCliente = (id, fecha, estado) => {
 
   <div class="dato1"> 
   <button  onclick="func_reescribirTablas2()" type="button" class="btn btn-warning">Quitar</button>
-  <button  type="button"
+  <button   type="button"
   
   data-bs-toggle="modal"
   data-bs-target="#exampleModal"
-  data-bs-whatever="@getbootstrap" class="btn btn-success">Iniciar</button>
+  data-bs-whatever="@getbootstrap"
+  onclick="func_selecionarMedicamentos()" class="btn btn-success">Iniciar</button>
 
+<!--- aca va ir el modal con todos los inpus ------->
+<div
+class="modal fade"
+id="exampleModal"
+tabindex="-1"
+aria-labelledby="exampleModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-xl">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h1 class="modal-title fs-5" id="exampleModalLabel">
+        Formulario Medico
+      </h1>
+      <button
+      style="  width: 50px;
+      "
+        type="button"
+        class="btn-close btn"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="row">
+          <div class="col-6">
+            <div class="mb-3">
+              <h1>Medicamentos a Resetar</h1>
+            </div>
 
+            <div class="mb-3">
+              <label
+                for="recipient-name"
+                class="col-form-label"
+                >Formula DE como Consumirlo:</label
+              >
+              <textarea
+                class="form-control"
+                id="formulaConsumir"
+              ></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label"
+                >Medicamento:</label
+              >
+
+              <!-- aca va el select-->
+              <div class="selectorMedicamentos">
+                <input
+                  id="idMedica"
+                  class="selectMedicamentos"
+                  type="text"
+                  list="opciones"
+                  placeholder="Medicamento"
+                />
+
+                <datalist id="opciones"> </datalist>
+
+                <input
+                  class="selectMedicamentos"
+                  id="cantidadMedicamento"
+                  type="number"
+                  placeholder="Selecione la cantidad"
+                />
+              </div>
+            </div>
+            <!---------------------------------------------->
+            <!-- aca voy agregar el boton para que se envie a la tabla-->
+            <div class="mb-3">
+              <button
+                onclick="func_guardarMedicamentosEnLaTabla()"
+                type="button"
+                class="btn btn-primary botonEnviar"
+              >
+                Guardar
+              </button>
+            </div>
+
+            <!-- aca voy a poner los otros inpus para los sintomas -->
+            <div class="mb-3">
+              <h1>Historial Clinico</h1>
+            </div>
+            <div class="mb-3">
+              <label for="message-text" class="col-form-label"
+                >Sintomas:</label
+              >
+
+              <input
+                id="sintomas"
+                class="selectMedicamentos2"
+                type="text"
+                placeholder="Sintomas"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label
+                for="recipient-name"
+                class="col-form-label"
+                >Descripcion:</label
+              >
+
+              <textarea
+                class="form-control"
+                id="descripcionSintomas"
+              ></textarea>
+            </div>
+
+            <div class="mb-3">
+              <button
+                onclick="func_guardarSintomasEnlaTabla()"
+                type="button"
+                class="btn btn-primary botonEnviar"
+              >
+                Guardar
+              </button>
+            </div>
+            <!---------------------------------------------------------------->
+          </div>
+          <div class="col-6">
+            <div class="tituloPrincipal">
+              <h1>Medicamentos Disponibles</h1>
+            </div>
+            <!-- aca voy a colocar la tabla donde se va mostrar los productos disponibles-->
+            <div class="acaTabla">
+              <table class="table tablasFormulas">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Medicamento</th>
+                    <th>Existencia</th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="table-group-divider"
+                  id="tablaProductos"
+                ></tbody>
+              </table>
+            </div>
+
+            <!-------------------------------------------------------------->
+            <!-- aca voy hacer la tabla de los medicamentos resetados-->
+            <div class="tituloPrincipal">
+              <h1>Medicamentos Resetados</h1>
+            </div>
+            <div class="acaTabla">
+              <table class="table tablasFormulas">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Medicamento</th>
+                    <th>Posologia</th>
+                    <th>Cantidad</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="table-group-divider"
+                  id="tablaMedicamentoResetados"
+                ></tbody>
+              </table>
+            </div>
+
+            <!-------------------------------------->
+
+            <!-- aca voy a colocar la tabla donde van a ir los sintomas -->
+
+            <div class="tituloPrincipal">
+              <h1>Sintomas del Paciente</h1>
+            </div>
+            <div class="acaTabla">
+              <table class="table tablasFormulas">
+                <thead>
+                  <tr>
+                    <th>Sintoma</th>
+                    <th>Descripcion</th>
+                    <th>Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody
+                  class="table-group-divider"
+                  id="tablaSintomasPaciente"
+                ></tbody>
+              </table>
+            </div>
+
+            <!------------------------------------------------------------------->
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        data-bs-dismiss="modal"
+      >
+        Cerrar
+      </button>
+      <button
+        onclick="func_insertarFormularioAlaBaseDatos()"
+        type="button"
+        class="btn btn-primary"
+      >
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!----------------------------------------------------------->
   
   </div>
   
@@ -312,7 +525,7 @@ const func_llenarTablasDetalleYhistorial = (idFormula) => {
         date.forEach((element) => {
           let arregloSecundario = [
             element.idHistorial,
-            element.sintomas,
+            element.sintoma,
             element.descripcion,
           ];
           arregloHistorial.push(arregloSecundario);
@@ -495,6 +708,14 @@ const func_reescribirTablas2 = () => {
 const func_selecionarMedicamentos = async () => {
   let tablaProductos = document.getElementById("tablaProductos");
   let opciones = document.getElementById("opciones");
+
+  let tablaMedicamentoResetados = document.getElementById(
+    "tablaMedicamentoResetados"
+  );
+  let tablaSintomasPaciente = document.getElementById("tablaSintomasPaciente");
+  tablaMedicamentoResetados.innerHTML = "";
+  tablaSintomasPaciente.innerHTML = "";
+
   opciones.innerHTML = "";
   tablaProductos.innerHTML = "";
   let medicamentos = await fetch(
@@ -519,6 +740,7 @@ const func_selecionarMedicamentos = async () => {
 // aca voy hacer la funcion que se va ejecutar al oprimir el boton guardar
 
 const func_guardarMedicamentosEnLaTabla = async () => {
+  let formulaConsumir = document.getElementById("formulaConsumir").value;
   let idMedica = document.getElementById("idMedica").value;
   let cantidadMedicamento = document.querySelector(
     "#cantidadMedicamento"
@@ -528,7 +750,11 @@ const func_guardarMedicamentosEnLaTabla = async () => {
   let tablaMedicamentoResetados = document.getElementById(
     "tablaMedicamentoResetados"
   );
-  if (idMedica.length > 0 && cantidadMedicamento.length > 0) {
+  if (
+    idMedica.length > 0 &&
+    cantidadMedicamento.length > 0 &&
+    formulaConsumir.length > 0
+  ) {
     let datosMedicamentos = await fetch(
       `http://localHost:3000/consultorio/selecionarMedicamentosResetados/?idMedicamento=${idMedica}&cantidad=${cantidadMedicamento}`
     );
@@ -552,15 +778,19 @@ const func_guardarMedicamentosEnLaTabla = async () => {
             icon: "warning",
           });
         } else {
-          let descripMedi = `<tr>  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${jsonMedicamentos.cantidad} </td></tr>`;
+          let descripMedi = `<tr>  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${formulaConsumir} </td> <td>${jsonMedicamentos.cantidad} </td> <td><label  onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></label></td></tr>`;
 
           tablaMedicamentoResetados.innerHTML += descripMedi;
         }
       } else {
-        let descripMedi = `<tr>  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${jsonMedicamentos.cantidad} </td></tr>`;
+        let descripMedi = `<tr>  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${formulaConsumir} </td> <td>${jsonMedicamentos.cantidad} </td>  <td><label  onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></label></td></tr>`;
 
         tablaMedicamentoResetados.innerHTML += descripMedi;
       }
+
+      document.getElementById("formulaConsumir").value = "";
+      document.getElementById("idMedica").value = "";
+      document.getElementById("cantidadMedicamento").value = "";
 
       //--------------------------------------------------------------------------------------
     } else {
@@ -578,3 +808,61 @@ const func_guardarMedicamentosEnLaTabla = async () => {
     });
   }
 };
+
+// aca voy hacer la funcion que va hacer que se elimine la fila de la tabla selecionada
+
+function eliminarFila(boton) {
+  var fila = boton.parentNode.parentNode;
+  var tabla = fila.parentNode;
+  tabla.removeChild(fila);
+}
+
+// aca voy hacer la funcion donde al hacer click en guardar se ejecute y se mande los sintomas a la tabla
+
+const func_guardarSintomasEnlaTabla = () => {
+  let sintomas = document.getElementById("sintomas");
+  let descripcionSintomas = document.getElementById("descripcionSintomas");
+  let tablaSintomasPaciente = document.getElementById("tablaSintomasPaciente");
+  if (sintomas.value.length > 0 && descripcionSintomas.value.length > 0) {
+    let descr = `<tr id="tablaFilaSintomas"> <td>${sintomas.value} </td> <td>${descripcionSintomas.value} </td> <td>  <label  onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></label> </td> </tr>`;
+    tablaSintomasPaciente.innerHTML += descr;
+
+    sintomas.value = "";
+    descripcionSintomas.value = "";
+  } else {
+    Swal.fire({
+      title: "Faltan Casillas por llenar !!",
+      text: "Verificar y llenar los Campos Vacios",
+      icon: "warning",
+    });
+  }
+};
+
+// --------------------------------------------------------------------------------------------
+
+// aca voy hacer la funcion para guardar los datos a la base de datos
+
+const func_insertarFormularioAlaBaseDatos = () => {
+  let tablaFilaSintomas = document.querySelectorAll("#tablaFilaSintomas");
+
+  // aca voy a verificar si tienen datos las tablas
+
+  if (tablaFilaSintomas.length > 0) {
+    tablaFilaSintomas.forEach((fila) => {
+      console.log(fila);
+      fila.childNodes.forEach(function (nodo) {
+        if (nodo.nodeType === Node.ELEMENT_NODE && nodo.tagName === "TD") {
+          console.log(nodo.textContent); // Accede al contenido de cada celda
+        }
+      });
+    });
+  } else {
+    Swal.fire({
+      title: "Atencion falta!!",
+      text: "Verificar Los sintomas y medicamentos Resetados",
+      icon: "warning",
+    });
+  }
+};
+
+// --------------------------------------------------------------------------------------------
