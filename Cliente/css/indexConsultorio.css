@@ -41,3 +41,21 @@
 .tituloPrincipal h1 {
   font-size: 20px;
 }
+
+.selectMedicamentos2 {
+  border-radius: 5px;
+  margin-bottom: 15px;
+  width: 100%;
+  margin-right: 10px;
+}
+
+.mb-3 h1 {
+  font-size: 25px;
+}
+
+.acaTabla {
+  display: flex;
+  height: 230px;
+  overflow-x: auto;
+  margin-bottom: 40px;
+}
