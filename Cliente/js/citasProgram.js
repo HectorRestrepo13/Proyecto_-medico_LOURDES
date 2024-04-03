@@ -1,7 +1,7 @@
 fetch("http://localhost:3000/pacientes/selecionarpaciente/id:")
   .then((res) => res.json())
   .then((Programadas) => {
-    const miTabla = document.getElementById("miTabla");
+    const miTabla = document.getElementById("datatable");
     Programadas.forEach((Citas) => {
       let fila = `
         <tr>
@@ -18,11 +18,12 @@ fetch("http://localhost:3000/pacientes/selecionarpaciente/id:")
     });
 
     // Inicializar DataTables después de insertar los datos
-    $("#datatable").DataTable({
+    $("#miTabla").DataTable({
+      responsive:true,
       lengthMenu: [5, 10, 15, 50, 100, 250, 500],
       columnDefs: [
-        { orderable: false, targets: [5, 6] },
-        { searchable: false, targets: [5, 6] },
+        { orderable: false, targets: [4, 5] },
+        { searchable: false, targets: [4, 5] },
       ],
       pageLength: 5,
       destroy: true,
@@ -155,7 +156,7 @@ function funcion_gubuttonrdbuttonrCita() {
               text: "Se agregó correctamente.",
               icon: "success",
           }).then(() => {
-              window.location.assign("http://127.0.0.1:5500/Cliente/citasProgramadas.html");
+              window.location.assign("http://127.0.0.1:5501/Cliente/citasProgramadas.html");
           });
       })
       .catch((error) => {
@@ -163,7 +164,7 @@ function funcion_gubuttonrdbuttonrCita() {
           Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: 'Hubo un error al agregar la cita. Por favor, inténtelo de nuevo.'
+              text: 'Porfavor verifica el numero de identificacion que ingreso.'
           });
       });
   }
