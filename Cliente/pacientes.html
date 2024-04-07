@@ -14,6 +14,7 @@ Licence URI: https://www.os-templates.com/template-terms
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link rel="icon" href="./Cliente/images/logo.png">
 </head>
 <body id="top">
 <!-- ################################################################################################ -->
@@ -32,11 +33,15 @@ Licence URI: https://www.os-templates.com/template-terms
         }
     </style>
       <div id="logo" class="fl_left">
-        <h1><a href="../index.html">Centro Medico Lourdes</a></h1>
+        
+        <h1><a href="../index.html" id="btnCerrarSesion">Centro Medico Lourdes</a></h1>
+        
       </div>
+
       <nav id="mainav" class="fl_right">
+        
         <ul class="clear">
-          <li class="active"><a href="../index.html">Inicio</a></li>
+          <li class="active"><a  id="btnCerrarSesion">Inicio</a></li>
           <li><a class="drop" href="#">Programa de citas</a>
             <ul>
               <li><a href="citasProgramadas.html">Citas programadas</a></li>
@@ -47,13 +52,10 @@ Licence URI: https://www.os-templates.com/template-terms
           </li>
           <li><a class="drop" href="#">General</a>
             <ul>
-              <li><a href="#">Historial clinico</a></li>
-              <li><a class="drop" href="#">Informacion personal</a>
-                <ul>
-                  <li><a href="#">Editar</a></li>
-                  <li><a href="#">Suspender</a></li>
-           
-                </ul>
+              <li><a href="datosPersonales.html">Mis datos personales</a></li>
+              <li><a href="historialClinico.html">Historial clinico</a></li>
+      
+              
               </li>
               <li><a href="#">Medicamentos pendientes</a></li>
             </ul>
@@ -61,9 +63,12 @@ Licence URI: https://www.os-templates.com/template-terms
         
       
         </ul>
+        
       </nav>
       <!-- ################################################################################################ -->
+      
     </header>
+    
   </div>
   <!-- ################################################################################################ -->
   <!-- ################################################################################################ -->
@@ -210,5 +215,6 @@ Licence URI: https://www.os-templates.com/template-terms
 <script src="../layout/scripts/jquery.backtotop.js"></script>
 <script src="../layout/scripts/jquery.mobilemenu.js"></script>
 <script src="../layout/scripts/jquery.flexslider-min.js"></script>
+<script src="js/cerrarSesiones.js"></script>
 </body>
 </html>

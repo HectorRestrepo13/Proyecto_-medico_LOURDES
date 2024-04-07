@@ -1,4 +1,6 @@
-fetch("http://localhost:3000/pacientes/selecionarpaciente/id:")
+      // Obtener el id del usuario del localStorage
+      const datos = JSON.parse(window.localStorage.getItem(1));
+fetch(`http://localhost:3000/pacientes/selecionarpaciente/${datos.id}`)
   .then((res) => res.json())
   .then((Programadas) => {
     const miTabla = document.getElementById("datatable");

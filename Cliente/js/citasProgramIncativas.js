@@ -1,4 +1,10 @@
-fetch("http://localhost:3000/pacientes/selecionarpacienteRechazados")
+
+
+  //voy a sacar la cedula del doctor del localStore
+
+  let datosLocal = window.localStorage;
+  let datos = JSON.parse(datosLocal.getItem(1));
+fetch(`http://localhost:3000/pacientes/selecionarpacienteRechazados/${datos.id}`)
   .then((res) => res.json())
   .then((Programadas) => {
     const miTabla = document.getElementById("datatable");

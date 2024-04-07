@@ -28,10 +28,10 @@ login.get("/login/selecionarUsuarioMedico", (req, res) => {
 
 //selecionar Usuario trabajodres para saber si existe y ingrese session
 
-login.get("/login/selecionarUsuariotrabajador", (req, res) => {
+login.get("/login/selecionarUsuario/:email/:password", (req, res) => {
   let consulta = "select * from users where emailUser=? and password=?";
-  let emailUser = req.query.emailUser;
-  let password = req.query.password;
+  let emailUser = req.params.emailUser;
+  let password = req.params.password;
 
   mysql.query(consulta, [emailUser, password], (error, date) => {
     if (!error) {
@@ -53,4 +53,28 @@ login.get("/login/selecionarUsuariotrabajador", (req, res) => {
     }
   });
 });
+
+login.get("/login/selecionarPaciente/:email/:password", (req, res) => {
+  let consulta = "SELECT * FROM paciente WHERE emailPaciente = ? AND passwordPaciente = ?";
+  let email = req.params.email;
+  let password = req.params.password;
+
+  mysql.query(consulta, [email, password], (error, data) => {
+    if (!error) {
+      if (data.length > 0) {
+        res.status(200).send(data);
+      } else {
+        res.status(200).send({
+          status: false,
+          message: "Paciente no registrado",
+          codigo: 200,
+        });
+      }
+    } else {
+      res.status(500).send(error);
+    }
+  });
+});
+
+
 module.exports = login;

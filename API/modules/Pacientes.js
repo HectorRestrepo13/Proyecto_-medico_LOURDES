@@ -90,4 +90,51 @@ citas.put("/cita/update/:id", (req, res) => {
     });
   });
    
+  //Traer datos del paciente por identificacion
+citas.get("/paciente/traerDatosPaciente/:identificacion", (req, res) => {
+  let identificacion = req.params.identificacion; //parametro
+  mysql.query("SELECT cedulaPaciente, nombrePaciente, apellidoPaciente, emailPaciente,telefonoPaciente, movilPaciente, fechaNacimientoPqciente, epsPaciente, usuarioPaciente FROM paciente WHERE cedulaPaciente = ?", [identificacion], (error, data) => {
+    try {
+      if(data==0){
+        res.status(400).send("No hay datos en la base de datos!!");
+      }else{
+        
+        res.status(200).send(data);
+      }
+     
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
+
+ //Editar datos personales del paciente
+citas.put("/paciente/editarPaciente/:cedulaPaciente", (req, res) => {
+  let cedulaPaciente = req.params.cedulaPaciente; //parametro
+  let frmdata = {
+      nombrePaciente: req.body.nombrePaciente,
+      apellidoPaciente: req.body.apellidoPaciente,
+      emailPaciente: req.body.emailPaciente,
+      telefonoPaciente: req.body.telefonoPaciente,
+      movilPaciente: req.body.movilPaciente,
+      fechaNacimientopqciente: req.body.fechaNacimientopqciente,
+      epsPaciente: req.body.epsPaciente,
+      usuarioPaciente: req.body.usuarioPaciente
+  }; 
+     
+  mysql.query("UPDATE paciente SET ? where cedulaPaciente=?", [frmdata,cedulaPaciente], (error, data) => {
+    try {
+      if(data==0){
+        res.status(400).send("No hay datos en la base de datos!!");
+      }else{
+        res.status(200).send("Datos actualizados");
+      }
+     
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+}); 
   module.exports = citas;
