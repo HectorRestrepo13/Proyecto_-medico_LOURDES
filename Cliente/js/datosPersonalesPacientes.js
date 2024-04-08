@@ -71,7 +71,21 @@ btnEditar.addEventListener("click", function () {
   const fechaPacienteValue = fechaPaciente.value;
   const epsPacienteValue = epsPaciente.value;
   const usuarioPacienteValue = usuarioPaciente.value;
-
+  function validarCorreoElectronico(correo) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(correo);
+  }
+  
+  // Luego puedes llamar a esta función para validar el correo electrónico:
+  if (!validarCorreoElectronico(emailPacienteValue)) {
+    // Mostrar una alerta indicando que el correo electrónico no es válido
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'El correo electrónico ingresado no es válido.',
+    });
+    return; // Detener la ejecución del código si el correo no es válido
+  }
   if (
     nombrePacienteValue === "" ||
     apellidoPacienteValue === "" ||

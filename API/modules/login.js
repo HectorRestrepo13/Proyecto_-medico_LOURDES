@@ -4,10 +4,11 @@ let mysql = require("./mysql");
 let login = express.Router();
 
 //selecionar Usuario medico para saber si existe y ingrese session
-login.get("/login/selecionarUsuarioMedico", (req, res) => {
-  let emailMedico = req.query.emailMedico;
-  let password = req.query.password;
+login.get("/login/selecionarUsuarioMedico/:email/:password", (req, res) => {
   let consulta = `select * from medico where emailMedico=? and password=?`;
+  let emailMedico = req.params.email;
+  let password = req.params.password;
+
 
   mysql.query(consulta, [emailMedico, password], (error, date) => {
     if (!error) {
@@ -36,11 +37,7 @@ login.get("/login/selecionarUsuario/:email/:password", (req, res) => {
   mysql.query(consulta, [emailUser, password], (error, date) => {
     if (!error) {
       if (date.length > 0) {
-        res.status(200).send({
-          status: true,
-          message: "Usuario Registrado",
-          codigo: 200,
-        });
+        res.status(200).send(date);
       } else {
         res.status(200).send({
           status: false,

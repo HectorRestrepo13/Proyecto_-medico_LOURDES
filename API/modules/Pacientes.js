@@ -137,4 +137,24 @@ citas.put("/paciente/editarPaciente/:cedulaPaciente", (req, res) => {
     }
   });
 }); 
+
+ //Editar datos personales del paciente
+ citas.get("/paciente/MostrarCitas/:medico_cedulaMedico", (req, res) => {
+
+let cedulaMedico=req.params.medico_cedulaMedico;
+     
+  mysql.query("select fechaCita from cita where medico_cedulaMedico= ?", [cedulaMedico], (error, data) => {
+    try {
+      if(data==0){
+        res.status(400).send("No hay datos en la base de datos!!");
+      }else{
+        res.status(200).send(data);
+      }
+     
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+}); 
   module.exports = citas;
