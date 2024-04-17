@@ -64,23 +64,20 @@
   let datosLocal = window.localStorage;
 
   //aca voy hacer una decision que si no hay datos en el local store es porque no a iniciado sesion entonces
-  //que lo envie para el login
+  //que lo envie para el index
   let date = JSON.parse(datosLocal.getItem(1));
   if (date && date.nombre) {
     NombreSesion.innerText = date.nombre;
   } else {
-    window.location.href = "Login.html";
+    window.location.href = "../index.html";
   }
 
   //aca voy hacer el evento que se va ejecutar apenas le de click en cerrar sesion
 
   btnCerrarSesion.addEventListener("click", () => {
-    datosLocal.removeItem(1);
-    window.location.href = "Login.html";
+    console.log("hola")
+    datosLocal.clear();
+    window.location.href = "../index.html";
   });
 
-  //---------------------------------------------------------------------
-  //aca voy hacer que se cargue la tabla con las consultas
-
-  //----------------------------------------------------------------
 })();

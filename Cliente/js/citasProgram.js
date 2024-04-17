@@ -1,7 +1,9 @@
-fetch("http://localhost:3000/pacientes/selecionarpaciente/id:")
+      // Obtener el id del usuario del localStorage
+      const datos = JSON.parse(window.localStorage.getItem(1));
+fetch(`http://localhost:3000/pacientes/selecionarpaciente/${datos.id}`)
   .then((res) => res.json())
   .then((Programadas) => {
-    const miTabla = document.getElementById("miTabla");
+    const miTabla = document.getElementById("datatable");
     Programadas.forEach((Citas) => {
       let fila = `
         <tr>
@@ -18,11 +20,12 @@ fetch("http://localhost:3000/pacientes/selecionarpaciente/id:")
     });
 
     // Inicializar DataTables después de insertar los datos
-    $("#datatable").DataTable({
+    $("#miTabla").DataTable({
+      responsive:true,
       lengthMenu: [5, 10, 15, 50, 100, 250, 500],
       columnDefs: [
-        { orderable: false, targets: [5, 6] },
-        { searchable: false, targets: [5, 6] },
+        { orderable: false, targets: [4, 5] },
+        { searchable: false, targets: [4, 5] },
       ],
       pageLength: 5,
       destroy: true,
@@ -155,7 +158,7 @@ function funcion_gubuttonrdbuttonrCita() {
               text: "Se agregó correctamente.",
               icon: "success",
           }).then(() => {
-              window.location.assign("http://127.0.0.1:5500/Cliente/citasProgramadas.html");
+              window.location.assign("http://127.0.0.1:5501/Cliente/citasProgramadas.html");
           });
       })
       .catch((error) => {
@@ -163,8 +166,188 @@ function funcion_gubuttonrdbuttonrCita() {
           Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: 'Hubo un error al agregar la cita. Por favor, inténtelo de nuevo.'
+              text: 'Porfavor verifica el numero de identificacion que ingreso.'
           });
       });
   }
 }
+
+
+/* //Programar fecha
+class Calendar {
+  constructor(id) {
+      this.cells = [];
+      this.selectedDate = null;
+      this.currentMonth = moment();
+      this.elCalendar = document.getElementById(id);
+      this.showTemplate();
+      this.elGridBody = this.elCalendar.querySelector('.grid__body');
+      this.elMonthName = this.elCalendar.querySelector('.month-name');
+      this.showCells();
+
+         // Obtener las citas existentes del médico seleccionado
+    this.obtenerCitasExistentes();
+  }
+
+  showTemplate() {
+      this.elCalendar.innerHTML = this.getTemplate();
+      this.addEventListenerToControls();
+  }
+
+  getTemplate() {
+      let template = `
+          <div class="calendar__header">
+              <button type="button" class="control control--prev">&lt;</button>
+              <span class="month-name">dic 2019</span>
+              <button type="button" class="control control--next">&gt;</button>
+          </div>
+          <div class="calendar__body">
+              <div class="grid">
+                  <div class="grid__header">
+                      <span class="grid__cell grid__cell--gh">Lun</span>
+                      <span class="grid__cell grid__cell--gh">Mar</span>
+                      <span class="grid__cell grid__cell--gh">Mié</span>
+                      <span class="grid__cell grid__cell--gh">Jue</span>
+                      <span class="grid__cell grid__cell--gh">Vie</span>
+                      <span class="grid__cell grid__cell--gh">Sáb</span>
+                      <span class="grid__cell grid__cell--gh">Dom</span>
+                  </div>
+                  <div class="grid__body">
+
+                  </div>
+              </div>
+          </div>
+      `;
+      return template;
+  }
+
+  addEventListenerToControls() {
+      let elControls = this.elCalendar.querySelectorAll('.control');
+      elControls.forEach(elControl => {
+          elControl.addEventListener('click', e => {
+              let elTarget = e.target;
+              if (elTarget.classList.contains('control--next')) {
+                  this.changeMonth(true);
+              } else {
+                  this.changeMonth(false);
+              }
+              this.showCells();
+          });
+      });
+  }
+
+  changeMonth(next = true) {
+      if (next) {
+          this.currentMonth.add(1, 'months');
+      } else {
+          this.currentMonth.subtract(1, 'months');
+      }
+  }
+  obtenerCitasExistentes() {
+    const selectDoctor = document.getElementById('selectDoctor');
+    const cedulaDoctor = selectDoctor.value.split('|')[0];
+
+    fetch(`http://localhost:3000/paciente/MostrarCitas/${cedulaDoctor}`)
+      .then(response => response.json())
+      .then(citas => {
+        // Almacenar las fechas de las citas existentes en un conjunto
+        this.citasExistentes = new Set(citas.map(cita => cita.fechaCita));
+
+        // Actualizar la visualización del calendario
+        this.showCells();
+      })
+      .catch(error => console.error('Error al obtener las citas existentes:', error));
+  }
+
+  showCells() {
+      this.cells = this.generateDates(this.currentMonth);
+      if (this.cells === null) {
+          console.error('No fue posible generar las fechas del calendario.');
+          return;
+      }
+      // Código existente
+const selectDoctor = document.getElementById('selectDoctor');
+selectDoctor.addEventListener('change', () => {
+  const calendar = new Calendar('calendar');
+});
+
+      this.elGridBody.innerHTML = '';
+      let templateCells = '';
+      let disabledClass = '';
+      for (let i = 0; i < this.cells.length; i++) {
+          disabledClass = '';
+          if (!this.cells[i].isInCurrentMonth) {
+              disabledClass = 'grid__cell--disabled';
+          }
+          // <span class="grid__cell grid__cell--gd grid__cell--selected">1</span>
+          templateCells += `
+              <span class="grid__cell grid__cell--gd ${disabledClass}" data-cell-id="${i}">
+                  ${this.cells[i].date.date()}
+              </span>
+          `;
+      }
+      this.elMonthName.innerHTML = this.currentMonth.format('MMM YYYY');
+      this.elGridBody.innerHTML = templateCells;
+      this.addEventListenerToCells();
+  }
+
+  generateDates(monthToShow = moment()) {
+      if (!moment.isMoment(monthToShow)) {
+          return null;
+      }
+      let dateStart = moment(monthToShow).startOf('month');
+      let dateEnd = moment(monthToShow).endOf('month');
+      let cells = [];
+
+      // Encontrar la primer fecha que se va a mostrar en el calendario
+      while (dateStart.day() !== 1) {
+          dateStart.subtract(1, 'days');
+      }
+
+      // Encontrar la última fecha que se va a mostrar en el calendario
+      while (dateEnd.day() !== 0) {
+          dateEnd.add(1, 'days');
+      }
+
+      // Genera las fechas del grid
+      do {
+          cells.push({
+              date: moment(dateStart),
+              isInCurrentMonth: dateStart.month() === monthToShow.month()
+          });
+          dateStart.add(1, 'days');
+      } while (dateStart.isSameOrBefore(dateEnd));
+
+      return cells;
+  }
+
+  addEventListenerToCells() {
+      let elCells = this.elCalendar.querySelectorAll('.grid__cell--gd');
+      elCells.forEach(elCell => {
+          elCell.addEventListener('click', e => {
+              let elTarget = e.target;
+              if (elTarget.classList.contains('grid__cell--disabled') || elTarget.classList.contains('grid__cell--selected')) {
+                  return;
+              }
+              // Deselecionar la celda anterior
+              let selectedCell = this.elGridBody.querySelector('.grid__cell--selected');
+              if (selectedCell) {
+                  selectedCell.classList.remove('grid__cell--selected');
+              }
+              // Selecionar la nueva celda
+              elTarget.classList.add('grid__cell--selected');
+              this.selectedDate = this.cells[parseInt(elTarget.dataset.cellId)].date;
+              // Lanzar evento change
+              this.elCalendar.dispatchEvent(new Event('change'));
+          });
+      });
+  }
+
+  getElement() {
+      return this.elCalendar;
+  }
+
+  value() {
+      return this.selectedDate;
+  }
+} */
