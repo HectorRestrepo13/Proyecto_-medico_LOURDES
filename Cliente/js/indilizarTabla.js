@@ -1,70 +1,82 @@
 let tablaConsulta = document.getElementById("tablaConsulta");
-let arregloPrincipal = [];
 
-//aca estoy llenando la tabla de las consultas
-fetch(
-  `http://localhost:3000/consultorio/selecionarCitasPorAtender/?estado=Pendiente&nombre=1006`
-)
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    data.forEach((element) => {
-      let fechaModi = new Date(element.fechaCita);
-      fechaModi = `${fechaModi.getDate()}/${
-        fechaModi.getMonth() + 1
-      }/${fechaModi.getFullYear()}`;
+// hago una funcion para llenar  la tabla de las consultas le mando el id Del medico y el estado que quiere
+let localStor = window.localStorage;
+let cedulaMedico1 = JSON.parse(localStor.getItem(1));
+cedulaMedico1 = cedulaMedico1.id;
+const func_llenarTablaConsultasCitas = (cedula, estado) => {
+  let arregloPrincipal = [];
+  fetch(
+    `http://localhost:3000/consultorio/selecionarCitasPorAtender/?estado=${estado}&nombre=${cedula}`
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      data.forEach((element) => {
+        let fechaModi = new Date(element.fechaCita);
+        fechaModi = `${fechaModi.getDate()}/${
+          fechaModi.getMonth() + 1
+        }/${fechaModi.getFullYear()}`;
 
-      let arregloSecundario = [
-        element.idCita,
-        element.paciente,
-        element.nombreMedico,
-        fechaModi, // Aquí usamos la fecha modificada
-        element.horaCita,
-        element.estadoCita,
-      ];
-      arregloPrincipal.push(arregloSecundario);
+        let arregloSecundario = [
+          element.idCita,
+          element.paciente,
+          element.nombreMedico,
+          fechaModi, // Aquí usamos la fecha modificada
+          element.horaCita,
+          element.estadoCita,
+        ];
+        arregloPrincipal.push(arregloSecundario);
+      });
+
+      console.log(arregloPrincipal);
+
+      let table = new DataTable("#datatable", {
+        info: false,
+
+        responsive: true,
+        language: {
+          url: "//cdn.datatables.net/plug-ins/2.0.3/i18n/es-CO.json",
+        },
+
+        columns: [
+          { title: "ID" },
+          { title: "Paciente" },
+          { title: "Dactor" },
+          { title: "Fecha." },
+          { title: "Hora" },
+          { title: "Estado" },
+        ],
+        data: arregloPrincipal,
+      });
+
+      // -------------------------------------------------------------------------------------------------
+
+      //aca hago el evento que se va depurar al hacerle click en una columna del datatable
+      // Escuchar el evento 'click' en una celda de la tabla
+      $("#datatable tbody").on("click", "td", function () {
+        // Obtener los datos de la fila correspondiente a la celda clicada
+        let rowData = table.row($(this).closest("tr")).data();
+
+        // Hacer algo con los datos, por ejemplo llamar la funcion que le mando el id para poder selecionar el paciente
+        // y tambien para llenar la tabla del formulario
+
+        //antes de llamar la funcion voy a reescribir las tablas por si depronto ya tienen datos entonces que no alla error
+        func_reescribirTablas();
+        func_selecionarCliente(rowData[0], rowData[3], rowData[5]);
+      });
+    })
+    .catch((error) => {
+      console.error("Error en la solicitud fetch:", error);
     });
+};
 
-    console.log(arregloPrincipal);
+// -----------------------------
 
-    let table = new DataTable("#datatable", {
-      info: false,
-
-      responsive: true,
-      language: {
-        url: "//cdn.datatables.net/plug-ins/2.0.3/i18n/es-CO.json",
-      },
-
-      columns: [
-        { title: "ID" },
-        { title: "Paciente" },
-        { title: "Dactor" },
-        { title: "Fecha." },
-        { title: "Hora" },
-        { title: "Estado" },
-      ],
-      data: arregloPrincipal,
-    });
-
-    //aca hago el evento que se va depurar al hacerle click en una columna del datatable
-    // Escuchar el evento 'click' en una celda de la tabla
-    $("#datatable tbody").on("click", "td", function () {
-      // Obtener los datos de la fila correspondiente a la celda clicada
-      let rowData = table.row($(this).closest("tr")).data();
-
-      // Hacer algo con los datos, por ejemplo llamar la funcion que le mando el id para poder selecionar el paciente
-      // y tambien para llenar la tabla del formulario
-
-      //antes de llamar la funcion voy a reescribir las tablas por si depronto ya tienen datos entonces que no alla error
-      func_reescribirTablas();
-      func_selecionarCliente(rowData[0], rowData[3], rowData[5]);
-    });
-  })
-  .catch((error) => {
-    console.error("Error en la solicitud fetch:", error);
-  });
-
+// llamo la funcion para que se ejecute apenas se inicie
+func_llenarTablaConsultasCitas(parseInt(cedulaMedico1), "Pendiente");
+// ---------------------------------------
 //voy hacer la funcion donde va consumir la API de selecionar el cliente y selecionar el formulario
 let datosPaciente = document.getElementById("datosPaciente");
 const func_selecionarCliente = (id, fecha, estado) => {
@@ -137,7 +149,7 @@ const func_selecionarCliente = (id, fecha, estado) => {
       disabled
       type="text"
       class="form-control"
-      id="floatingInput"
+      id="cedulaPaciente"
     />
     <label for="floatingInput">Cedula</label>
   </div>
@@ -187,7 +199,7 @@ const func_selecionarCliente = (id, fecha, estado) => {
 
   <div class="dato1"> 
   <button  onclick="func_reescribirTablas2()" type="button" class="btn btn-warning">Quitar</button>
-  <button   type="button"
+  <button id="btnIniciarFormulario"  type="button"
   
   data-bs-toggle="modal"
   data-bs-target="#exampleModal"
@@ -415,6 +427,14 @@ aria-hidden="true"
 
         datosPaciente.innerHTML = descrip;
       });
+
+      // aca hago si estado es confirmado desactivo el boton
+      if (estado == "Confirmado") {
+        let btnIniciarFormulario = document.getElementById(
+          "btnIniciarFormulario"
+        );
+        btnIniciarFormulario.disabled = true;
+      }
     });
   //---------------------------------------------------------------------------
 
@@ -539,7 +559,38 @@ const func_llenarTablasDetalleYhistorial = (idFormula) => {
           language: {
             url: "//cdn.datatables.net/plug-ins/2.0.3/i18n/es-CO.json",
           },
-
+          layout: {
+            topStart: {
+              buttons: {
+                buttons: [
+                  {
+                    extend: "copy",
+                    text: '<i class="bi bi-copy"></i>',
+                    titleAttr: "Copiar",
+                    className: "btn btn-secondary",
+                  },
+                  {
+                    extend: "excel",
+                    text: '<i class="bi bi-file-earmark-excel"></i>',
+                    titleAttr: "Importar a excel",
+                    className: "btn btn-success",
+                  },
+                  {
+                    extend: "pdf",
+                    text: '<i class="bi bi-filetype-pdf"></i>',
+                    titleAttr: "Importar a pdf",
+                    className: "btn btn-danger",
+                  },
+                  {
+                    extend: "print",
+                    text: '<i class="bi bi-printer-fill"></i>',
+                    titleAttr: "Imprimir",
+                    className: "btn btn-info",
+                  },
+                ],
+              },
+            },
+          },
           columns: [
             { title: "ID" },
             { title: "Sintomas" },
@@ -598,13 +649,44 @@ const func_llenarTablasDetalleYhistorial = (idFormula) => {
 
         let table = new DataTable("#tableDetalleFormula", {
           info: false,
-
           paging: false,
           responsive: true,
           language: {
             url: "//cdn.datatables.net/plug-ins/2.0.3/i18n/es-CO.json",
           },
 
+          layout: {
+            topStart: {
+              buttons: {
+                buttons: [
+                  {
+                    extend: "copy",
+                    text: '<i class="bi bi-copy"></i>',
+                    titleAttr: "Copiar",
+                    className: "btn btn-secondary",
+                  },
+                  {
+                    extend: "excel",
+                    text: '<i class="bi bi-file-earmark-excel"></i>',
+                    titleAttr: "Importar a excel",
+                    className: "btn btn-success",
+                  },
+                  {
+                    extend: "pdf",
+                    text: '<i class="bi bi-filetype-pdf"></i>',
+                    titleAttr: "Importar a pdf",
+                    className: "btn btn-danger",
+                  },
+                  {
+                    extend: "print",
+                    text: '<i class="bi bi-printer-fill"></i>',
+                    titleAttr: "Imprimir",
+                    className: "btn btn-info",
+                  },
+                ],
+              },
+            },
+          },
           columns: [
             { title: "ID" },
             { title: "Medicamente" },
@@ -674,6 +756,24 @@ style="width: 100%"
   <tfoot></tfoot>
 </table>`;
 };
+// ----------------------
+// aca voy hacer la funcion donde se va reescribir la tabla de las Citas que se llama "datatable"
+
+const func_RescribirTablaCitas = () => {
+  let contendorTablaCitas = document.getElementById("contendorTablaCitas");
+
+  contendorTablaCitas.innerHTML = `<table
+  id="datatable"
+  class="table table-striped table-hover"
+  style="width: 100%"
+>
+  <thead></thead>
+  <tbody></tbody>
+  <tfoot></tfoot>
+</table>`;
+};
+
+// ------------------------------
 // la misma funcion pero para lo otro
 const func_reescribirTablas2 = () => {
   let datosPaciente = document.getElementById("datosPaciente");
@@ -778,12 +878,12 @@ const func_guardarMedicamentosEnLaTabla = async () => {
             icon: "warning",
           });
         } else {
-          let descripMedi = `<tr>  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${formulaConsumir} </td> <td>${jsonMedicamentos.cantidad} </td> <td><label  onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></label></td></tr>`;
+          let descripMedi = `<tr id="filaMedicamento">  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${formulaConsumir} </td> <td>${jsonMedicamentos.cantidad} </td> <td><label  onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></label></td></tr>`;
 
           tablaMedicamentoResetados.innerHTML += descripMedi;
         }
       } else {
-        let descripMedi = `<tr>  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${formulaConsumir} </td> <td>${jsonMedicamentos.cantidad} </td>  <td><label  onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></label></td></tr>`;
+        let descripMedi = `<tr id="filaMedicamento">  <td id="idDelMedicamento" >${jsonMedicamentos.id} </td> <td>${jsonMedicamentos.nombre} </td> <td>${formulaConsumir} </td> <td>${jsonMedicamentos.cantidad} </td>  <td><label  onclick="eliminarFila(this)"><i class="fa-solid fa-trash"></i></label></td></tr>`;
 
         tablaMedicamentoResetados.innerHTML += descripMedi;
       }
@@ -843,19 +943,147 @@ const func_guardarSintomasEnlaTabla = () => {
 // aca voy hacer la funcion para guardar los datos a la base de datos
 
 const func_insertarFormularioAlaBaseDatos = () => {
+  /*  var modalAgendarCita = new bootstrap.Modal(
+    document.getElementById("modalAgendarCita")
+  );
+
+  var exampleModal = new bootstrap.Modal(
+    document.getElementById("exampleModal")
+  ); */
+
   let tablaFilaSintomas = document.querySelectorAll("#tablaFilaSintomas");
+  let tablaMedicamentoResetados = document.querySelectorAll("#filaMedicamento");
+
+  let detalle = [];
+  let historial = [];
 
   // aca voy a verificar si tienen datos las tablas
 
-  if (tablaFilaSintomas.length > 0) {
+  if (tablaFilaSintomas.length > 0 && tablaMedicamentoResetados.length > 0) {
+    // aca voy a recorrer los tr de la tabla
     tablaFilaSintomas.forEach((fila) => {
       console.log(fila);
+      let descripDetalle = [];
       fila.childNodes.forEach(function (nodo) {
+        // y aca voy a recorrer los TD de cada fila del TR
         if (nodo.nodeType === Node.ELEMENT_NODE && nodo.tagName === "TD") {
-          console.log(nodo.textContent); // Accede al contenido de cada celda
+          // console.log(nodo.textContent); // Accede al contenido de cada celda
+          descripDetalle.push(nodo.textContent);
         }
       });
+      historial.push({
+        sintoma: descripDetalle[0],
+        descripcion: descripDetalle[1],
+      });
     });
+
+    // ----------------------------------------------------
+    // aca voy a recorrer los TR de la tabla de Medicamentos resetados
+
+    tablaMedicamentoResetados.forEach((filaTr) => {
+      let arregloMedicamento = [];
+
+      filaTr.childNodes.forEach((nodeTD) => {
+        if (nodeTD.nodeType === Node.ELEMENT_NODE && nodeTD.tagName === "TD") {
+          arregloMedicamento.push(nodeTD.textContent);
+        }
+      });
+
+      console.log(arregloMedicamento);
+      detalle.push({
+        cantidadDetalle: arregloMedicamento[3],
+        posologiaDetalle: arregloMedicamento[2],
+        item_id: arregloMedicamento[0],
+      });
+    });
+    // ----------------------------------
+    // aca voy a pasar todo a una variable tipo objeto
+
+    let todoLosDatosMandar = {
+      detalle: detalle,
+      historial: historial,
+    }; // todos los datos de la tabla estan aca
+    console.log(todoLosDatosMandar);
+
+    // aca voy hacer para Consumir el API de Insertar los datos
+
+    // aca voy a llenar las variables del ID de la cita y la cedula del medico para poder mandarlo al API
+    let idCita = document.getElementById("idCedulaPaciente").value; // aca voy a obtener el ID de la Cita
+    let cedulaPaciente = document.getElementById("cedulaPaciente").value; // aca voy a obtener la Cedula del Paciente
+    let datosLocalStore = window.localStorage;
+    let datosMedico = JSON.parse(datosLocalStore.getItem(1));
+    datosMedico = datosMedico.id;
+
+    console.log(
+      "cedula :" +
+        datosMedico +
+        " cita: " +
+        idCita +
+        " cedula Paciente: " +
+        cedulaPaciente
+    );
+    // ---------------------------------------------------------------------------------
+    console.log(JSON.stringify(todoLosDatosMandar));
+    console.log(
+      `http://localHost:3000/consultorio/insertarDatosFormulario/?cedulaPaciente=${cedulaPaciente}&cedulaMedico=${datosMedico}&idCita=${idCita}`
+    );
+    fetch(
+      `http://localHost:3000/consultorio/insertarDatosFormulario/?cedulaPaciente=${cedulaPaciente}&cedulaMedico=${datosMedico}&idCita=${idCita}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(todoLosDatosMandar),
+      }
+    )
+      .then((date) => {
+        return date.json();
+      })
+      .then((date) => {
+        console.log(date);
+
+        if (date.status == true) {
+          // aca voy a poner un Swalert donde va poder escoger si le Agenda una Cita nueva o no
+
+          // Cerrar el primer modal
+          console.log("Cerrando el primer modal...");
+
+          Swal.fire({
+            title: "Datos Insertados con Exito",
+            text: "La Cita ya fue Evaluada deseas Agendar otra Cita?",
+            icon: "success",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si, Agendar Cita!",
+          }).then((result) => {
+            // si le da que si va abrir un modal nuevo donde va poder Agendar la Cita
+
+            if (result.isConfirmed) {
+              // Abrir el segundo modal
+              console.log("Abriendo el segundo modal...");
+
+              modalAgendarCita.show();
+            } else {
+              window.location.href = "indexConsultorio.html";
+            }
+          });
+
+          // -------------------------------------------------
+        } else {
+          Swal.fire({
+            title: "Hubo un error!!",
+            text: date.erro,
+            icon: "warning",
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("tiene un error al consumir la API " + error);
+      });
+
+    // ----------------------------------------------------------
   } else {
     Swal.fire({
       title: "Atencion falta!!",
@@ -866,3 +1094,107 @@ const func_insertarFormularioAlaBaseDatos = () => {
 };
 
 // --------------------------------------------------------------------------------------------
+
+// aca voy hacer el evento donde se va ejecutar al darle click en el boton guardar del modal Agendar Cita
+let btnGuardarAgendarCita = document.getElementById("btnGuardarAgendarCita");
+let cedulaPacienteCita = document.getElementById("cedulaPacienteCita");
+let fechaCita = document.getElementById("fechaCita");
+let horaCita = document.getElementById("horaCita");
+
+btnGuardarAgendarCita.addEventListener("click", () => {
+  if (
+    cedulaPacienteCita.value.length > 0 &&
+    fechaCita.value.length > 0 &&
+    horaCita.value.length > 0
+  ) {
+    console.log(horaCita.value);
+    console.log(fechaCita.value);
+
+    // voy a obtener la Cedula del medico del local Store
+    let datosMedico = window.localStorage;
+    let cedulaMedi = JSON.parse(datosMedico.getItem(1));
+    cedulaMedi = cedulaMedi.id;
+
+    // aca voy a consumir la API para Agendar la cita del paciente
+
+    let datosMandar = {
+      cedulaPaciente: cedulaPacienteCita.value,
+      cedulaMedico: parseInt(cedulaMedi),
+      fechaCita: fechaCita.value,
+      horaCita: horaCita.value,
+    };
+
+    fetch("http://localHost:3000/consultorio/insertarDatosAgendarCita/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(datosMandar),
+    })
+      .then((datosApi) => {
+        return datosApi.json();
+      })
+      .then((datosApi) => {
+        if (datosApi.status == true) {
+          Swal.fire({
+            title: "Agendado Con exito",
+            text: datosApi.descripcion,
+            icon: "success",
+          }).then(() => {
+            window.location.href = "indexConsultorio.html";
+          });
+        } else {
+          if (datosApi.error == null) {
+            Swal.fire({
+              title: "Hora no Disponible",
+              text: datosApi.descripcion,
+              icon: "info",
+            });
+          } else {
+            Swal.fire({
+              title: "Hubo un error",
+              text: datosApi.error,
+              icon: "error",
+            });
+          }
+        }
+      });
+
+    // --------------------------------------------
+  } else {
+    Swal.fire({
+      title: "Faltan Casillas por llenar",
+      text: "Llena todas las Casillas para poder Agendar la Cita",
+      icon: "info",
+    });
+  }
+});
+
+// ------------------------------------------------------------------------
+// aca voy hacer el evento que se va ejecutar cuando le de click al boton de "Citas pendientes"
+// entonces que consulte la y aparesca en la tabla si quiere citas pendientes o las confirmadas
+
+let consultasCitas = document.getElementById("consultasCitas");
+
+consultasCitas.addEventListener("click", () => {
+  console.log(consultasCitas.innerText);
+  if (consultasCitas.innerText == "Citas Pendientes") {
+    consultasCitas.innerText = "Citas Confirmadas";
+    consultasCitas.className = "btn btn-outline-info";
+    func_RescribirTablaCitas();
+    func_llenarTablaConsultasCitas(cedulaMedico1, "Pendiente");
+    console.log("entro pende");
+  } else if (consultasCitas.innerText == "Citas Confirmadas") {
+    consultasCitas.innerText = "Citas Pendientes";
+    consultasCitas.className = "btn btn-outline-primary";
+    func_RescribirTablaCitas();
+    func_llenarTablaConsultasCitas(cedulaMedico1, "Confirmado");
+    console.log("entro confir");
+  }
+});
+
+// --------------------------------------------------------------------
+var modalAgendarCita = new bootstrap.Modal(
+  document.getElementById("modalAgendarCita")
+);
+// modalAgendarCita.show();
