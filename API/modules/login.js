@@ -72,6 +72,26 @@ login.get("/login/selecionarPaciente/:email/:password", (req, res) => {
     }
   });
 });
+login.get("/login/selecionarAdmin/:email/:password", (req, res) => {
+  let consulta = "SELECT * FROM admins WHERE correoAdmin = ? AND password = ?";
+  let email = req.params.email;
+  let password = req.params.password;
 
+  mysql.query(consulta, [email, password], (error, data) => {
+    if (!error) {
+      if (data.length > 0) {
+        res.status(200).send(data);
+      } else {
+        res.status(200).send({
+          status: false,
+          message: "admin no existe no registrado",
+          codigo: 200,
+        });
+      }
+    } else {
+      res.status(500).send(error);
+    }
+  });
+});
 
 module.exports = login;
