@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", function() {
         Promise.all([
             fetch(`http://localhost:3000/login/selecionarUsuarioMedico/${email}/${password}`),
             fetch(`http://localhost:3000/login/selecionarPaciente/${email}/${password}`),
-            fetch(`http://localhost:3000/login/selecionarUsuario/${email}/${password}`)
+            fetch(`http://localhost:3000/login/selecionarUsuario/${email}/${password}`),
+            fetch(`http://localhost:3000/login/selecionarAdmin/${email}/${password}`)
         ])
         .then((responses) => {
             return Promise.all(responses.map((response) => {
@@ -56,13 +57,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
                         };
                         window.location.href = "pacientes.html"; // Cambiar la redirección según el tipo de usuario
-                    } else {
+                    } else if(usuarios[0].cedulaUser !==undefined) {
                         datos = {
                             id: usuarios[0].cedulaUser,
                             nombre: usuarios[0].userName,
                             apellido: usuarios[0].password,
                         };
                       console.log("Aca van los usuarios")
+                    }else{
+                        datos = {
+                            id: usuarios[0].identificacionAdmin,
+                            nombre: usuarios[0].nombreAdmin,
+                            apellido: usuarios[0].ApellidoAdmin,
+                        };
+                        window.location.href = "./admin/formularioAdmin.html";
                     }
 
                     datosLocal.setItem(1, JSON.stringify(datos));
@@ -72,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             if (!usuarioEncontrado) {
                 Swal.fire({
-                    title: "Usuario no existe",
+                    title: "Persona no existe en la base de datos del sistema medico",
                     text: "Contraseña o correo incorrecto",
                     icon: "warning",
                 });

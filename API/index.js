@@ -16,6 +16,8 @@ app.use("/", require("./modules/consultorio"));
 app.use("/", require("./modules/Pacientes"));
 app.use("/", require("./modules/medicos"));
 app.use("/", require("./modules/historialClinico"));
+app.use("/", require("./modules/admin"));
+app.use("/", require("./modules/medicamentos"));
 app.listen(puerto, () => {
   console.log(`APi iniciada en el puerto ${puerto}`);
 });

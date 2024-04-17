@@ -109,6 +109,26 @@ citas.get("/paciente/traerDatosPaciente/:identificacion", (req, res) => {
   });
 });
 
+
+ //Verificar que el paciente exista 
+ citas.get("/paciente/verificarPaciente/:identificacion", (req, res) => {
+  let identificacion = req.params.identificacion; //parametro
+  mysql.query("SELECT*FROM paciente WHERE cedulaPaciente = ?", [identificacion], (error, data) => {
+    try {
+      if(data==0){
+        res.status(400).send("No hay datos en la base de datos!!");
+      }else{
+        
+        res.status(200).send(data);
+      }
+     
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
+
  //Editar datos personales del paciente
 citas.put("/paciente/editarPaciente/:cedulaPaciente", (req, res) => {
   let cedulaPaciente = req.params.cedulaPaciente; //parametro
@@ -157,4 +177,70 @@ let cedulaMedico=req.params.medico_cedulaMedico;
     }
   });
 }); 
+ //Mostrar graficamente los datos de los pacientes atendidos por mes
+citas.get("/paciente/traerEstadisticasPaciente", (req, res) => {
+  mysql.query(`
+    SELECT 
+        YEAR(fechaCita) AS year,
+        MONTH(fechaCita) AS month,
+        COUNT(*) AS totalPacientesAtendidos
+    FROM 
+        cita
+    GROUP BY 
+        YEAR(fechaCita), 
+        MONTH(fechaCita)
+    ORDER BY 
+        YEAR(fechaCita), 
+        MONTH(fechaCita);
+  `, (error, data) => {
+    try {
+      if(data.length === 0) {
+        res.status(400).send("No hay datos en la base de datos!!");
+      } else {
+        res.status(200).send(data);
+      // Transformar datos para Chart.js
+      const labels = data.map(item => `${item.year}-${item.month}`); // Formato: "AAAA-MM"
+      const datos = data.map(item => item.totalPacientesAtendidos);
+    }
+  } catch (error) {
+    console.log(error);
+    throw `Hay un error en la consulta: ${error}`;
+  }
+});
+});
+
+ //Mostrar graficamente los datos de las citas facturadas  por mes
+ citas.get("/paciente/traerEstadisticascitasFacturadas", (req, res) => {
+  mysql.query(`
+  SELECT 
+  YEAR(fechaCita) AS year,
+  MONTH(fechaCita) AS month,
+  COUNT(*) AS totalCitas
+
+FROM 
+  cita
+GROUP BY 
+  YEAR(fechaCita), 
+  MONTH(fechaCita)
+ORDER BY 
+  YEAR(fechaCita), 
+  MONTH(fechaCita);
+
+  `, (error, data) => {
+    try {
+      if(data.length === 0) {
+        res.status(400).send("No hay datos en la base de datos!!");
+      } else {
+        res.status(200).send(data);
+      // Transformar datos para Chart.js
+      const labels = data.map(item => `${item.year}-${item.month}`); // Formato: "AAAA-MM"
+      const datos = data.map(item => item.totalCitas);
+    }
+  } catch (error) {
+    console.log(error);
+    throw `Hay un error en la consulta: ${error}`;
+  }
+});
+});
+
   module.exports = citas;
