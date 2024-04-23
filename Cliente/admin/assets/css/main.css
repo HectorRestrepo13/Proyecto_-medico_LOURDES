@@ -13,7 +13,7 @@ pre, a, abbr, acronym, address, big, cite,
 code, del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var, b,
 u, i, center, dl, dt, dd, ol, ul, li, fieldset,
-form, label, legend, table, caption, tbody,
+form, label, legend, caption, tbody,
 tfoot, thead, tr, th, td, article, aside,
 canvas, details, embed, figure, figcaption,
 footer, header, hgroup, menu, nav, output, ruby,
@@ -2133,7 +2133,7 @@ input, select, textarea {
 		}
 
 		.icon.alt:before {
-			background-color: #ffffff;
+		
 			border-radius: 100%;
 			color: #242943;
 			display: inline-block;
@@ -2457,7 +2457,7 @@ input, select, textarea {
 		}
 
 		table th {
-			color: #ffffff;
+		
 			font-size: 0.9em;
 			font-weight: 600;
 			padding: 0 0.75em 0.75em 0.75em;
@@ -2517,7 +2517,7 @@ input, select, textarea {
 		border: 0;
 		border-radius: 0;
 		box-shadow: inset 0 0 0 2px #ffffff;
-		color: #ffffff;
+	
 		cursor: pointer;
 		display: inline-block;
 		font-size: 0.8em;
@@ -3013,7 +3013,7 @@ input, select, textarea {
 		@media screen and (max-width: 1680px) {
 
 			.spotlights > section > .image {
-				width: 40%;
+				width: 5%;
 			}
 
 			.spotlights > section > .content {
@@ -3025,7 +3025,7 @@ input, select, textarea {
 		@media screen and (max-width: 1280px) {
 
 			.spotlights > section > .image {
-				width: 45%;
+				width: 20%;
 			}
 
 			.spotlights > section > .content {
@@ -3617,7 +3617,7 @@ input, select, textarea {
 				}
 
 		#main.alt {
-			background-color: transparent;
+		
 			border-bottom: solid 1px rgba(212, 212, 255, 0.1);
 		}
 
@@ -3874,10 +3874,7 @@ input, select, textarea {
 					}
 
 		#menu .close {
-			-moz-transition: color 0.2s ease-in-out;
-			-webkit-transition: color 0.2s ease-in-out;
-			-ms-transition: color 0.2s ease-in-out;
-			transition: color 0.2s ease-in-out;
+			
 			-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 			border: 0;
 			cursor: pointer;

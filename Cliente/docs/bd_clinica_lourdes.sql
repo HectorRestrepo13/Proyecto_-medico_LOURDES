@@ -34,7 +34,7 @@ CREATE TABLE `cita` (
   `estadoCita` varchar(85) NOT NULL DEFAULT 'Pendiente',
   `paciente_cedulaPaciente` bigint NOT NULL,
   `medico_cedulaMedico` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 --
 -- Volcado de datos para la tabla `cita`
@@ -56,7 +56,7 @@ CREATE TABLE `detalleformula` (
   `posologiaDetalle` varchar(200) DEFAULT NULL,
   `item_idItem` int NOT NULL,
   `formula_idFormula` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 -- --------------------------------------------------------
 
@@ -69,7 +69,7 @@ CREATE TABLE `formula` (
   `fechaFormula` date NOT NULL,
   `paciente_cedulaPaciente` bigint NOT NULL,
   `medico_cedulaMedico` bigint NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 --
 -- Volcado de datos para la tabla `formula`
@@ -89,7 +89,7 @@ CREATE TABLE `historial` (
   `sintomas` varchar(300) NOT NULL,
   `descripcion` varchar(300) DEFAULT NULL,
   `formula_idFormula` int DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 -- --------------------------------------------------------
 
@@ -101,7 +101,7 @@ CREATE TABLE `item` (
   `idItem` int NOT NULL,
   `descripcionItem` varchar(250) DEFAULT NULL,
   `existenciaItem` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 -- --------------------------------------------------------
 
@@ -117,7 +117,7 @@ CREATE TABLE `medico` (
   `especialidadMedico` varchar(150) NOT NULL,
   `usuarioMedico` varchar(200) NOT NULL,
   `password` varchar(85) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 --
 -- Volcado de datos para la tabla `medico`
@@ -143,7 +143,7 @@ CREATE TABLE `paciente` (
   `epsPaciente` varchar(250) NOT NULL,
   `usuarioPaciente` varchar(200) NOT NULL,
   `passwordPaciente` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 --
 -- Volcado de datos para la tabla `paciente`
@@ -161,7 +161,7 @@ INSERT INTO `paciente` (`cedulaPaciente`, `nombrePaciente`, `apellidoPaciente`, 
 CREATE TABLE `rol` (
   `idRol` int NOT NULL,
   `nombreRol` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 -- --------------------------------------------------------
 
@@ -175,7 +175,7 @@ CREATE TABLE `users` (
   `userName` varchar(200) NOT NULL,
   `password` varchar(250) NOT NULL,
   `rol_idRol` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) 
 
 --
 -- Índices para tablas volcadas

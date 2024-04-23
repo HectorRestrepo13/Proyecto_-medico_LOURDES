@@ -2,6 +2,8 @@
   "dependencies": {
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "bootstrap": "^5.3.3",
+    "jspdf": "^2.5.1",
+    "pdfkit": "^0.15.0",
     "sweetalert2": "^11.10.6"
   }
 }
