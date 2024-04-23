@@ -20,9 +20,7 @@ fetch(`http://localhost:3000/medico/traerDatos/`)
         
          
           <td>${Citas.usuarioMedico !== undefined ? Citas.usuarioMedico : ""}</td>
-          <td>${Citas.password
-             !== undefined ? Citas.password
-             : ""}</td>
+        
           </tr>
       `;
       miTabla.innerHTML += fila;
@@ -35,8 +33,8 @@ fetch(`http://localhost:3000/medico/traerDatos/`)
       lengthMenu: [5, 10, 15, 50, 100, 250, 500],
    
       columnDefs: [
-        { orderable: false, targets: [5, 6] },
-        { searchable: false, targets: [5, 6] },
+        { orderable: false, targets: [4, 5] },
+        { searchable: false, targets: [4, 5] },
       ],
       pageLength: 5,
       destroy: true,
@@ -90,7 +88,7 @@ btnEnviar.addEventListener('click', async (e) => {
     const email = document.getElementById("emailDoctor").value;
     const especialidad = document.getElementById("especialidadDoctor").value;
     const usuarioNombre = document.getElementById("usuarioDoctor").value;
-    const pass = document.getElementById("passwordDoctor").value;
+
 
     // Verificar que todos los campos obligatorios estén llenos
     if (!cedula || !nombre || !apellido || !email || !especialidad || !usuarioNombre) {
@@ -132,7 +130,7 @@ btnEnviar.addEventListener('click', async (e) => {
             especialidadDoctor: especialidad,
 
             usuarioDoctor: usuarioNombre,
-            passwordDoctor: pass
+
         };
 
         const response = await fetch("http://localhost:3000/doctor/create", {

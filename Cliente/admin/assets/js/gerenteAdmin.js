@@ -4,7 +4,7 @@ function validarCorreo(correo) {
 }
 // Obtener el id del usuario del localStorage
 const datos = JSON.parse(window.localStorage.getItem(1));
-fetch(`http://localhost:3000/Funcionario/traerFuncionario`)
+fetch(`http://localhost:3000/Funcionario/traerFuncionarioAdminGerente`)
   .then((res) => res.json())
   .then((Programadas) => {
     const miTabla = document.getElementById("datatable");
@@ -144,7 +144,7 @@ if (!validarCorreo(email)) {
             text: "Se agregó correctamente.",
             icon: "success",
         }).then(() => {
-            window.location.assign("http://127.0.0.1:5501/Cliente/admin/tablaUsers.html");
+            window.location.assign("http://127.0.0.1:5501/Cliente/admin/tablaAdministrador.html");
         });
     } catch (error) {
         console.error('Error al agregar el Usuario:', error);
@@ -160,13 +160,15 @@ if (!validarCorreo(email)) {
 const tabla = document.getElementById("miTabla");
 
 tabla.addEventListener("click", (event) => {
-    const fila = event.target.closest("tr"); // Obtener la fila clicada
-    // Evitar que el formulario se envíe
+    const fila = event.target.closest("tr"); // Obtener la fila de la tabla
+
     event.preventDefault();
     function generarOpcionesRol(rolActual) {
         const opciones = [
           { valor: 4, texto: 'Bodeguero' },
           { valor: 2, texto: 'Secretaria' },
+          { valor: 1, texto: 'Administrador' },
+          { valor: 0, texto: 'Gerente' },
         ];
       
         return opciones.map(opcion => `
@@ -270,7 +272,7 @@ const rolSelect = document.getElementById("RolUserEditar").value;
                                 text: "La edición se ha completado correctamente.",
                                 icon: "success",
                             }).then(() => {
-                                window.location.assign("http://127.0.0.1:5501/Cliente/admin/tablaUsers.html");
+                                window.location.assign("http://127.0.0.1:5501/Cliente/admin/tablaAdministrador.html");
                             });
                         })
                         .catch((error) => {

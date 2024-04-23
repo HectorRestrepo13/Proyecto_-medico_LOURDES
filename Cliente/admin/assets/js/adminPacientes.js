@@ -20,7 +20,7 @@ fetch(`http://localhost:3000/pacientes/traerPacientes`)
           <td>${Citas.fechaNacimientoPqciente !== undefined ? Citas.fechaNacimientoPqciente : ""}</td>
           <td>${Citas.epsPaciente !== undefined ? Citas.epsPaciente : ""}</td>
           <td>${Citas.usuarioPaciente !== undefined ? Citas.usuarioPaciente : ""}</td>
-          <td>${Citas.passwordPaciente !== undefined ? Citas.passwordPaciente : ""}</td>
+         
           </tr>
       `;
       miTabla.innerHTML += fila;
@@ -33,8 +33,8 @@ fetch(`http://localhost:3000/pacientes/traerPacientes`)
       lengthMenu: [5, 10, 15, 50, 100, 250, 500],
    
       columnDefs: [
-        { orderable: false, targets: [8, 9] },
-        { searchable: false, targets: [8, 9] },
+        { orderable: false, targets: [7, 8] },
+        { searchable: false, targets: [7, 8] },
       ],
       pageLength: 5,
       destroy: true,
@@ -91,7 +91,7 @@ btnEnviar.addEventListener('click', async (e) => {
     const fechaNa = document.getElementById("fechaNacimientoPaciente").value;
     const epsAfiliada = document.getElementById("epsPaciente").value;
     const usuarioNombre = document.getElementById("usuarioPaciente").value;
-    const pass = document.getElementById("passwordPaciente").value;
+
 
     // Verificar que todos los campos obligatorios estén llenos
     if (!cedula || !nombre || !apellido || !email || !telefono || !movil || !fechaNa || !epsAfiliada || !usuarioNombre) {
@@ -135,7 +135,7 @@ if (!validarCorreo(email)) {
             fechaNacimientoPqciente: fechaNa,
             epsPaciente: epsAfiliada,
             usuarioPaciente: usuarioNombre,
-            passwordPaciente: pass
+           
         };
 
         const response = await fetch("http://localhost:3000/paciente/create", {

@@ -43,7 +43,7 @@
 								<img src="images/pic07.jpg" alt="" />
 							</span>
 							<div class="major">
-								<h1>CRUD del Doctor</h1>
+								<h1>CRUD del administrador</h1>
                             </div>
                             <hr>
 							<div class="content">
@@ -62,7 +62,7 @@
 									<header class="major">
 										<h2>Cómo se toman los datos</h2>
 									</header>
-									<p>Se realiza una actualizacion o revision de los doctores en el Centro Medico Lourdes.</p>
+									<p>Se realiza un analisis de CURD de los administradores  en el Centro Medico Lourdes.</p>
 								</div>
 							</section>
 
@@ -76,13 +76,13 @@
                                                 <thead>
                                                     <tr>
                                                         <th scope="col" class="titulo">Cedula</th>
-                                                        <th scope="col"class="titulo">Nombre</th>
-                                                        <th scope="col"class="titulo">Apellido</th>
-                                                        <th scope="col"class="titulo">Email</th>
-                                                        <th scope="col"class="titulo">Especialidad</th>
-                                                     
-                                                        <th scope="col"class="titulo">Usuario</th>
                                                       
+                                                      
+                                                        <th scope="col"class="titulo">Email</th>
+														<th scope="col"class="titulo">Usuario</th>
+                                                    
+                                                 
+                                                        <th scope="col"class="titulo">Rol</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="datatable">
@@ -107,7 +107,7 @@
                                                 <div class="modal-box">
                                                     <!-- Button trigger modal -->
                                                     <button type="button" id="btnGuardar" class="btn btn-primary btn-lg btnEnviar" data-bs-toggle="modal" data-bs-target="#myModal">
-                                                       Ingresar nuevo Doctor
+                                                       Ingresar nuevo administrador
                                                     </button>
                                                     <div class="modal fade modal-fullscreen-sm-down" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                                                     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -116,37 +116,35 @@
                                                                 <div class="modal-body">
                                                                     <form>
                                                                         <div class="modal-icon"><i class="fas fa-user"></i></div>
-                                                                        <h3 class="title">Nuevo Doctor</h3>
+                                                                        <h3 class="title">Nuevo Administrador</h3>
                                                                         <div class="form-group">
                                                                             <label for="cedulaPaciente">Cédula:</label>
-                                                                            <input type="text" class="form-control" id="cedulaDoctor" placeholder="Ingrese la cédula">
+                                                                            <input type="text" class="form-control" id="cedulaUsers" placeholder="Ingrese la cédula">
                                                                         </div>
+                                                                       
+
                                                                         <div class="form-group">
-                                                                            <label for="nombreDoctor">Nombre:</label>
-                                                                            <input type="text" class="form-control" id="nombreDoctor" placeholder="Ingrese el nombre">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="apellidoDoctor">Apellido:</label>
-                                                                            <input type="text" class="form-control" id="apellidoDoctor" placeholder="Ingrese el apellido">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="emailDoctor">Email:</label>
-                                                                            <input type="email" class="form-control" id="emailDoctor" placeholder="Ingrese el email">
+                                                                            <label for="emailUsers">Email:</label>
+                                                                            <input type="email" class="form-control" id="emailUsers" placeholder="Ingrese el email">
                                                                         </div>
                                                                        
                                                                        
+                                                                       
+                                                                        
                                                                         <div class="form-group">
-                                                                            <label for="fechaNacimientoDoctor">Especialidad:</label>
-                                                                            <input type="text" class="form-control" id="especialidadDoctor">
+                                                                            <label for="usuarioUsers">Usuario:</label>
+                                                                            <input type="text" class="form-control" id="usuarioUsers" placeholder="Ingrese el usuario">
                                                                         </div>
                                                                        
                                                                         <div class="form-group">
-                                                                            <label for="usuarioDoctor">Usuario:</label>
-                                                                            <input type="text" class="form-control" id="usuarioDoctor" placeholder="Ingrese el usuario">
-                                                                        </div>
-                                                                        <div class="form-group">
-                                                                            <label for="passwordDoctor">Contraseña:</label>
-                                                                            <input type="password" class="form-control" id="passwordDoctor" placeholder="Ingrese la contraseña">
+                                                                            <label for="telefonoUsers">Rol:</label>
+                                                                            <select id="RolUser" name="RolUser">
+																				<option value="4">Bodeguero</option>
+																				<option value="2">Secretaria</option>
+                                                                                <option value="1">Adiministrador</option>
+                                                                                <option value="0">Gerente</option>
+																				<!-- Agrega más opciones según los roles en tu base de datos -->
+																			  </select>
                                                                         </div>
                                                                         <button type="submit" class="btn btn-primary btn-block" id="btnEnviar">Guardar</button>
                                                                     </form>
@@ -184,7 +182,7 @@
 							<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
 							<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
 						</ul>
-					
+						
 					</div>
 				</footer>
 
@@ -197,6 +195,6 @@
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 			<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
             <script src="https://cdn.datatables.net/v/dt/dt-2.0.5/datatables.min.js"></script>
-            <script src="./assets/js/adminDoctor.js"></script>
+            <script src="./assets/js/gerenteAdmin.js"></script>
 	</body>
 </html>

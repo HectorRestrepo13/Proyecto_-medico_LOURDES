@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
             fetch(`http://localhost:3000/login/selecionarUsuarioMedico/${email}/${password}`),
             fetch(`http://localhost:3000/login/selecionarPaciente/${email}/${password}`),
             fetch(`http://localhost:3000/login/selecionarUsuario/${email}/${password}`),
-            fetch(`http://localhost:3000/login/selecionarAdmin/${email}/${password}`)
+          
         ])
         .then((responses) => {
             return Promise.all(responses.map((response) => {
@@ -58,21 +58,31 @@ document.addEventListener("DOMContentLoaded", function() {
                         };
                         window.location.href = "pacientes.html"; // Cambiar la redirección según el tipo de usuario
                     } else if(usuarios[0].cedulaUser !==undefined) {
-                        datos = {
-                            id: usuarios[0].cedulaUser,
-                            nombre: usuarios[0].userName,
-                            apellido: usuarios[0].password,
-                        };
+                        if(usuarios[0].rol_idRol==1){
+                            datos = {
+                                id: usuarios[0].cedulaUser,
+                                nombre: usuarios[0].userName,
+                                apellido: usuarios[0].password,
+                            };
+                            window.location.href = "./admin/administradorForm.html";
+                        }else if(usuarios[0].rol_idRol==0){
+                            datos = {
+                                id: usuarios[0].cedulaUser,
+                                nombre: usuarios[0].userName,
+                                apellido: usuarios[0].password,
+                            };
+                            window.location.href = "./admin/formularioGerente.html";
+                        }else if(usuarios[0].rol_idRol==4){
+                            datos = {
+                                id: usuarios[0].cedulaUser,
+                                nombre: usuarios[0].userName,
+                                apellido: usuarios[0].password,
+                            };
+                          console.log('Aca va la ruta del bodeguero')
+                        }
+                       
                       console.log("Aca van los usuarios")
-                    }else{
-                        datos = {
-                            id: usuarios[0].identificacionAdmin,
-                            nombre: usuarios[0].nombreAdmin,
-                            apellido: usuarios[0].ApellidoAdmin,
-                        };
-                        window.location.href = "./admin/formularioAdmin.html";
                     }
-
                     datosLocal.setItem(1, JSON.stringify(datos));
                    
                 }

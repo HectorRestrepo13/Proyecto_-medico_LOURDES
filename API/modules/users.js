@@ -27,6 +27,28 @@ users.get("/Funcionario/traerFuncionario", (req, res) => {
   });
   
 
+// Traer todos los pacientes siempre por id
+users.get("/Funcionario/traerFuncionarioAdminGerente", (req, res) => {
+  let consulta = `SELECT users.cedulaUser, users.emailUser, users.userName,rol.nombreRol
+  FROM users
+  INNER JOIN rol ON users.rol_idRol = rol.idRol
+  WHERE rol_idRol IN (1, 0);`;
+                 
+  mysql.query(consulta, (error, data) => {
+
+    try {
+      if (error) {
+        console.error("Error al ejecutar la consulta:", error);
+        throw error;
+      }
+      res.status(200).send(data);
+    } catch (error) {
+      console.log(error);
+      throw `Hubo un error en la consulta: ${error}`;
+    }
+  });
+});
+
 users.get("/user/verificarUsers/:cedulaUser", (req, res) => {
     let cedula= req.params.cedulaUser;
     mysql.query("SELECT*FROM users WHERE cedulaUser= ?", [cedula], (error, data) => {
@@ -58,7 +80,7 @@ users.post("/usuario/create", (req, res) => {
             cedulaUser: cedulaUser,
             emailUser: emailUser,
             userName: userName,
-            password: password,
+         
             rol_idRol: rol_idRol,
         };
 
