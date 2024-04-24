@@ -113,7 +113,7 @@ ORDER BY
 // Endpoint para la creación de un nuevo doctor
 medicos.post("/doctor/create", (req, res) => {
   // Extraer los datos del cuerpo de la solicitud
-  const { cedulaDoctor, nombreDoctor, apellidoDoctor, emailDoctor, especialidadDoctor, usuarioDoctor,passwordDoctor } = req.body;
+  const { cedulaDoctor, nombreDoctor, apellidoDoctor, emailDoctor, especialidadDoctor, usuarioDoctor } = req.body;
 
 
   const formData = {
@@ -124,7 +124,7 @@ medicos.post("/doctor/create", (req, res) => {
  especialidadMedico: especialidadDoctor,
    
     usuarioMedico: usuarioDoctor,
-    password: passwordDoctor
+
   };
 
   // Realizar la inserción en la base de datos

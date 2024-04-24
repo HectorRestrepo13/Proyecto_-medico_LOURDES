@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     let datosLocal = window.localStorage;
                     let datos = {};
 
+                    
                     if (usuarios[0].cedulaMedico !== undefined) {
                         datos = {
                             id: usuarios[0].cedulaMedico,

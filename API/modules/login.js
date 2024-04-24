@@ -72,26 +72,184 @@ login.get("/login/selecionarPaciente/:email/:password", (req, res) => {
     }
   });
 });
-login.get("/login/selecionarAdmin/:email/:password", (req, res) => {
-  let consulta = "SELECT * FROM admins WHERE correoAdmin = ? AND password = ?";
-  let email = req.params.email;
-  let password = req.params.password;
 
-  mysql.query(consulta, [email, password], (error, data) => {
+
+
+// Cambiar contrasena si el usuario lo desea o se le olvida
+login.post("/login/cambiarContrasenaUsuarios/:cedula/:nuevaContrasena", (req, res) => {
+  let cedula = req.params.cedula;
+  let nuevaContrasena = req.params.nuevaContrasena;
+
+  // Función para actualizar la contraseña de un usuario en una tabla específica
+  function actualizarContrasena(tabla, columnaCedula, columnaPassword, nombreTabla) {
+      let consultaUsuario = `SELECT * FROM ${tabla} WHERE ${columnaCedula}=?`;
+      let actualizarContrasenaQuery = `UPDATE ${tabla} SET ${columnaPassword}=? WHERE ${columnaCedula}=?`;
+
+      mysql.query(consultaUsuario, [cedula], (error, resultado) => {
+          if (error) {
+              res.status(500).send({
+                  status: false,
+                  message: `Error al buscar el usuario en la tabla ${nombreTabla}`,
+                  error: error
+              });
+              return;
+          }
+
+          if (resultado.length === 0) {
+             
+              return;
+          }
+
+          mysql.query(actualizarContrasenaQuery, [nuevaContrasena, cedula], (error, resultado) => {
+              if (error) {
+                  res.status(500).send({
+                      status: false,
+                      message: "Error al actualizar la contraseña",
+                      error: error,
+                      tableName: nombreTabla
+                  });
+                  return;
+              }
+
+              res.status(200).send({
+                  status: true,
+                  message: "Contraseña actualizada correctamente",
+                  tableName: nombreTabla
+              });
+          });
+      });
+  }
+
+  // Llamamos a la función para actualizar la contraseña en cada tabla
+  actualizarContrasena('medico', 'cedulaMedico', 'password', 'medico');
+  actualizarContrasena('users', 'cedulaUser', 'password', 'users');
+  actualizarContrasena('paciente', 'cedulaPaciente', 'passwordPaciente', 'paciente');
+});
+/* login.post("/login/cambiarContrasenaMedico/:cedula/:nuevaContrasena", (req, res) => {
+  let cedula = req.params.cedula;
+  let nuevaContrasena = req.params.nuevaContrasena;
+
+  // Primero verificamos si el usuario existe con la cédula proporcionada
+  let consultaUsuario = `SELECT * FROM medico WHERE cedulaMedico=?`;
+  mysql.query(consultaUsuario, [cedula], (error, resultado) => {
     if (!error) {
-      if (data.length > 0) {
-        res.status(200).send(data);
+      if (resultado.length > 0) {
+        // Si el usuario existe, actualizamos la contraseña
+        let actualizarContrasena = `UPDATE medico SET password=? WHERE cedulaMedico=?`;
+        mysql.query(actualizarContrasena, [nuevaContrasena, cedula], (error, resultado) => {
+          if (!error) {
+            res.status(200).send({
+              status: true,
+              message: "Contraseña actualizada correctamente",
+            });
+          } else {
+            res.status(500).send({
+              status: false,
+              message: "Error al actualizar la contraseña",
+              error: error,
+            });
+          }
+        });
       } else {
-        res.status(200).send({
+        res.status(404).send({
           status: false,
-          message: "admin no existe no registrado",
-          codigo: 200,
+          message: "Usuario no encontrado con la cédula proporcionada",
         });
       }
     } else {
-      res.status(500).send(error);
+      res.status(500).send({
+        status: false,
+        message: "Error al buscar el usuario",
+        error: error,
+      });
     }
   });
 });
+
+login.post("/login/cambiarContrasenaUsers/:cedula/:nuevaContrasena", (req, res) => {
+  let cedula = req.params.cedula;
+  let nuevaContrasena = req.params.nuevaContrasena;
+
+  // Primero verificamos si el usuario existe con la cédula proporcionada
+  let consultaUsuario = `SELECT * FROM users WHERE cedulaUser=?`;
+  mysql.query(consultaUsuario, [cedula], (error, resultado) => {
+    if (!error) {
+      if (resultado.length > 0) {
+        // Si el usuario existe, actualizamos la contraseña
+        let actualizarContrasena = `UPDATE users SET password=? WHERE cedulaUser=?`;
+        mysql.query(actualizarContrasena, [nuevaContrasena, cedula], (error, resultado) => {
+          if (!error) {
+            res.status(200).send({
+              status: true,
+              message: "Contraseña actualizada correctamente",
+            });
+          } else {
+            res.status(500).send({
+              status: false,
+              message: "Error al actualizar la contraseña",
+              error: error,
+            });
+          }
+        });
+      } else {
+        res.status(404).send({
+          status: false,
+          message: "Usuario no encontrado con la cédula proporcionada",
+        });
+      }
+    } else {
+      res.status(500).send({
+        status: false,
+        message: "Error al buscar el usuario",
+        error: error,
+      });
+    }
+  });
+});
+
+
+login.post("/login/cambiarContrasenaPaciente/:cedula/:nuevaContrasena", (req, res) => {
+  let cedula = req.params.cedula;
+  let nuevaContrasena = req.params.nuevaContrasena;
+
+  // Primero verificamos si el usuario existe con la cédula proporcionada
+  let consultaUsuario = `SELECT * FROM paciente WHERE cedulaPaciente=?`;
+  mysql.query(consultaUsuario, [cedula], (error, resultado) => {
+    if (!error) {
+      if (resultado.length > 0) {
+        // Si el usuario existe, actualizamos la contraseña
+        let actualizarContrasena = `UPDATE paciente SET passwordPaciente=? WHERE cedulaPaciente=?`;
+        mysql.query(actualizarContrasena, [nuevaContrasena, cedula], (error, resultado) => {
+          if (!error) {
+            res.status(200).send({
+              status: true,
+              message: "Contraseña actualizada correctamente",
+            });
+          } else {
+            res.status(500).send({
+              status: false,
+              message: "Error al actualizar la contraseña",
+              error: error,
+            });
+          }
+        });
+      } else {
+        res.status(404).send({
+          status: false,
+          message: "Usuario no encontrado con la cédula proporcionada",
+        });
+      }
+    } else {
+      res.status(500).send({
+        status: false,
+        message: "Error al buscar el usuario",
+        error: error,
+      });
+    }
+  });
+});
+ */
+
+
 
 module.exports = login;
