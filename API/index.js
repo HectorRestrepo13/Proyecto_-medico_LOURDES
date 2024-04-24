@@ -17,12 +17,10 @@ app.use("/", require("./modules/Pacientes"));
 app.use("/", require("./modules/medicos"));
 app.use("/", require("./modules/historialClinico"));
 app.use("/", require("./modules/medicamentos"));
-<<<<<<< HEAD
-app.use("/", require("./modules/bodeguero"));
 
-=======
+app.use("/", require("./modules/bodeguero"));
 app.use("/", require("./modules/users"));
->>>>>>> 5b34ae65c735f0043e6e9bc58698ddda57c925db
+
 app.listen(puerto, () => {
   console.log(`APi iniciada en el puerto ${puerto}`);
 });
