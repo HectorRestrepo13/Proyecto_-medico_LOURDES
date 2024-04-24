@@ -18,6 +18,8 @@ app.use("/", require("./modules/medicos"));
 app.use("/", require("./modules/historialClinico"));
 app.use("/", require("./modules/admin"));
 app.use("/", require("./modules/medicamentos"));
+app.use("/", require("./modules/bodeguero"));
+
 app.listen(puerto, () => {
   console.log(`APi iniciada en el puerto ${puerto}`);
 });

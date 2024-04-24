@@ -9,7 +9,6 @@ login.get("/login/selecionarUsuarioMedico/:email/:password", (req, res) => {
   let emailMedico = req.params.email;
   let password = req.params.password;
 
-
   mysql.query(consulta, [emailMedico, password], (error, date) => {
     if (!error) {
       if (date.length > 0) {
@@ -52,7 +51,8 @@ login.get("/login/selecionarUsuario/:email/:password", (req, res) => {
 });
 
 login.get("/login/selecionarPaciente/:email/:password", (req, res) => {
-  let consulta = "SELECT * FROM paciente WHERE emailPaciente = ? AND passwordPaciente = ?";
+  let consulta =
+    "SELECT * FROM paciente WHERE emailPaciente = ? AND passwordPaciente = ?";
   let email = req.params.email;
   let password = req.params.password;
 
