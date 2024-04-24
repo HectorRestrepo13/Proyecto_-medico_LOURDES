@@ -59,6 +59,7 @@ http://www.tooplate.com/view/2098-health
 
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="css/tooplate-style.css" />
+    <link rel="stylesheet" href="./css/styleBodeguero.css" />
   </head>
   <body
     id="top"
@@ -174,269 +175,48 @@ http://www.tooplate.com/view/2098-health
     <section id="news-detail" data-stellar-background-ratio="0.5">
       <div class="container">
         <div class="row">
-          <div class="col-md-8 col-sm-7">
-            <button
-              id="consultasCitas"
-              type="button"
-              class="btn btn-outline-info"
-            >
-              Citas Confirmadas
-            </button>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-md-8 col-sm-7">
-            <!-- NEWS THUMB -->
-            <div class="news-detail-thumb">
-              <div id="contendorTablaCitas" class="news-image">
-                <!--aca va ir la tabla de las citas que tiene con los pacientes-->
-                <table
-                  id="datatable"
-                  class="table table-striped table-hover"
-                  style="width: 100%"
-                >
-                  <thead></thead>
-                  <tbody></tbody>
-                  <tfoot></tfoot>
-                </table>
-                <!---------------------------------------------------->
+          <div class="col">
+            <div class="busqueda">
+              <div class="form-floating mb-3 inpuBusquedaCedulaPaciente">
+                <input
+                  type="number"
+                  class="form-control hola"
+                  id="cedulaPaciente"
+                  placeholder="Cedula Paciente"
+                />
+                <label for="floatingInput">Ingrese Cedula</label>
               </div>
-              <h3>Historial Clinico Del Paciente</h3>
-              <!--aca va ir la tabla donde va ir el Historial Clinico del paciente-->
-              <div class="infoHistorial">
-                <div class="alert alert-light" role="alert">
-                  Primero Selecione una Fecha de la formula medica para poder
-                  ver el Historial
-                </div>
-              </div>
-              <div class="etiquetaTablaHistorial">
-                <table
-                  id="tableHistorial"
-                  class="table table-striped table-hover"
-                  style="width: 100%"
+              <div class="botonBuscar">
+                <button
+                  id="botonBuscarCedula"
+                  type="button"
+                  class="btn btn-primary"
                 >
-                  <thead></thead>
-                  <tbody></tbody>
-                  <tfoot></tfoot>
-                </table>
-              </div>
-
-              <!--------------------------------------------------------------------->
-              <!-- aca va ir la tabla del detalleFormula -->
-              <h3>Detalle Formula Del Paciente</h3>
-              <!--aca va ir la tabla donde va ir el detalle Clinico del paciente-->
-              <div class="infoDetalleFormula">
-                <div class="alert alert-light" role="alert">
-                  Primero Selecione una Fecha de la formula medica para poder
-                  ver el Detalle Formula
-                </div>
-              </div>
-              <div class="etiquetaTablaDetalleFormula">
-                <table
-                  id="tableDetalleFormula"
-                  class="table table-striped table-hover"
-                  style="width: 100%"
-                >
-                  <thead></thead>
-                  <tbody></tbody>
-                  <tfoot></tfoot>
-                </table>
-              </div>
-              <ul>
-                <li>
-                  Phasellus posuere nisi eleifend, vestibulum ipsum eleifend
-                </li>
-                <li>Nulla sapien neque, posuere vitae porta eu</li>
-                <li>
-                  Fusce quis enim vel libero pulvinar gravida sed eu justo
-                </li>
-              </ul>
-
-              <p>
-                Nunc eget ex sed nisl rhoncus lacinia. Vestibulum porta lectus
-                at est placerat, nec commodo purus dignissim. Suspendisse ac
-                quam in metus laoreet auctor ac quis enim.
-              </p>
-              <div class="news-social-share">
-                <h4>Share this article</h4>
-                <a href="#" class="btn btn-primary"
-                  ><i class="fa fa-facebook"></i>Facebook</a
-                >
-                <a href="#" class="btn btn-success"
-                  ><i class="fa fa-twitter"></i>Twitter</a
-                >
-                <a href="#" class="btn btn-danger"
-                  ><i class="fa fa-google-plus"></i>Google+</a
-                >
+                  Buscar
+                </button>
               </div>
             </div>
           </div>
-
-          <div class="col-md-4 col-sm-5">
-            <div class="news-sidebar">
-              <!-- aca voy a colocar los datos del paciente cuando le le de click en la tabla-->
-              <div
-                style="margin-bottom: 85px"
-                id="datosPaciente"
-                class="news-author"
+        </div>
+        <div class="row">
+          <div class="col">
+            <!-- aca voy a colocar la tabla donde van a i-->
+            <div id="tablaMedicamentos" class="tablaMedicamentos">
+              <table
+                id="datatable"
+                class="table table-striped table-hover"
+                style="width: 100%"
               >
-                <h4>Datos Paciente</h4>
-                <div class="recent-post">
-                  <div class="media">
-                    <div class="media-object pull-left">
-                      <a href="#"
-                        ><img
-                          src="images/news-image.jpg"
-                          class="img-responsive"
-                          alt=""
-                      /></a>
-                    </div>
-                    <div class="media-body">
-                      <h4 class="media-heading">
-                        <a href="#">Selecione un Paciente</a>
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-                <!---------------------------------->
-                <!-- aca voy a colocar el modal Donde se va Abrir cuando le de Click en Agendar una cita nueva-->
-
-                <!-- Modal -->
-                <div
-                  class="modal fade"
-                  id="modalAgendarCita"
-                  tabindex="-1"
-                  aria-labelledby="exampleModalLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">
-                          Agendar Cita
-                        </h1>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body">
-                        <!-- aca voy a poner los Inpus para que llene para la Cita -->
-                        <div class="datosCita">
-                          <div class="input-group mb-3">
-                            <span class="input-group-text">C.C</span>
-                            <div class="form-floating">
-                              <input
-                                type="number"
-                                class="form-control"
-                                id="cedulaPacienteCita"
-                                placeholder="Username"
-                              />
-                              <label for="floatingInputGroup1"
-                                >Cedula Paciente</label
-                              >
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="datosCita">
-                          <div class="form-floating mb-3">
-                            <input
-                              type="date"
-                              class="form-control"
-                              id="fechaCita"
-                              placeholder="name@example.com"
-                            />
-                            <label for="floatingInput">Fecha de la Cita</label>
-                          </div>
-                        </div>
-
-                        <div class="datosCita">
-                          <div class="form-floating mb-3">
-                            <input
-                              type="time"
-                              class="form-control"
-                              id="horaCita"
-                              placeholder="name@example.com"
-                            />
-                            <label for="floatingInput">Hora de Cita</label>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          Cerrar
-                        </button>
-                        <button
-                          id="btnGuardarAgendarCita"
-                          type="button"
-                          class="btn btn-primary"
-                        >
-                          Guardar
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!----------------------------------------------------->
-              </div>
-
-              <!-- aca voy hacer la tabla donde se va poner las formulas medicas-->
-              <h4>Formulas Medicas</h4>
-              <div class="infoDeFormula">
-                <div class="alert alert-light" role="alert">
-                  Ninguna Cita Selecionada Aun
-                </div>
-              </div>
-              <div class="datosTablaFormulario">
-                <table
-                  id="tableFormulasMedicas"
-                  class="table table-striped table-hover"
-                  style="width: 100%"
-                >
-                  <thead></thead>
-                  <tbody></tbody>
-                  <tfoot></tfoot>
-                </table>
-              </div>
-              <!----------------------------------------------------------------->
-              <div class="news-categories">
-                <h4>Categories</h4>
-                <li>
-                  <a href="#"><i class="fa fa-angle-right"></i> Dental</a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-angle-right"></i> Cardiology</a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-angle-right"></i> Health</a>
-                </li>
-                <li>
-                  <a href="#"><i class="fa fa-angle-right"></i> Consultant</a>
-                </li>
-              </div>
-
-              <div class="news-ads sidebar-ads">
-                <h4>Sidebar Banner Ad</h4>
-              </div>
-
-              <div class="news-tags">
-                <h4>Tags</h4>
-                <li><a href="#">Pregnancy</a></li>
-                <li><a href="#">Health</a></li>
-                <li><a href="#">Consultant</a></li>
-                <li><a href="#">Medical</a></li>
-                <li><a href="#">Doctors</a></li>
-                <li><a href="#">Social</a></li>
-              </div>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+                <tfoot></tfoot>
+              </table>
             </div>
           </div>
         </div>
@@ -590,6 +370,6 @@ http://www.tooplate.com/view/2098-health
     <script src="js/custom.js"></script>
     <script src="./js/indexConsultorio.js"></script>
 
-    <script src="./js/indilizarTabla.js"></script>
+    <script src="./js/bodeguero.js"></script>
   </body>
 </html>

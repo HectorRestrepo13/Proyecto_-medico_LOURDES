@@ -1,0 +1,14 @@
+.inpuBusquedaCedulaPaciente {
+  width: 50%;
+}
+
+.busqueda {
+  display: flex;
+
+  align-items: center;
+}
+.busqueda .botonBuscar {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
