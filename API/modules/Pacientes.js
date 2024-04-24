@@ -5,7 +5,7 @@ const citas = express.Router();
 
 //Buscar siempre por id
 citas.get("/pacientes/selecionarpaciente/:id", (req, res) => {
-    let id = req.params.id;
+    let id = req.params.id; 
     let consulta = `select * from cita where paciente_cedulaPaciente=${id}`;
   
     mysql.query(consulta, (error, data) => {
@@ -17,6 +17,57 @@ citas.get("/pacientes/selecionarpaciente/:id", (req, res) => {
       }
     });
   });
+
+
+  // Crear pacientes
+// Endpoint para la creación de un nuevo paciente
+citas.post("/paciente/create", (req, res) => {
+  // Extraer los datos del cuerpo de la solicitud
+  const { cedulaPaciente, nombrePaciente, apellidoPaciente, emailPaciente, telefonoPaciente, movilPaciente, fechaNacimientoPqciente, epsPaciente, usuarioPaciente,passwordPaciente } = req.body;
+
+
+  const formData = {
+    cedulaPaciente: cedulaPaciente,
+    nombrePaciente: nombrePaciente,
+    apellidoPaciente: apellidoPaciente,
+    emailPaciente: emailPaciente,
+    telefonoPaciente: telefonoPaciente,
+    movilPaciente: movilPaciente,
+    fechaNacimientoPqciente: fechaNacimientoPqciente,
+    epsPaciente: epsPaciente,
+    usuarioPaciente: usuarioPaciente,
+    passwordPaciente: passwordPaciente
+  };
+
+  // Realizar la inserción en la base de datos
+  mysql.query("INSERT INTO paciente SET ?", formData, (error, data) => {
+    if (error) {
+      console.error('Error al insertar paciente en la base de datos: ' + error);
+      res.status(500).send("Error en la consulta: " + error.message);
+    } else {
+      console.log('Paciente insertado correctamente en la base de datos');
+      res.status(200).send(data);
+    }
+  });
+});
+
+
+
+
+  //Traer todos los pacientes siempre por id
+citas.get("/pacientes/traerPacientes", (req, res) => {
+
+  let consulta = `select * from paciente`;
+
+  mysql.query(consulta, (error, data) => {
+    try{
+    res.status(200).send(data);
+    }catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
   //Buscar inactivos siempre por id
 citas.get("/pacientes/selecionarpacienteRechazados/:id", (req, res) => {
     let id = req.params.id;
@@ -138,7 +189,7 @@ citas.put("/paciente/editarPaciente/:cedulaPaciente", (req, res) => {
       emailPaciente: req.body.emailPaciente,
       telefonoPaciente: req.body.telefonoPaciente,
       movilPaciente: req.body.movilPaciente,
-      fechaNacimientopqciente: req.body.fechaNacimientopqciente,
+      fechaNacimientoPqciente: req.body.fechaNacimientoPqciente,
       epsPaciente: req.body.epsPaciente,
       usuarioPaciente: req.body.usuarioPaciente
   }; 

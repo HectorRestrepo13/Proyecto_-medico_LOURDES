@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let txtEmail = document.getElementById("txtEmail").value;
     let txtContra = document.getElementById("txtContra").value;
 
+<<<<<<< HEAD
     if (txtContra.length === 0 || txtEmail.length === 0) {
       Swal.fire({
         title: "Faltan Casillas por llenar",
@@ -12,6 +13,102 @@ document.addEventListener("DOMContentLoaded", function () {
         icon: "warning",
       });
       return;
+=======
+        if (txtContra.length === 0 || txtEmail.length === 0) {
+            Swal.fire({
+                title: "Faltan Casillas por llenar",
+                text: "Llena las casillas para poder iniciar",
+                icon: "warning",
+            });
+            return;
+        }
+
+        verificarUsuario(txtEmail, txtContra);
+    });
+
+    function verificarUsuario(email, password) {
+        Promise.all([
+            fetch(`http://localhost:3000/login/selecionarUsuarioMedico/${email}/${password}`),
+            fetch(`http://localhost:3000/login/selecionarPaciente/${email}/${password}`),
+            fetch(`http://localhost:3000/login/selecionarUsuario/${email}/${password}`),
+          
+        ])
+        .then((responses) => {
+            return Promise.all(responses.map((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Error al obtener los datos');
+                }
+            }));
+        })
+        .then((data) => {
+            let usuarioEncontrado = false;
+            data.forEach((usuarios) => {
+                if (usuarios.length > 0) {
+                    usuarioEncontrado = true;
+                    let datosLocal = window.localStorage;
+                    let datos = {};
+
+                    if (usuarios[0].cedulaMedico !== undefined) {
+                        datos = {
+                            id: usuarios[0].cedulaMedico,
+                            nombre: usuarios[0].nombreMedico,
+                            apellido: usuarios[0].apellidoMedico,
+                            especialidad: usuarios[0].especialidadMedico,
+                        };
+                        window.location.href = "indexConsultorio.html"; // Cambiar la redirección según el tipo de usuario
+                    } else if (usuarios[0].cedulaPaciente !== undefined) {
+                        datos = {
+                            id: usuarios[0].cedulaPaciente,
+                            nombre: usuarios[0].nombrePaciente,
+                            apellido: usuarios[0].apellidoPaciente,
+
+                        };
+                        window.location.href = "pacientes.html"; // Cambiar la redirección según el tipo de usuario
+                    } else if(usuarios[0].cedulaUser !==undefined) {
+                        if(usuarios[0].rol_idRol==1){
+                            datos = {
+                                id: usuarios[0].cedulaUser,
+                                nombre: usuarios[0].userName,
+                                apellido: usuarios[0].password,
+                            };
+                            window.location.href = "./admin/administradorForm.html";
+                        }else if(usuarios[0].rol_idRol==0){
+                            datos = {
+                                id: usuarios[0].cedulaUser,
+                                nombre: usuarios[0].userName,
+                                apellido: usuarios[0].password,
+                            };
+                            window.location.href = "./admin/formularioGerente.html";
+                        }else if(usuarios[0].rol_idRol==4){
+                            datos = {
+                                id: usuarios[0].cedulaUser,
+                                nombre: usuarios[0].userName,
+                                apellido: usuarios[0].password,
+                            };
+                          console.log('Aca va la ruta del bodeguero')
+                        }
+                       
+                      console.log("Aca van los usuarios")
+                    }
+                    datosLocal.setItem(1, JSON.stringify(datos));
+                   
+                }
+            });
+
+            if (!usuarioEncontrado) {
+                Swal.fire({
+                    title: "Persona no existe en la base de datos del sistema medico",
+                    text: "Contraseña o correo incorrecto",
+                    icon: "warning",
+                });
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+>>>>>>> 5b34ae65c735f0043e6e9bc58698ddda57c925db
     }
 
     verificarUsuario(txtEmail, txtContra);

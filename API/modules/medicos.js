@@ -49,6 +49,24 @@ medicos.get("/medico/buscarEspecialidadMedico", (req, res) => {
       });
   });
 
+  
+  medicos.get("/medico/traerDatos/", (req, res) => {
+   
+    mysql.query("SELECT*FROM medico ", (error, data) => {
+      try {
+        if(data==0){
+          res.status(400).send("No datos en la base de datos!!");
+        }else{
+          res.status(200).send(data);
+        }
+       
+      }catch (error) {
+        console.log(error);
+        throw `hay un error en la consulta${error}`;
+    }
+    });
+});
+
   medicos.get("/medicamentos/traerEstadisticasMedicos", (req, res) => {
     mysql.query(`
     SELECT 
@@ -90,5 +108,64 @@ ORDER BY
     }
   });
   });
+
+    // Crear doctor
+// Endpoint para la creación de un nuevo doctor
+medicos.post("/doctor/create", (req, res) => {
+  // Extraer los datos del cuerpo de la solicitud
+  const { cedulaDoctor, nombreDoctor, apellidoDoctor, emailDoctor, especialidadDoctor, usuarioDoctor,passwordDoctor } = req.body;
+
+
+  const formData = {
+    cedulaMedico: cedulaDoctor,
+    nombreMedico: nombreDoctor,
+    apellidoMedico: apellidoDoctor,
+    emailMedico: emailDoctor,
+ especialidadMedico: especialidadDoctor,
+   
+    usuarioMedico: usuarioDoctor,
+    password: passwordDoctor
+  };
+
+  // Realizar la inserción en la base de datos
+  mysql.query("INSERT INTO medico SET ?", formData, (error, data) => {
+    if (error) {
+      console.error('Error al insertar doctor en la base de datos: ' + error);
+      res.status(500).send("Error en la consulta: " + error.message);
+    } else {
+      console.log('Doctor  insertado correctamente en la base de datos');
+      res.status(200).send(data);
+    }
+  });
+});
+
+medicos.put("/medico/editarDoctor/:cedulaDoctor", (req, res) => {
+  let cedulaDoctor = req.params.cedulaDoctor;
+  
+
+  // Crear objeto con los datos actualizados
+  const doctorActualizado = {
+    nombreMedico: req.body.nombreMedico,
+    apellidoMedico: req.body. apellidoMedico,
+    emailMedico: req.body. emailMedico,
+    especialidadMedico: req.body. especialidadMedico,
+    usuarioMedico:  req.body.usuarioMedico
+  };
+
+  // Ejecutar consulta para actualizar los datos del doctor
+  mysql.query("UPDATE medico SET ? WHERE cedulaMedico = ?", [doctorActualizado, cedulaDoctor], (error, data) => {
+    try {
+      if(data==0){
+        res.status(400).send("No hay datos en la base de datos!!");
+      }else{
+        res.status(200).send("Datos actualizados");
+      }
+     
+    } catch (error) {
+      console.log(error);
+      throw `hay un error en la consulta${error}`;
+    }
+  });
+});
 
   module.exports = medicos;

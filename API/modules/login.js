@@ -30,7 +30,7 @@ login.get("/login/selecionarUsuarioMedico/:email/:password", (req, res) => {
 
 login.get("/login/selecionarUsuario/:email/:password", (req, res) => {
   let consulta = "select * from users where emailUser=? and password=?";
-  let emailUser = req.params.emailUser;
+  let emailUser = req.params.email;
   let password = req.params.password;
 
   mysql.query(consulta, [emailUser, password], (error, date) => {
