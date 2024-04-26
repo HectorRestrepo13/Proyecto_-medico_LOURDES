@@ -91,10 +91,10 @@ btnEnviar.addEventListener('click', async (e) => {
     const fechaNa = document.getElementById("fechaNacimientoPaciente").value;
     const epsAfiliada = document.getElementById("epsPaciente").value;
     const usuarioNombre = document.getElementById("usuarioPaciente").value;
-
+const pass=document.getElementById("passwordPaciente").value
 
     // Verificar que todos los campos obligatorios estén llenos
-    if (!cedula || !nombre || !apellido || !email || !telefono || !movil || !fechaNa || !epsAfiliada || !usuarioNombre) {
+    if (!cedula || !nombre || !apellido || !email || !telefono || !movil || !fechaNa || !epsAfiliada || !usuarioNombre || !pass){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -135,7 +135,7 @@ if (!validarCorreo(email)) {
             fechaNacimientoPqciente: fechaNa,
             epsPaciente: epsAfiliada,
             usuarioPaciente: usuarioNombre,
-           
+            passwordPaciente: pass,
         };
 
         const response = await fetch("http://localhost:3000/paciente/create", {
@@ -209,6 +209,8 @@ tabla.addEventListener("click", (event) => {
             <input type="text" id="eps" value="${eps}" required>
             <label for="passwordPaciente" style="color: black;">Nombre de usuario:</label>
             <input type="text" id="usuario" value="${usuarioNom}" required>
+            <label for="passwordPaciente" style="color: black;">Contraseña</label>
+            <input type="text" id="pass" value="" required>
             </div>
         `;  
 
@@ -233,6 +235,8 @@ tabla.addEventListener("click", (event) => {
                 const fechas = document.getElementById("fecha").value; // Obtener el valor del campo fecha directamente
                 const epss = document.getElementById('eps').value;
                 const usuarios = document.getElementById('usuario').value;
+                const pass = document.getElementById('pass').value;
+               
                 const formate = fechas; // Utilizar directamente el valor obtenido del campo fecha
 
                 // Verificar si algún campo está vacío
@@ -243,14 +247,15 @@ tabla.addEventListener("click", (event) => {
                     movils == "" ||
                     fechas == "" ||
                     epss == "" ||
-                    usuarios == "") {
+                    usuarios == ""||
+                    pass=="") {
                     // Mostrar una alerta con SweetAlert2
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Por favor, completa todos los campos.',
                     });
-                }  
+                }  else{
                     // Validar el correo electrónico
 if (!validarCorreo(email)) {
     Swal.fire({
@@ -258,10 +263,10 @@ if (!validarCorreo(email)) {
         title: 'Oops...',
         text: 'Por favor, ingrese un correo electrónico válido.',
     });
-    return; // Detener el envío del formulario si el correo electrónico no es válido
+    return; 
 }
                     const data = {
-                        id: id, // Asegúrate de obtener el ID del paciente que deseas editar
+                        id: id, 
                         nombrePaciente: nombres,
                         apellidoPaciente: apellidos,
                         emailPaciente: emails,
@@ -269,9 +274,10 @@ if (!validarCorreo(email)) {
                         movilPaciente: movils,
                         fechaNacimientoPqciente: formate,
                         epsPaciente: epss,
-                        usuarioPaciente: usuarios
+                        usuarioPaciente: usuarios,
+                        passwordPaciente:pass
                     };
-                    console.log(formate)
+           
                     fetch(`http://localhost:3000/paciente/editarPaciente/${data.id}`, {
                             method: "PUT",
                             headers: {
@@ -282,15 +288,17 @@ if (!validarCorreo(email)) {
                         .then((response) => {
                             if (!response.ok) {
                                 throw new Error("Error al actualizar el dato del elemento.");
+                            }else{
+                                Swal.fire({
+                                    title: "¡Éxito!",
+                                    text: "La edición se ha completado correctamente.",
+                                    icon: "success",
+                                }).then(() => {
+                                    window.location.assign("http://127.0.0.1:5501/Cliente/admin/tablaPaciente.html");
+                                });
                             }
 
-                            Swal.fire({
-                                title: "¡Éxito!",
-                                text: "La edición se ha completado correctamente.",
-                                icon: "success",
-                            }).then(() => {
-                                window.location.assign("http://127.0.0.1:5501/Cliente/admin/tablaPaciente.html");
-                            });
+                           
                         })
                         .catch((error) => {
                             console.error('Error al actualizar el paciente:', error);
@@ -300,10 +308,10 @@ if (!validarCorreo(email)) {
                                 text: 'Hubo un error al actualizar el paciente. Por favor, inténtelo de nuevo más tarde.'
                             });
                         });
-                
-
             }
-
+        }
         })
+    
     }
+
 });

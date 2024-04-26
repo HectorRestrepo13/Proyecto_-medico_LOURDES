@@ -82,12 +82,11 @@ btnEnviar.addEventListener('click', async (e) => {
     const cedula = document.getElementById("cedulaUsers").value;
     const email = document.getElementById("emailUsers").value;
     const rolSelect = document.getElementById("RolUser").value;
-  
     const usuarioNombre = document.getElementById("usuarioUsers").value;
   
-   
+    const pass = document.getElementById("passwordUsuario").value;
     // Verificar que todos los campos obligatorios estén llenos
-    if (!cedula || !email || !rolSelect || !usuarioNombre ) {
+    if (!cedula || !email || !rolSelect || !usuarioNombre || !pass ) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -124,6 +123,7 @@ if (!validarCorreo(email)) {
             emailUser: email,  
             userName: usuarioNombre,      
             rol_idRol:parseInt(rolSelect) ,
+            password:pass
         };
        
 
@@ -200,6 +200,8 @@ const opcionesRol = generarOpcionesRol(rolTabla);
             <select id="RolUserEditar" name="RolUserEditar">
             ${opcionesRol}
         </select>
+        <label for="passwordPaciente" style="color: black;">Contraseña:</label>
+        <input type="text" id="password" value="" required>
         </div>
     `;   
 
@@ -221,13 +223,14 @@ const opcionesRol = generarOpcionesRol(rolTabla);
                 const nombre = document.getElementById('usuario').value;
                // Seleccionar la opción correspondiente en el select
 const rolSelect = document.getElementById("RolUserEditar").value;
-               console.log("Valor del rol seleccionado:", rolSelect);
+         const pass=document.getElementById("password").value;
             
 
                 // Verificar si algún campo está vacío
                 if (email == "" ||
                     nombre == "" ||
-                    rolSelect == "" 
+                    rolSelect == "" ||
+                    pass==""
                    ) {
                     // Mostrar una alerta con SweetAlert2
                     Swal.fire({
@@ -236,7 +239,9 @@ const rolSelect = document.getElementById("RolUserEditar").value;
                         text: 'Por favor, completa todos los campos.',
                     });
              
-                }  
+                }  else{
+
+                
                 if (!validarCorreo(email)) {
                     Swal.fire({
                         icon: 'error',
@@ -250,6 +255,7 @@ const rolSelect = document.getElementById("RolUserEditar").value;
                         emailUser: email,
                         userName: nombre,
                         rol_idRol: parseInt(rolSelect),
+                        password:pass
                     
                     };
                     console.log("Objeto data:", data);
@@ -284,7 +290,7 @@ const rolSelect = document.getElementById("RolUserEditar").value;
                 
 
             }
-
+        }
         })
     }
 });

@@ -10,6 +10,7 @@
   "author": "Hector Restrepo, Narvaez",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "chart.js": "^4.4.2",
     "cors": "^2.8.5",
     "datatables.net-dt": "^2.0.2",

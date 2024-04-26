@@ -88,10 +88,10 @@ btnEnviar.addEventListener('click', async (e) => {
     const email = document.getElementById("emailDoctor").value;
     const especialidad = document.getElementById("especialidadDoctor").value;
     const usuarioNombre = document.getElementById("usuarioDoctor").value;
-
+const pass=document.getElementById("passwordDoctor").value;
 
     // Verificar que todos los campos obligatorios estén llenos
-    if (!cedula || !nombre || !apellido || !email || !especialidad || !usuarioNombre) {
+    if (!cedula || !nombre || !apellido || !email || !especialidad || !usuarioNombre || !pass) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -130,7 +130,7 @@ btnEnviar.addEventListener('click', async (e) => {
             especialidadDoctor: especialidad,
 
             usuarioDoctor: usuarioNombre,
-
+password:pass
         };
 
         const response = await fetch("http://localhost:3000/doctor/create", {
@@ -198,6 +198,8 @@ tabla.addEventListener("click", (event) => {
 
             <label for="passwordPaciente" style="color: black;">Nombre de usuario:</label>
             <input type="text" id="usuario" value="${usuarioNom}" required>
+            <label for="passwordPaciente" style="color: black;">Contraseña:</label>
+            <input type="text" id="password" value="" required>
             </div>
         `;  
 
@@ -219,21 +221,24 @@ tabla.addEventListener("click", (event) => {
                 const emails = document.getElementById('email').value;
                 const especialidad = document.getElementById('especialidad').value;
                 const usuarios = document.getElementById('usuario').value;
-            
+            const pass=document.getElementById("password").value
 
                 // Verificar si algún campo está vacío
                 if (nombres == "" ||
                     apellidos == "" ||
                     emails == "" ||
                     especialidad == "" ||
-                    usuarios == "") {
+                    usuarios == ""||
+                pass=="") {
                     // Mostrar una alerta con SweetAlert2
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Por favor, completa todos los campos.',
                     });
-                } 
+                } else{
+
+                
                     // Validar el correo electrónico
 if (!validarCorreo(email)) {
     Swal.fire({
@@ -249,7 +254,8 @@ if (!validarCorreo(email)) {
                         apellidoMedico: apellidos,
                         emailMedico: emails,
                         especialidadMedico: especialidad,
-                        usuarioMedico: usuarios
+                        usuarioMedico: usuarios,
+                        password:pass
                     };
                     fetch(`http://localhost:3000/medico/editarDoctor/${data.cedulaDoctor}`, {
                             method: "PUT",
@@ -282,6 +288,7 @@ if (!validarCorreo(email)) {
                 
 
             }
+        }
 
         })
     }

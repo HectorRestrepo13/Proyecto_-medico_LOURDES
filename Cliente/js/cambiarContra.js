@@ -1,59 +1,115 @@
-document.addEventListener("DOMContentLoaded", function() {
+/* document.addEventListener("DOMContentLoaded", function () {
     let CambiarPassword = document.getElementById("btnCambiarContrasena");
-
     CambiarPassword.addEventListener("click", () => {
-        let txtIdenti = document.getElementById("txtIdenti").value;
-        let txtContraNueva = document.getElementById("txtContraNueva").value;
-
-        if (txtContraNueva.length === 0 || txtIdenti.length === 0) {
-            Swal.fire({
-                title: "Faltan Casillas por llenar",
-                text: "Llena las casillas para poder iniciar",
-                icon: "warning",
-            });
-            return;
-        }
-
-        verificarUsuario(txtIdenti, txtContraNueva);
-    });
-
-    function verificarUsuario(identi, password) {
-        fetch(`http://localhost:3000/login/cambiarContrasenaUsuarios/${identi}/${password}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error en la solicitud');
-            }
-            return response.json(); // Convertir la respuesta a JSON
-        })
-        .then(data => {
-            console.log(data);
-          
-            if (data.status === true) {
-                Swal.fire({
-                    title: "Contraseña actualizada correctamente",
-                    text: "Se ha actualizado la contraseña exitosamente",
-                    icon: "success",
-                }).then(() => {
-                    // Redireccionar al usuario al login
-                    window.location.href = "http://127.0.0.1:5501/Cliente/Login.html";
-                });
-            } else {
-                Swal.fire({
-                    title: "Persona no existe en la base de datos del sistema medico",
-                    text: "Contraseña o correo incorrecto",
-                    icon: "warning",
-                });
-            }
-        })
-        .catch((error) => {
-            console.error('Error:', error);
+      const txtIdenti = document.getElementById("txtIdenti").value;
+      const txtContraNueva = document.getElementById("txtContraNueva").value;
+  
+      if (txtContraNueva.length === 0 || txtIdenti.length === 0) {
+        Swal.fire({
+          title: "Faltan Casillas por llenar",
+          text: "Llena las casillas para poder iniciar",
+          icon: "warning",
         });
-    }
+        return;
+      }
+  
+      verificarUsuario(txtIdenti, txtContraNueva);
+    });
+  });
+  
+  function verificarUsuario(identi, password) {
+    const datosOptenidos = { nuevaContrasena: password };
+  
+    fetch(`http://localhost:3000/login/cambiarContrasenaPaciente/${identi}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datosOptenidos)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error al obtener los datos");
+      }
+    })
+    .then(data => {
+      if (data.status !== false) {
+        // El usuario está registrado como paciente, realiza las acciones necesarias
+        console.log("Usuario registrado como paciente");
+      } else {
+        // El usuario no está registrado como paciente, verifica la siguiente API
+        verificarUsuarioAPI2(identi, password, datosOptenidos);
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  }
+  
+  function verificarUsuarioAPI2(identi, password, datosOptenidos) {
+    fetch(`http://localhost:3000/login/cambiarContrasenaUsuario/${identi}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datosOptenidos)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error al obtener los datos");
+      }
+    })
+    .then(data => {
+      if (data.status !== false) {
+        // El usuario está registrado como usuario, realiza las acciones necesarias
+        console.log("Usuario registrado como usuario");
+      } else {
+        // El usuario no está registrado como usuario, verifica la siguiente API
+        verificarUsuarioAPI3(identi, password, datosOptenidos);
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  }
+  
+  function verificarUsuarioAPI3(identi, password, datosOptenidos) {
+    fetch(`http://localhost:3000/login/cambiarContrasenaDoctor/${identi}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(datosOptenidos)
+    })
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Error al obtener los datos");
+      }
+    })
+    .then(data => {
+      if (data.status !== false) {
+        // El usuario está registrado como doctor, realiza las acciones necesarias
+        console.log("Usuario registrado como doctor");
+      } else {
+        // El usuario no está registrado en ninguna de las APIs
+        Swal.fire({
+          title: "Persona no existe en la b
+          ase de datos del sistema medico",
+          text: "Contraseña o correo incorrecto",
+          icon: "warning",
+        });
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  }
 
 document.querySelectorAll('.button').forEach(button => {
 
@@ -100,4 +156,4 @@ document.querySelectorAll('.button').forEach(button => {
 
 });
 
-})
+ */

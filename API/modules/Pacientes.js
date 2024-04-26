@@ -1,6 +1,6 @@
 const express = require("express");
 const mysql = require("./mysql");
-
+const bcrypt=require("bcrypt");
 const citas = express.Router();
 
 //Buscar siempre por id
@@ -25,6 +25,7 @@ citas.post("/paciente/create", (req, res) => {
   // Extraer los datos del cuerpo de la solicitud
   const { cedulaPaciente, nombrePaciente, apellidoPaciente, emailPaciente, telefonoPaciente, movilPaciente, fechaNacimientoPqciente, epsPaciente, usuarioPaciente,passwordPaciente } = req.body;
 
+  const hashedPassword = bcrypt.hashSync(passwordPaciente, 10);
 
   const formData = {
     cedulaPaciente: cedulaPaciente,
@@ -36,7 +37,7 @@ citas.post("/paciente/create", (req, res) => {
     fechaNacimientoPqciente: fechaNacimientoPqciente,
     epsPaciente: epsPaciente,
     usuarioPaciente: usuarioPaciente,
-    passwordPaciente: passwordPaciente
+    passwordPaciente:hashedPassword
   };
 
   // Realizar la inserción en la base de datos
@@ -183,16 +184,32 @@ citas.get("/paciente/traerDatosPaciente/:identificacion", (req, res) => {
  //Editar datos personales del paciente
 citas.put("/paciente/editarPaciente/:cedulaPaciente", (req, res) => {
   let cedulaPaciente = req.params.cedulaPaciente; //parametro
-  let frmdata = {
-      nombrePaciente: req.body.nombrePaciente,
-      apellidoPaciente: req.body.apellidoPaciente,
-      emailPaciente: req.body.emailPaciente,
-      telefonoPaciente: req.body.telefonoPaciente,
-      movilPaciente: req.body.movilPaciente,
-      fechaNacimientoPqciente: req.body.fechaNacimientoPqciente,
-      epsPaciente: req.body.epsPaciente,
-      usuarioPaciente: req.body.usuarioPaciente
-  }; 
+// Extraer los datos del cuerpo de la solicitud
+const {
+  nombrePaciente,
+  apellidoPaciente,
+  emailPaciente,
+  telefonoPaciente,
+  movilPaciente,
+  fechaNacimientoPqciente,
+  epsPaciente,
+  usuarioPaciente,
+  passwordPaciente 
+} = req.body;
+
+  const hashedPassword = bcrypt.hashSync(passwordPaciente, 10);
+   // Crear un objeto para almacenar los datos del paciente
+   const frmdata = {
+    nombrePaciente,
+    apellidoPaciente,
+    emailPaciente,
+    telefonoPaciente,
+    movilPaciente,
+    fechaNacimientoPqciente,
+    epsPaciente,
+    usuarioPaciente,
+    passwordPaciente:hashedPassword
+  };
      
   mysql.query("UPDATE paciente SET ? where cedulaPaciente=?", [frmdata,cedulaPaciente], (error, data) => {
     try {
@@ -200,6 +217,7 @@ citas.put("/paciente/editarPaciente/:cedulaPaciente", (req, res) => {
         res.status(400).send("No hay datos en la base de datos!!");
       }else{
         res.status(200).send("Datos actualizados");
+        console.log(frmdata)
       }
      
     } catch (error) {

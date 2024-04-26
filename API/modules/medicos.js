@@ -1,6 +1,6 @@
 const express = require("express");
 const mysql = require("./mysql");
-
+const bcrypt=require("bcrypt");
 const medicos = express.Router();
 
 //Buscar siempre por id
@@ -124,8 +124,9 @@ medicos.post("/doctor/create", (req, res) => {
     emailDoctor,
     especialidadDoctor,
     usuarioDoctor,
+    password
   } = req.body;
-
+  const hashedPassword = bcrypt.hashSync(password, 10);
 
   const formData = {
     cedulaMedico: cedulaDoctor,
@@ -134,9 +135,7 @@ medicos.post("/doctor/create", (req, res) => {
     emailMedico: emailDoctor,
     especialidadMedico: especialidadDoctor,
     usuarioMedico: usuarioDoctor,
-
-
-
+password:hashedPassword
   };
 
   // Realizar la inserción en la base de datos
@@ -154,14 +153,17 @@ medicos.post("/doctor/create", (req, res) => {
 
 medicos.put("/medico/editarDoctor/:cedulaDoctor", (req, res) => {
   let cedulaDoctor = req.params.cedulaDoctor;
-
+const{nombreMedico, apellidoMedico, emailMedico,especialidadMedico,usuarioMedico, password}=req.body;
+const hashedPassword = bcrypt.hashSync(password, 10);
   // Crear objeto con los datos actualizados
   const doctorActualizado = {
-    nombreMedico: req.body.nombreMedico,
-    apellidoMedico: req.body.apellidoMedico,
-    emailMedico: req.body.emailMedico,
-    especialidadMedico: req.body.especialidadMedico,
-    usuarioMedico: req.body.usuarioMedico,
+    nombreMedico:nombreMedico,
+    apellidoMedico: apellidoMedico,
+    emailMedico: emailMedico,
+    especialidadMedico: especialidadMedico,
+    usuarioMedico: usuarioMedico,
+    password:hashedPassword
+    
   };
 
   // Ejecutar consulta para actualizar los datos del doctor
