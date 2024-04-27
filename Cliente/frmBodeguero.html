@@ -175,51 +175,167 @@ http://www.tooplate.com/view/2098-health
     <section id="news-detail" data-stellar-background-ratio="0.5">
       <div class="container">
         <div class="row">
-          <div class="col">
-            <div class="busqueda">
-              <div class="form-floating mb-3 inpuBusquedaCedulaPaciente">
-                <input
-                  type="number"
-                  class="form-control hola"
-                  id="cedulaPaciente"
-                  placeholder="Cedula Paciente"
-                />
-                <label for="floatingInput">Ingrese Cedula</label>
-              </div>
-              <div class="botonBuscar">
-                <button
-                  id="botonBuscarCedula"
-                  type="button"
-                  class="btn btn-primary"
-                >
-                  Buscar
-                </button>
+          <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+            <div class="row">
+              <div class="col">
+                <div class="busqueda">
+                  <div class="form-floating mb-3 inpuBusquedaCedulaPaciente">
+                    <input
+                      type="number"
+                      class="form-control hola"
+                      id="cedulaPaciente"
+                      placeholder="Cedula Paciente"
+                    />
+                    <label for="floatingInput">Ingrese Cedula</label>
+                  </div>
+                  <div class="botonBuscar">
+                    <button
+                      id="botonBuscarCedula"
+                      type="button"
+                      class="btn btn-primary"
+                    >
+                      Buscar
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <!-- aca voy a colocar la tabla donde van a i-->
+            <!-- aca voy a colocar la tabla donde van a ir los medicamentos resetados-->
             <div id="tablaMedicamentos" class="tablaMedicamentos">
               <table
                 id="datatable"
                 class="table table-striped table-hover"
                 style="width: 100%"
               >
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                  </tr>
-                </thead>
+                <thead></thead>
                 <tbody></tbody>
                 <tfoot></tfoot>
               </table>
             </div>
+            <!----------->
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-5 col-xl-5">
+            <div class="tituloMandarMedicamento">
+              <h2>Medicamentos a formular</h2>
+            </div>
+            <div class="tablaMedicamentosReclamar">
+              <table id="tblReclamacion" class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Medicamento</th>
+                    <th>Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody id="medicamentoAMandar"></tbody>
+              </table>
+            </div>
+            <div class="contendorBtnPagarMedicamentos">
+              <button id="BtnPagarMedicamentos">Pagar</button>
+            </div>
           </div>
         </div>
+        <!-- aca voy a poner la tabla con todos los item del inventario-->
+        <div class="row">
+          <div class="col">
+            <div class="tituloSecundario">
+              <h2>Inventario Medicamentos</h2>
+            </div>
+          </div>
+        </div>
+        <!-- tabla -->
+        <div class="row">
+          <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7">
+            <table id="tblInventarioTotal" class="table table-hover">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Medicamento</th>
+                  <th>Cantidad</th>
+                  <th>Editar</th>
+                </tr>
+              </thead>
+              <tbody id="inventarioItem"></tbody>
+            </table>
+          </div>
+          <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7"></div>
+        </div>
+        <!-- aca va ir el modal de editar el Item-->
+        <div class="row">
+          <div class="col">
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="modalEditarItem"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="tituloModal">
+                      Editar Medicamento: matodul
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <!-- aca va ir el contenido del modal para editar -->
+
+                    <div class="contenidoModal">
+                      <input placeholder="ID" type="text" id="idItem" hidden />
+                      <div class="form-floating mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="inputNombreItem"
+                          placeholder="name@example.com"
+                        />
+                        <label for="floatingInput">Nombre Medicamento</label>
+                      </div>
+                    </div>
+
+                    <div class="contenidoModal">
+                      <div class="form-floating mb-3">
+                        <input
+                          type="number"
+                          class="form-control"
+                          id="inputCantidadItem"
+                          placeholder="name@example.com"
+                        />
+                        <label for="floatingInput">Cantidad Medicamento</label>
+                      </div>
+                    </div>
+
+                    <!------------->
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cerrar
+                    </button>
+                    <button
+                      id="GuardarCambiosItem"
+                      type="button"
+                      class="btn btn-primary"
+                    >
+                      Guardar Cambios
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!------------------------------->
       </div>
     </section>
 
