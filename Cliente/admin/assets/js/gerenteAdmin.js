@@ -36,20 +36,24 @@ fetch(`http://localhost:3000/Funcionario/traerFuncionarioAdminGerente`)
       pageLength: 5,
       destroy: true,
       language: {
-        lengthMenu: "Mostrar _MENU_ Usuarios por página",
-        zeroRecords: "Ningún Usuarios encontrado",
-        info: "Mostrando _START_ a _END_ Usuarios  de _TOTAL_ ",
-        infoEmpty: "Ningún Usuarios encontrado",
-        infoFiltered: "(filtrados desde _MAX_ Usuarios  totales)",
-        search: "Buscar:",
-        loadingRecords: "Cargando...",
-        paginate: {
-          first: "<<",
-          last: ">>",
-          next: ">",
-          previous: "<",
+        "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json",
+        "decimal": ",",
+        "thousands": ".",
+        "lengthMenu": "Mostrar _MENU_ registros",
+        "zeroRecords": "No se encontraron resultados",
+        "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+        "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+        "sSearch": "Buscar:",
+        "oPaginate": {
+            "sFirst": "Primero",
+            "sLast":"Último",
+            "sNext":"Siguiente",
+            "sPrevious": "Anterior"
         },
-      },
+        "sProcessing":"Cargando..."
+    }
+    
     });
   })
   .catch((error) => console.error("Error al cargar el archivo JSON:", error));
@@ -156,7 +160,7 @@ if (!validarCorreo(email)) {
         });
     }
 });
-
+ 
 
 const tabla = document.getElementById("miTabla");
 
@@ -191,26 +195,57 @@ const opcionesRol = generarOpcionesRol(rolTabla);
     if (fila) {
         // Crear el mensaje para el SweetAlert2
         const mensaje = `
-        <div>
-            <label for="passwordPaciente" style="color: black;">Cedula:</label>
-            <input type="number" id="cedula" style="color: black;" value="${cedula}" disabled>
-            <label for="passwordPaciente" style="color: black;">Email:</label>
-            <input type="email" id="email" value="${email}" required>
-            <label for="passwordPaciente" style="color: black;">Nombre de usuario:</label>
-            <input type="text" id="usuario" value="${usuario}" required>
-    
-            <label for="rol" style="color: black;">Rol:</label>
-            <select id="RolUserEditar" name="RolUserEditar">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+       
+          <div class="modal-body">
+              <form>
+                 
+                 
+                  <div class="form-group">
+                      <label for="cedulaPaciente">Cédula:</label>
+                      <input type="text" class="form-control" id="cedula" value="${cedula}" disabled>
+                  </div>
+              
+  
+                  <div class="form-group">
+                      <label for="email">Email:</label>
+                      <input type="email" class="form-control" id="email" placeholder="${email}">
+                  </div>
+              
+              
+              
+                  
+                  <div class="form-group">
+                      <label for="usuarioUsers">Usuario:</label>
+                      <input type="text" class="form-control" id="usuario" placeholder="${usuario}">
+                  </div>
+              
+                  <div class="form-group">
+                      <label for="rol">Rol:</label>
+                      <select id="RolUserEditar" name="rol">
             ${opcionesRol}
         </select>
-        <label for="passwordPaciente" style="color: black;">Contraseña:</label>
-        <input type="password" id="passwordd" value="" required>
+                  </div>
+                      
+                 
+                  <div class="form-group">
+					<label for="contra">Contraseña:</label>
+					<input type="password" class="form-control" id="passwordd" placeholder="Ingrese una contraseña nueva">
+				</div>
+              </form>
+          </div>
+         
         </div>
+      </div>
+    </div>		
+                      
+  
+              </div>
     `;   
 
-        // Mostrar el SweetAlert2 con los valores de los campos
         Swal.fire({
-            title: '¡Detalle del Medico!',
+            title: `¡Detalle del usuario ${usuario}!`,
             html: mensaje,
             icon: 'info',
             showCancelButton: true,

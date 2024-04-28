@@ -200,3 +200,10 @@
     table tbody tr:nth-child(even) {
         background-color: #f0f8ff; /* Azul claro */
     }
+  
+	.flecha{
+		width: 5%;
+		height: 50px;
+		align-items: start;
+	}
+

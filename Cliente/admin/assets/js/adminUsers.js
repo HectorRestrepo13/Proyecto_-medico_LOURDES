@@ -188,26 +188,53 @@ const opcionesRol = generarOpcionesRol(rolTabla);
     if (fila) {
         // Crear el mensaje para el SweetAlert2
         const mensaje = `
-        <div>
-            <label for="passwordPaciente" style="color: black;">Cedula:</label>
-            <input type="number" id="cedula" style="color: black;" value="${cedula}" disabled>
-            <label for="passwordPaciente" style="color: black;">Email:</label>
-            <input type="email" id="email" value="${email}" required>
-            <label for="passwordPaciente" style="color: black;">Nombre de usuario:</label>
-            <input type="text" id="usuario" value="${usuario}" required>
-    
-            <label for="rol" style="color: black;">Rol:</label>
-            <select id="RolUserEditar" name="RolUserEditar">
-            ${opcionesRol}
-        </select>
-        <label for="passwordPaciente" style="color: black;">Contraseña:</label>
-        <input type="text" id="password" value="" required>
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        
+          <div class="modal-body">
+              <form>
+             
+                  <div class="form-group">
+                      <label for="cedulaPaciente">Cédula:</label>
+                      <input type="number" class="form-control" id="cedula" value="${cedula}" disabled>
+                  </div>
+                 
+  
+                  <div class="form-group">
+                      <label for="email">Email:</label>
+                      <input type="email" class="form-control" id="email" placeholder="${email}">
+                  </div>
+                 
+                 
+                 
+                  
+                  <div class="form-group">
+                      <label for="usuario">Usuario:</label>
+                      <input type="text" class="form-control" id="usuario" placeholder="${usuario}">
+                  </div>
+                 
+                  <div class="form-group">
+                      <label for="telefono">Rol:</label>
+                      <select id="RolUserEditar" name="RolUser">
+                         ${opcionesRol}
+                        </select>
+                        <div class="form-group">
+                          <label for="usuario">Contraseña:</label>
+                          <input type="text" class="form-control" id="password" placeholder="Ingrese la contraseña">
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+         
+          </div>
         </div>
+      </div>
     `;   
 
         // Mostrar el SweetAlert2 con los valores de los campos
         Swal.fire({
-            title: '¡Detalle del Medico!',
+            title: `¡Detalle del usuario ${usuario}!`,
             html: mensaje,
             icon: 'info',
             showCancelButton: true,

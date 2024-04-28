@@ -22,11 +22,23 @@ document.addEventListener('DOMContentLoaded', function(){
                 },
                 options: {
                     scales: {
-                        y: {
-                            beginAtZero: true
+                        x: {
+                            grid: {
+                              offset: true
+                            }
                         }
+                    },
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        position: 'top',
+                      },
+                      title: {
+                        display: true,
+                        text: 'Chart.js Bar Chart'
+                      }
                     }
-                }
+                  },
             });
         })
         .catch(error => console.error('Error al obtener los datos de la API:', error));
