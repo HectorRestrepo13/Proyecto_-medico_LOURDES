@@ -91,10 +91,10 @@ btnEnviar.addEventListener('click', async (e) => {
     const fechaNa = document.getElementById("fechaNacimientoPaciente").value;
     const epsAfiliada = document.getElementById("epsPaciente").value;
     const usuarioNombre = document.getElementById("usuarioPaciente").value;
-
+const pass=document.getElementById("passwordPaciente").value
 
     // Verificar que todos los campos obligatorios estén llenos
-    if (!cedula || !nombre || !apellido || !email || !telefono || !movil || !fechaNa || !epsAfiliada || !usuarioNombre) {
+    if (!cedula || !nombre || !apellido || !email || !telefono || !movil || !fechaNa || !epsAfiliada || !usuarioNombre || !pass){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -135,7 +135,7 @@ if (!validarCorreo(email)) {
             fechaNacimientoPqciente: fechaNa,
             epsPaciente: epsAfiliada,
             usuarioPaciente: usuarioNombre,
-           
+            passwordPaciente: pass,
         };
 
         const response = await fetch("http://localhost:3000/paciente/create", {
@@ -190,31 +190,67 @@ tabla.addEventListener("click", (event) => {
     if (fila) {
         // Crear el mensaje para el SweetAlert2
         const mensaje = `
-            <div>
-            <label for="passwordPaciente" style="color: black;">Cedula:</label>
-            <input type="number" id="cedula" style="color: black;" value="${cedula}" disabled>
-            <label for="passwordPaciente" style="color: black;">Nombre:</label>
-            <input type="text" id="nombre" value="${nombre}" required>
-            <label for="passwordPaciente" style="color: black;">Apellido:</label>
-            <input type="text" id="apellido" value="${apellido}" required>
-            <label for="passwordPaciente" style="color: black;">Email:</label>
-            <input type="email" id="email" value="${email}" required>
-            <label for="passwordPaciente" style="color: black;">Telefono:</label>
-            <input type="number" id="telefono" style="color: black;" value="${telefono}" required>
-            <label for="passwordPaciente" style="color: black;">Movil:</label>
-            <input type="text" id="movil" style="color: black;" value="${movil}" required>
-            <label for="passwordPaciente" style="color: black;">Fecha de nacimiento:</label>
-            <input type="date" id="fecha" style="color: black;" value="${fechaFormateada}" required>
-            <label for="passwordPaciente" style="color: black;">EPS afiliada:</label>
-            <input type="text" id="eps" value="${eps}" required>
-            <label for="passwordPaciente" style="color: black;">Nombre de usuario:</label>
-            <input type="text" id="usuario" value="${usuarioNom}" required>
-            </div>
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Detalle paciente</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form>
+                
+                 
+                  <div class="form-group">
+                      <label for="cedulaPaciente">Cédula:</label>
+                      <input type="number" class="form-control" id="cedula" value="${cedula}" disabled>
+                  </div>
+                  <div class="form-group">
+                      <label for="nombrePaciente">Nombre:</label>
+                      <input type="text" class="form-control" id="nombre" placeholder="${nombre}">
+                  </div>
+                  <div class="form-group">
+                      <label for="apellidoPaciente">Apellido:</label>
+                      <input type="text" class="form-control" id="apellido" placeholder="${apellido}">
+                  </div>
+                  <div class="form-group">
+                      <label for="emailPaciente">Email:</label>
+                      <input type="email" class="form-control" id="email" placeholder="${email}">
+                  </div>
+                  <div class="form-group">
+                      <label for="telefonoPaciente">Teléfono:</label>
+                      <input type="text" class="form-control" id="telefono" placeholder="${telefono}">
+                  </div>
+                  <div class="form-group">
+                      <label for="movilPaciente">Móvil:</label>
+                      <input type="text" class="form-control" id="movil" placeholder="${movil}">
+                  </div>
+                  <div class="form-group">
+                      <label for="fechaNacimientoPaciente">Fecha de nacimiento:</label>
+                      <input type="date" class="form-control" id="fecha" value="${fechaFormateada}">
+                  </div>
+                  <div class="form-group">
+                      <label for="epsPaciente">EPS afiliada:</label>
+                      <input type="text" class="form-control" id="eps" placeholder="${eps}">
+                  </div>
+                  <div class="form-group">
+                      <label for="usuarioPaciente">Usuario:</label>
+                      <input type="text" class="form-control" id="usuario" placeholder="${usuarioNom}">
+                  </div>
+                  <div class="form-group">
+                      <label for="passwordPaciente">Contraseña:</label>
+                      <input type="password" class="form-control" id="pass" placeholder="Nueva contraseña">
+                  </div>
+                  
+              </form>
+          </div>
+         
+        </div>
+      </div>
         `;  
 
         // Mostrar el SweetAlert2 con los valores de los campos
         Swal.fire({
-            title: '¡Detalle del paciente!',
+            title: `¡Detalle del paciente ${nombre}!`,
             html: mensaje,
             icon: 'info',
             showCancelButton: true,
@@ -233,6 +269,8 @@ tabla.addEventListener("click", (event) => {
                 const fechas = document.getElementById("fecha").value; // Obtener el valor del campo fecha directamente
                 const epss = document.getElementById('eps').value;
                 const usuarios = document.getElementById('usuario').value;
+                const pass = document.getElementById('pass').value;
+               
                 const formate = fechas; // Utilizar directamente el valor obtenido del campo fecha
 
                 // Verificar si algún campo está vacío
@@ -243,14 +281,15 @@ tabla.addEventListener("click", (event) => {
                     movils == "" ||
                     fechas == "" ||
                     epss == "" ||
-                    usuarios == "") {
+                    usuarios == ""||
+                    pass=="") {
                     // Mostrar una alerta con SweetAlert2
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Por favor, completa todos los campos.',
                     });
-                }  
+                }  else{
                     // Validar el correo electrónico
 if (!validarCorreo(email)) {
     Swal.fire({
@@ -258,10 +297,10 @@ if (!validarCorreo(email)) {
         title: 'Oops...',
         text: 'Por favor, ingrese un correo electrónico válido.',
     });
-    return; // Detener el envío del formulario si el correo electrónico no es válido
+    return; 
 }
                     const data = {
-                        id: id, // Asegúrate de obtener el ID del paciente que deseas editar
+                        id: id, 
                         nombrePaciente: nombres,
                         apellidoPaciente: apellidos,
                         emailPaciente: emails,
@@ -269,9 +308,10 @@ if (!validarCorreo(email)) {
                         movilPaciente: movils,
                         fechaNacimientoPqciente: formate,
                         epsPaciente: epss,
-                        usuarioPaciente: usuarios
+                        usuarioPaciente: usuarios,
+                        passwordPaciente:pass
                     };
-                    console.log(formate)
+           
                     fetch(`http://localhost:3000/paciente/editarPaciente/${data.id}`, {
                             method: "PUT",
                             headers: {
@@ -282,15 +322,17 @@ if (!validarCorreo(email)) {
                         .then((response) => {
                             if (!response.ok) {
                                 throw new Error("Error al actualizar el dato del elemento.");
+                            }else{
+                                Swal.fire({
+                                    title: "¡Éxito!",
+                                    text: "La edición se ha completado correctamente.",
+                                    icon: "success",
+                                }).then(() => {
+                                    window.location.assign("http://127.0.0.1:5501/Cliente/admin/tablaPaciente.html");
+                                });
                             }
 
-                            Swal.fire({
-                                title: "¡Éxito!",
-                                text: "La edición se ha completado correctamente.",
-                                icon: "success",
-                            }).then(() => {
-                                window.location.assign("http://127.0.0.1:5501/Cliente/admin/tablaPaciente.html");
-                            });
+                           
                         })
                         .catch((error) => {
                             console.error('Error al actualizar el paciente:', error);
@@ -300,10 +342,10 @@ if (!validarCorreo(email)) {
                                 text: 'Hubo un error al actualizar el paciente. Por favor, inténtelo de nuevo más tarde.'
                             });
                         });
-                
-
             }
-
+        }
         })
+    
     }
+
 });

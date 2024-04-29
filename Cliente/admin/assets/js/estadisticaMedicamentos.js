@@ -15,30 +15,23 @@ document.addEventListener('DOMContentLoaded', function(){
                     datasets: [{
                         label: 'Medicamentos más necesitados por mes',
                         data: data.map(item => item.totalMedicamentosVendidos),
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        backgroundColor: '#49E5EB',
                         borderColor: 'rgba(255, 99, 132, 1)',
                         borderWidth: 1
                     }]
                 },
                 options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    },
+                    responsive: true,
                     plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function(context) {
-                                return `${context.dataset.label}: ${context.dataset.data[context.dataIndex]} - ${data[context.dataIndex].medicamento}`;
-                            }
-                        }
+                      legend: {
+                        position: 'top',
+                      },
+                      title: {
+                        display: true,
+                        text: 'Chart.js Bar Chart'
+                      }
                     }
-                }
+                  },
             });
         })
         .catch(error => console.error('Error al obtener los datos de la API:', error));

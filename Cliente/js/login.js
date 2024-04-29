@@ -5,30 +5,25 @@ document.addEventListener("DOMContentLoaded", function () {
     let txtEmail = document.getElementById("txtEmail").value;
     let txtContra = document.getElementById("txtContra").value;
 
-    if (txtContra.length === 0 || txtEmail.length === 0) {
-      Swal.fire({
-        title: "Faltan Casillas por llenar",
-        text: "Llena las casillas para poder iniciar",
-        icon: "warning",
-      });
-      return;
-    }
 
-    verificarUsuario(txtEmail, txtContra);
-  });
+        if (txtContra.length === 0 || txtEmail.length === 0) {
+            Swal.fire({
+                title: "Faltan Casillas por llenar",
+                text: "Llena las casillas para poder iniciar",
+                icon: "warning",
+            });
+            return;
+        }
 
-  function verificarUsuario(email, password) {
-    Promise.all([
-      fetch(
-        `http://localhost:3000/login/selecionarUsuarioMedico/${email}/${password}`
-      ),
-      fetch(
-        `http://localhost:3000/login/selecionarPaciente/${email}/${password}`
-      ),
-      fetch(
-        `http://localhost:3000/login/selecionarUsuario/${email}/${password}`
-      ),
-    ])
+        verificarUsuario(txtEmail, txtContra);
+    });
+
+    function verificarUsuario(email, password) {
+      Promise.all([
+        fetch(`http://localhost:3000/login/selecionarUsuarioMedico/${email}/${password}`),
+        fetch(`http://localhost:3000/login/selecionarPaciente/${email}/${password}`),
+        fetch(`http://localhost:3000/login/selecionarUsuario/${email}/${password}`)
+      ])
       .then((responses) => {
         return Promise.all(
           responses.map((response) => {
@@ -41,71 +36,74 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       })
       .then((data) => {
-        let usuarioEncontrado = false;
-        data.forEach((usuarios) => {
-          if (usuarios.length > 0) {
-            usuarioEncontrado = true;
-            let datosLocal = window.localStorage;
-            let datos = {};
-
-            if (usuarios[0].cedulaMedico !== undefined) {
-              datos = {
-                id: usuarios[0].cedulaMedico,
-                nombre: usuarios[0].nombreMedico,
-                apellido: usuarios[0].apellidoMedico,
-                especialidad: usuarios[0].especialidadMedico,
+        let usuariosRegistrados = 0;
+        let datosLocal = window.localStorage;
+        let contenido = {};
+        
+        for (let i = 0; i < data.length; i++) {
+          const usuarios = data[i];
+          const datos=data[i].message;  
+          console.log(usuarios); 
+    
+     //verifico si el usuario esta registrado
+          if ( usuarios.status !== false) {
+            usuariosRegistrados++;
+    
+            // Redirigir según el tipo de usuario
+            if (datos.cedulaMedico !== undefined) {
+              contenido = {
+                id: usuarios.cedulaMedico,
+               
               };
-              window.location.href = "indexConsultorio.html"; // Cambiar la redirección según el tipo de usuario
-            } else if (usuarios[0].cedulaPaciente !== undefined) {
-              datos = {
-                id: usuarios[0].cedulaPaciente,
-                nombre: usuarios[0].nombrePaciente,
-                apellido: usuarios[0].apellidoPaciente,
+              window.location.href = "indexConsultorio.html";
+            } else if (datos.cedulaPaciente !== undefined) {
+              contenido = {
+                id: usuarios.cedulaPaciente,
+              
               };
-              window.location.href = "pacientes.html"; // Cambiar la redirección según el tipo de usuario
-            } else if (usuarios[0].cedulaUser !== undefined) {
-              if (usuarios[0].rol_idRol == 1) {
-                datos = {
-                  id: usuarios[0].cedulaUser,
-                  nombre: usuarios[0].userName,
-                  apellido: usuarios[0].password,
+              window.location.href = "pacientes.html";
+            } else if (datos.cedulaUser !== undefined) {
+              if (datos.rol_idRol == 1) {
+                contenido = {
+                  id: datos.cedulaUser,
+              
                 };
                 window.location.href = "./admin/administradorForm.html";
-              } else if (usuarios[0].rol_idRol == 0) {
-                datos = {
-                  id: usuarios[0].cedulaUser,
-                  nombre: usuarios[0].userName,
-                  apellido: usuarios[0].password,
+              } else if (datos.rol_idRol == 0) {
+                contenido = {
+                  id: datos.cedulaUser,
+                
                 };
                 window.location.href = "./admin/formularioGerente.html";
-              } else if (usuarios[0].rol_idRol == 4) {
-                datos = {
-                  id: usuarios[0].cedulaUser,
-                  nombre: usuarios[0].userName,
-                  apellido: usuarios[0].password,
+              } else if (datos.rol_idRol == 4) {
+                contenido = {
+                  id: datos.cedulaUser,
+                 
                 };
                 console.log("Aca va la ruta del bodeguero");
               }
-
               console.log("Aca van los usuarios");
             }
             datosLocal.setItem(1, JSON.stringify(datos));
           }
-        });
-
-        if (!usuarioEncontrado) {
+         
+        }
+        if(usuariosRegistrados<=0){
+   
           Swal.fire({
             title: "Persona no existe en la base de datos del sistema medico",
             text: "Contraseña o correo incorrecto",
             icon: "warning",
           });
-        }
+        
+      }
+        
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }
-
+    }
+    
   document.querySelectorAll(".button").forEach((button) => {
     let div = document.createElement("div"),
       letters = button.textContent.trim().split("");

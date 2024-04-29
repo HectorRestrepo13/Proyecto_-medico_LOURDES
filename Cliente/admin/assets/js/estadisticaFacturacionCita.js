@@ -20,12 +20,18 @@ fetch('http://localhost:3000/paciente/traerEstadisticascitasFacturadas')
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
+                responsive: true,
+                interaction: {
+                  intersect: false,
+                  axis: 'x'
+                },
+                plugins: {
+                  title: {
+                    display: true,
+                    text: (ctx) =>  ' Estadisticas',
+                  }
                 }
-            }
+              }
         });
     })
     .catch(error => console.error('Error al obtener los datos de la API:', error));

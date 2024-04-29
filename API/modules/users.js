@@ -1,8 +1,7 @@
 const express = require("express");
 const mysql = require("./mysql");
-
 const users = express.Router();
-
+const bcrypt=require("bcrypt");
 
 // Traer todos los pacientes siempre por id
 users.get("/Funcionario/traerFuncionario", (req, res) => {
@@ -71,17 +70,15 @@ users.get("/user/verificarUsers/:cedulaUser", (req, res) => {
 users.post("/usuario/create", (req, res) => {
     // Extraer los datos del cuerpo de la solicitud
     const { cedulaUser, emailUser,userName, password , rol_idRol} = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
-    
-
-  
         // El rol existe, procede a insertar el usuario en la base de datos
         const formData = {
             cedulaUser: cedulaUser,
             emailUser: emailUser,
             userName: userName,
-         
             rol_idRol: rol_idRol,
+            password:hashedPassword
         };
 
         // Realizar la inserción en la base de datos
@@ -99,14 +96,14 @@ users.post("/usuario/create", (req, res) => {
 
     users.put("/usuario/editarUsuario/:cedulaUser", (req, res) => {
         let cedulaUser = req.params.cedulaUser;
-        
-      
+  const{emailUser, userName, rol_idRol, password}=req.body;
+  const hashedPassword = bcrypt.hashSync(password, 10);
         // Crear objeto con los datos actualizados
         const UsuarioActualizado = {
-          emailUser: req.body.emailUser,
-          userName: req.body.userName,
-          rol_idRol: req.body.rol_idRol,
-        
+          emailUser:emailUser,
+          userName:userName,
+          rol_idRol:rol_idRol,
+        password:hashedPassword
         };
       
         // Ejecutar consulta para actualizar los datos del doctor

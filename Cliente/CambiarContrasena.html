@@ -4,24 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../Cliente/css/styloLogin.css" />
-    <link rel="stylesheet" href="./css/recarga.css">
     <link
       rel="stylesheet"
       href="../Cliente/node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
-    
     <link rel="icon" href="./images/logo.png">
-
     <title>Login de ingreso</title>
   </head>
-  <body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
-    <section class="preloader">
-      <div class="spinner">
-
-           <div class="loader"></div>
-           
-      </div>
- </section>
+  <body>
     <!-- Section: Design Block -->
     <section class="text-center text-lg-start">
       <style>
@@ -34,7 +24,6 @@
             margin-right: 0;
           }
         }
-        
       </style>
 
       <!-- Jumbotron -->
@@ -56,32 +45,25 @@
 
                   <!-- Email input -->
                   <div class="form-outline mb-4">
-                    <label class="form-label" for="form3Example3">Email</label>
-                    <input type="email" id="txtEmail" class="form-control" />
+                    <label class="form-label" for="form3Example3">Identificación:</label>
+                    <input type="email" id="txtIdenti" class="form-control" />
                   </div>
 
                   <!-- Password input -->
                   <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example4"
-                      >Contraseña</label
+                      >Contraseña nueva:</label
                     >
                     <input
                       type="password"
-                      id="txtContra"
+                      id="txtContraNueva"
                       class="form-control"
                     />
                   </div>
-                  <div>
-                    <p>
-                      
-                       <a href="#"> Deseas cambiar contraseña?</a>
-                      
-                 
-                    </p>
-                  </div>
+                
                   <div class="row mb-4">
                     <div class="col-12">
-                      <button class="button " id="btnIniciarSesion">Iniciar sesion</button>
+                      <button class="button " id="btnCambiarContrasena">Volver al login</button>
                     </div>
                
                   </div>
@@ -138,15 +120,12 @@
       <!-- Jumbotron -->
     </section>
     <!-- Section: Design Block -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="../Cliente/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script
       src="https://kit.fontawesome.com/157681ca54.js"
       crossorigin="anonymous"
     ></script>
-    <script src="../Cliente/js/login.js"></script>
+    <script src="../Cliente/js/cambiarContra.js"></script>
     <script src="../Cliente/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
-
-    <script src="./js/custom.js"></script>
   </body>
 </html>

@@ -5,7 +5,7 @@ let datosLocal = window.localStorage;
   // Evento para cerrar sesión
   btnCerrarSesion.addEventListener("click", () => {
     datosLocal.clear();
-    window.location.href = "../index.html";
+    window.location.href = "./../../index.html";
   });
 
   // Verificar si el usuario ha iniciado sesión al cargar la página
@@ -25,8 +25,8 @@ let datosLocal = window.localStorage;
   //Función para redirigir a la página de inicio de sesión si no hay sesión activa
 
   function redireccionarALogin() {
-    if (window.location.pathname !== "../index.html") {
-      window.location.href = "../index.html";
+    if (window.location.pathname !== "./../../index.html") {
+      window.location.href = "./../../index.html";
     }
    }
 })();

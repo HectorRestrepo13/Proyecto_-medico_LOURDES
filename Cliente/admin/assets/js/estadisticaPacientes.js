@@ -19,12 +19,18 @@ document.addEventListener('DOMContentLoaded', function() {
                     }]
                 },
                 options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
+                    responsive: true,
+                    interaction: {
+                      intersect: false,
+                      axis: 'x'
+                    },
+                    plugins: {
+                      title: {
+                        display: true,
+                        text: (ctx) =>  ' Estadisticas',
+                      }
                     }
-                }
+                  }
             });
         })
         .catch(error => console.error('Error al obtener los datos de la API:', error));
@@ -37,12 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Agrega una nueva hoja al workbook
         const worksheet = workbook.addWorksheet('Cantidad de pacientes atendidos por mes');
 // Estilo para los bordes
-const borderStyle = {
-    top: { style: 'thin', color: { argb: '000000' } }, // Borde superior
-    bottom: { style: 'thin', color: { argb: '000000' } }, // Borde inferior
-    left: { style: 'thin', color: { argb: '000000' } }, // Borde izquierdo
-    right: { style: 'thin', color: { argb: '000000' } }, // Borde derecho
-};
+
         // Agrega los datos de la gráfica a la hoja Excel
         if (chartData) {
             worksheet.columns = [
@@ -70,13 +71,7 @@ const borderStyle = {
             });
         
             // Estilo para las celdas de datos
-            worksheet.eachRow((row, rowNumber) => {
-                if (rowNumber > 1) {
-                    row.eachCell(cell => {
-                        cell.border = borderStyle;
-                    });
-                }
-            });
+         
         }
         // Crea un archivo Excel
         workbook.xlsx.writeBuffer().then(function(buffer) {

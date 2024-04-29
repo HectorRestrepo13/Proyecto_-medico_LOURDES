@@ -88,10 +88,10 @@ btnEnviar.addEventListener('click', async (e) => {
     const email = document.getElementById("emailDoctor").value;
     const especialidad = document.getElementById("especialidadDoctor").value;
     const usuarioNombre = document.getElementById("usuarioDoctor").value;
-
+const pass=document.getElementById("passwordDoctor").value;
 
     // Verificar que todos los campos obligatorios estén llenos
-    if (!cedula || !nombre || !apellido || !email || !especialidad || !usuarioNombre) {
+    if (!cedula || !nombre || !apellido || !email || !especialidad || !usuarioNombre || !pass) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -130,7 +130,7 @@ btnEnviar.addEventListener('click', async (e) => {
             especialidadDoctor: especialidad,
 
             usuarioDoctor: usuarioNombre,
-
+password:pass
         };
 
         const response = await fetch("http://localhost:3000/doctor/create", {
@@ -184,26 +184,52 @@ tabla.addEventListener("click", (event) => {
     if (fila) {
         // Crear el mensaje para el SweetAlert2
         const mensaje = `
-            <div>
-            <label for="passwordPaciente" style="color: black;">Cedula:</label>
-            <input type="number" id="cedula" style="color: black;" value="${cedula}" disabled>
-            <label for="passwordPaciente" style="color: black;">Nombre:</label>
-            <input type="text" id="nombre" value="${nombre}" required>
-            <label for="passwordPaciente" style="color: black;">Apellido:</label>
-            <input type="text" id="apellido" value="${apellido}" required>
-            <label for="passwordPaciente" style="color: black;">Email:</label>
-            <input type="email" id="email" value="${email}" required>
-            <label for="passwordPaciente" style="color: black;">Especialidad:</label>
-            <input type="text" id="especialidad" style="color: black;" value="${especialidad}" required>
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form>
 
-            <label for="passwordPaciente" style="color: black;">Nombre de usuario:</label>
-            <input type="text" id="usuario" value="${usuarioNom}" required>
+                    <div class="form-group">
+                        <label for="cedulaPaciente">Cédula:</label>
+                        <input type="number" class="form-control" id="cedula" value="${cedula}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="${nombre}">
+                    </div>
+                    <div class="form-group">
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" class="form-control" id="apellido" placeholder="${apellido}">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" placeholder="${email}">
+                    </div>
+                   
+                   
+                    <div class="form-group">
+                        <label for="fechaNacimiento">Especialidad:</label>
+                        <input type="text" class="form-control" id="especialidad" placeholder="${especialidad}">
+                    </div>
+                   
+                    <div class="form-group">
+                        <label for="usuario">Usuario:</label>
+                        <input type="text" class="form-control" id="usuario" placeholder="${usuarioNom}">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" class="form-control" id="password" placeholder="Ingrese la contraseña">
+                    </div>
+    
+                </form>
             </div>
+        </div>
+    </div>
         `;  
 
         // Mostrar el SweetAlert2 con los valores de los campos
         Swal.fire({
-            title: '¡Detalle del Medico!',
+            title: `¡Detalle del Medico ${nombre}!`,
             html: mensaje,
             icon: 'info',
             showCancelButton: true,
@@ -219,21 +245,24 @@ tabla.addEventListener("click", (event) => {
                 const emails = document.getElementById('email').value;
                 const especialidad = document.getElementById('especialidad').value;
                 const usuarios = document.getElementById('usuario').value;
-            
+            const pass=document.getElementById("password").value
 
                 // Verificar si algún campo está vacío
                 if (nombres == "" ||
                     apellidos == "" ||
                     emails == "" ||
                     especialidad == "" ||
-                    usuarios == "") {
+                    usuarios == ""||
+                pass=="") {
                     // Mostrar una alerta con SweetAlert2
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'Por favor, completa todos los campos.',
                     });
-                } 
+                } else{
+
+                
                     // Validar el correo electrónico
 if (!validarCorreo(email)) {
     Swal.fire({
@@ -249,7 +278,8 @@ if (!validarCorreo(email)) {
                         apellidoMedico: apellidos,
                         emailMedico: emails,
                         especialidadMedico: especialidad,
-                        usuarioMedico: usuarios
+                        usuarioMedico: usuarios,
+                        password:pass
                     };
                     fetch(`http://localhost:3000/medico/editarDoctor/${data.cedulaDoctor}`, {
                             method: "PUT",
@@ -282,6 +312,7 @@ if (!validarCorreo(email)) {
                 
 
             }
+        }
 
         })
     }

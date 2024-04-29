@@ -82,12 +82,11 @@ btnEnviar.addEventListener('click', async (e) => {
     const cedula = document.getElementById("cedulaUsers").value;
     const email = document.getElementById("emailUsers").value;
     const rolSelect = document.getElementById("RolUser").value;
-  
     const usuarioNombre = document.getElementById("usuarioUsers").value;
   
-   
+    const pass = document.getElementById("passwordUsuario").value;
     // Verificar que todos los campos obligatorios estén llenos
-    if (!cedula || !email || !rolSelect || !usuarioNombre ) {
+    if (!cedula || !email || !rolSelect || !usuarioNombre || !pass ) {
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -124,6 +123,7 @@ if (!validarCorreo(email)) {
             emailUser: email,  
             userName: usuarioNombre,      
             rol_idRol:parseInt(rolSelect) ,
+            password:pass
         };
        
 
@@ -188,24 +188,53 @@ const opcionesRol = generarOpcionesRol(rolTabla);
     if (fila) {
         // Crear el mensaje para el SweetAlert2
         const mensaje = `
-        <div>
-            <label for="passwordPaciente" style="color: black;">Cedula:</label>
-            <input type="number" id="cedula" style="color: black;" value="${cedula}" disabled>
-            <label for="passwordPaciente" style="color: black;">Email:</label>
-            <input type="email" id="email" value="${email}" required>
-            <label for="passwordPaciente" style="color: black;">Nombre de usuario:</label>
-            <input type="text" id="usuario" value="${usuario}" required>
-    
-            <label for="rol" style="color: black;">Rol:</label>
-            <select id="RolUserEditar" name="RolUserEditar">
-            ${opcionesRol}
-        </select>
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+        
+          <div class="modal-body">
+              <form>
+             
+                  <div class="form-group">
+                      <label for="cedulaPaciente">Cédula:</label>
+                      <input type="number" class="form-control" id="cedula" value="${cedula}" disabled>
+                  </div>
+                 
+  
+                  <div class="form-group">
+                      <label for="email">Email:</label>
+                      <input type="email" class="form-control" id="email" placeholder="${email}">
+                  </div>
+                 
+                 
+                 
+                  
+                  <div class="form-group">
+                      <label for="usuario">Usuario:</label>
+                      <input type="text" class="form-control" id="usuario" placeholder="${usuario}">
+                  </div>
+                 
+                  <div class="form-group">
+                      <label for="telefono">Rol:</label>
+                      <select id="RolUserEditar" name="RolUser">
+                         ${opcionesRol}
+                        </select>
+                        <div class="form-group">
+                          <label for="usuario">Contraseña:</label>
+                          <input type="text" class="form-control" id="password" placeholder="Ingrese la contraseña">
+                      </div>
+                  </div>
+              </form>
+          </div>
+          <div class="modal-footer">
+         
+          </div>
         </div>
+      </div>
     `;   
 
         // Mostrar el SweetAlert2 con los valores de los campos
         Swal.fire({
-            title: '¡Detalle del Medico!',
+            title: `¡Detalle del usuario ${usuario}!`,
             html: mensaje,
             icon: 'info',
             showCancelButton: true,
@@ -221,13 +250,14 @@ const opcionesRol = generarOpcionesRol(rolTabla);
                 const nombre = document.getElementById('usuario').value;
                // Seleccionar la opción correspondiente en el select
 const rolSelect = document.getElementById("RolUserEditar").value;
-               console.log("Valor del rol seleccionado:", rolSelect);
+         const pass=document.getElementById("password").value;
             
 
                 // Verificar si algún campo está vacío
                 if (email == "" ||
                     nombre == "" ||
-                    rolSelect == "" 
+                    rolSelect == "" ||
+                    pass==""
                    ) {
                     // Mostrar una alerta con SweetAlert2
                     Swal.fire({
@@ -236,7 +266,9 @@ const rolSelect = document.getElementById("RolUserEditar").value;
                         text: 'Por favor, completa todos los campos.',
                     });
              
-                }  
+                }  else{
+
+                
                 if (!validarCorreo(email)) {
                     Swal.fire({
                         icon: 'error',
@@ -250,6 +282,7 @@ const rolSelect = document.getElementById("RolUserEditar").value;
                         emailUser: email,
                         userName: nombre,
                         rol_idRol: parseInt(rolSelect),
+                        password:pass
                     
                     };
                     console.log("Objeto data:", data);
@@ -284,7 +317,7 @@ const rolSelect = document.getElementById("RolUserEditar").value;
                 
 
             }
-
+        }
         })
     }
 });

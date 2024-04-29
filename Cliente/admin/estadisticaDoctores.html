@@ -1,144 +1,142 @@
-<!DOCTYPE HTML>
-<!--
-	Forty by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>Centro Medico Lourdes</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
-        <link rel="icon" href="../images/logo.png">
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Consultorio Médico</title>
+    <link rel="stylesheet" href="./../css/bootstrap.min.css">
+ 
+    <link rel="stylesheet" href="./layout/styles/layout.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
+    <link rel="stylesheet" href="./../css/stylecitasPro.css">
+    <link rel="stylesheet" href="../css/recarga.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="./../images/logo.png">
+</head>
+<body id="top">
+    <section class="preloader">
+        <div class="spinner">
 
-				<!-- Header -->
-				<!-- Note: The "styleN" class below should match that of the banner element. -->
-					<header id="header" class="alt style2">
-						<a  class="logo"><strong>centro Medico</strong> <span> Lourdes</span></a>
-						<nav>
-							<a href="#menu">Menu</a>
-						</nav>
-					</header>
+             <div class="loader"></div>
+             
+        </div>
+   </section>
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- Top Background Image Wrapper -->
+<div class="bgded overlay " style="background-image:url('images/demo/backgrounds/01.png');"> 
+    <!-- ################################################################################################ -->
+    <div class="wrapper row1">
+        <header id="header" class="hoc clear"> 
+            <style>
+                /* Estilo para cambiar el color de fondo al pasar el cursor sobre las opciones del menú */
+                #mainav ul li a:hover {
+                    background-color: rgba(0, 179, 255, 0.546); /* Cambia este valor al color que desees */
+                }
+               
+                #one {
+    display: flex;
+    justify-content: center;
+}
 
-				<!-- Menu -->
-					<nav id="menu">
-						<ul class="links">
-							<li><a href="#">Cerrar sesion</a></li>
-							<li><a href="#">Información personal</a></li>
-						
-						</ul>
-					</nav>
+.inner {
+    width:50%;
+}
+            </style>
+            <div id="logo" class="fl_left">
+                <h1><a href="estadisticaPacientes.html" id="btnCerrarSesion">Centro Medico Lourdes</a></h1>
+            </div>
+          
+            <!-- ################################################################################################ -->
+        </header>
+    </div>
+    <!-- ################################################################################################ -->
+ <!-- One -->
+ <br>
+ <br>
+ <br>
+ <a href="javascript:history.back()"><img class="flecha" src="../images/flecha.png"	 alt="Botón"></a>
 
-				<!-- Banner -->
-				<!-- Note: The "styleN" class below should match that of the header element. -->
-					<section id="banner" class="style2">
-						<div class="inner">
-							<span class="image">
-								<img src="images/pic07.jpg" alt="" />
-							</span>
-							<header class="major">
-								<h1>Estadistica de Doctores más solicitadosq</h1>
-							</header>
-							<div class="content">
-								<p>
-									Estos datos son tomados por mes.</p>
-							</div>
-						</div>
-					</section>
+ <section id="one">
+    <div class="inner">
+        <header class="major">
+            <h2>Cómo se toman los datos</h2>
+        </header>
+        <p>
+            Estos datos son tomados por mes.</p>
+    </div>
+</section>
+    <!-- ################################################################################################ -->
+</div>
 
-				<!-- Main -->
-					<div id="main">
+<!-- End Top Background Image Wrapper -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
 
-						<!-- One -->
-							<section id="one">
-								<div class="inner">
-									<header class="major">
-										<h2>Cómo se toman los datos</h2>
-									</header>
-									<p>Se realiza un analisis de la cantidad de Doctores más solicitados en el Centro Medico Lourdes por mes.</p>
-								</div>
-							</section>
-
-						<!-- Two -->
-							<section id="two" class="spotlights">
-								<section>
-									<a href="generic.html" class="image">
-										<img src="images/pic08.jpg" alt="" data-position="center center" />
-									</a>
-									<div class="content">
-										<div class="inner">
-											
-											<div>
-												<canvas id="myChart"></canvas>
-											  </div>
-											
-										</div>
-                                        <div>
-											<button  type="button" id="downloadExcel" >
-											Descargar
-											</button>
-										</div>
-									</div>
-								</section>
-								
-								
-							</section>
-							
-					  
-							
-						<!-- Two -->
-						<section id="two">
-							<div class="inner">
-								<header class="major">
-									<h2>Información</h2>
-								</header>
-								<p>Un hospital es un establecimiento que brinda atención y asistencia a los enfermos las 24 horas del día, los 365 días del año. Los hospitales son parte de una organización médica y social que proporciona a la población una asistencia médico-sanitaria completa, tanto curativa como preventiva. 
-								</p>
-							
-							</div>
-						</section>
-
-				</div>
+    <div class="hoc clear"> 
+        <div class="container">
+            <!-- Formulario para programar citas -->
+            <div class="form-container">
+                <h2>Estadistica de doctores mas solicitados</h2>
+                <div>
+                    <canvas id="myChart"></canvas>
+                  </div>
+                  <div>
+                    <button class="btn btn-primary" type="button" id="downloadExcel" >
+                    Descargar como excel
+                    </button>
+                </div>
+            </div>
+    
+           
 
 
+<!-- FOOTER -->
+<footer data-stellar-background-ratio="5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 border-top">
+                <div class="col-md-4 col-sm-6">
+                    <div class="copyright-text"> 
+                        <p>Copyright &copy; 2018 Your Company 
+                        | Design: Tooplate</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="footer-link"> 
+                        <a href="#">Laboratory Tests</a>
+                        <a href="#">Departments</a>
+                        <a href="#">Insurance Policy</a>
+                        <a href="#">Careers</a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-2 text-align-center">
+                    <div class="angle-up-btn"> 
+                        <a href="#top" class="smoothScroll wow fadeInUp" data-wow-delay="1.2s"><i class="fa fa-angle-up"></i></a>
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </div>
+</footer>
 
-			<!-- Footer -->
-				<footer id="footer">
-					<div class="inner">
-						<ul class="icons">
-							<li><a href="#" class="icon brands alt fa-twitter"><span class="label">Twitter</span></a></li>
-							<li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
-							<li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li>
-							<li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-							<li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
-						</ul>
-						<ul class="copyright">
-							<li>&copy; Untitled</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-						</ul>
-					</div>
-				</footer>
+<a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
+<!-- JAVASCRIPTS -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-		</div>
+<script src="./../js/cerrarSesiones.js"></script>
 
-		<!-- Scripts -->
-		<script src="./assets/js/estadisticaDoctores.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/browser.min.js"></script>
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-
-	</body>
+			<script src="./assets/js/estadisticaDoctores.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+            <script src="../js/custom.js"></script>
+</body>
 </html>
